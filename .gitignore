@@ -25,3 +25,7 @@ BuildConsumer/
 *.pth
 *.ckpt
 *.profraw
+Benchmarks/Fixtures/*.f32
+Benchmarks/StreamingEight/BenchAssets/*.f32
+Benchmarks/StreamingEight/BenchAssets/REALTIME-LICENSE.txt
+Benchmarks/StreamingEight/Results/

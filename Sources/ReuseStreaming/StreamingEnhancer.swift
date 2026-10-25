@@ -69,8 +69,10 @@ public final class StreamingEnhancer {
     private func renderFrame(_ input: [Float]) -> [Float] {
         let started = ProcessInfo.processInfo.systemUptime
         let (magnitude, phase) = transform.analyze(input)
-        let (restoredMagnitude, restoredPhase) = model(magnitude: magnitude, phase: phase)
-        let output = transform.synthesize(magnitude: restoredMagnitude, phase: restoredPhase)
+        let (restoredMagnitude, restoredPhase) = model(magnitude: magnitude, phase: phase,
+                                                      deferEvaluation: isOptimized)
+        let output = transform.synthesize(magnitude: restoredMagnitude, phase: restoredPhase,
+                                         evaluating: isOptimized ? model.frameStateArrays : [])
         lastFrameMilliseconds.append((ProcessInfo.processInfo.systemUptime - started) * 1000)
         return output
     }

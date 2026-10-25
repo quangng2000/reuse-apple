@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "baselineRevision": "bdf56d19f4dbc16fb9ee949d42b70b4b6b5fe43e",
+  "candidateRevision": "source-sha256:9b823aaf694fd883394b0f6c476dc0219ce2927f02816e9216c95fa946946cb8",
+  "checkpointFile": "realtime-reuse.safetensors",
+  "checkpointSHA256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "inputFile": "input.f32",
+  "layers": 8,
+  "paced": false,
+  "cooldownSeconds": 3,
+  "maximumAbsoluteOutputDifference": 1e-05,
+  "phases": [
+    {
+      "id": "short-4s",
+      "repetitions": 1,
+      "trialOrder": [
+        "baseline",
+        "candidate",
+        "candidate",
+        "baseline"
+      ]
+    },
+    {
+      "id": "continuous-32s",
+      "repetitions": 8,
+      "trialOrder": [
+        "baseline",
+        "candidate",
+        "candidate",
+        "baseline"
+      ]
+    }
+  ]
+}

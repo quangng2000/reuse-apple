@@ -1,0 +1,10 @@
+{
+  "source": "LibriSpeech 1272-128104-0000 first four seconds with synthetic crackling",
+  "license": "CC-BY-4.0",
+  "waveform_source_url": "https://www.openslr.org/12",
+  "wav_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+  "raw_float32_sha256": "f450f49830be940326cd5b5a8bc3ffed6ba0e8e0e39012b6d3a08dd05812777b",
+  "samples": 64000,
+  "sample_rate": 16000,
+  "seconds": 4.0
+}
