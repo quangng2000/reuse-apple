@@ -7,7 +7,8 @@ import MLX
 /// Mamba-1 recurrence: one Metal thread per batch/channel, 16 FP32 states.
 /// It fuses delta softplus, recurrent state update, skip connection and SiLU gate.
 /// No CUDA, Python, or approximation of the recurrence is used.
-final class SelectiveScan {
+package final class SelectiveScan {
+    package init() {}
     private let kernel = MLXFast.metalKernel(
         name: "reuse_selective_scan_16",
         inputNames: ["u", "delta", "a", "b", "c", "d", "z", "bias"],
@@ -41,7 +42,7 @@ final class SelectiveScan {
         """
     )
 
-    func callAsFunction(_ u: MLXArray, _ delta: MLXArray, _ a: MLXArray,
+    package func callAsFunction(_ u: MLXArray, _ delta: MLXArray, _ a: MLXArray,
                         _ b: MLXArray, _ c: MLXArray, _ d: MLXArray,
                         _ z: MLXArray, _ bias: MLXArray) -> MLXArray {
         precondition(a.shape == [u.dim(2), 16] && b.dim(2) == 16 && c.dim(2) == 16)

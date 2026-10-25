@@ -12,19 +12,22 @@ private struct WindowPosition {
 
 /// Four-second windows with 0.5-second crossfades. This offline adaptation
 /// restarts bidirectional context and instance normalization for each window.
-final class ReuseEngine {
+/// Use one instance on one serial worker; input and output are 16 kHz mono Float32.
+public final class ReuseEngine {
     let model: ReuseModel
     private let window = 64_000
     private let overlap = 8_000
-    init(modelURL: URL, half: Bool = false) throws {
+    /// Loads the hash-verified offline checkpoint in FP32.
+    public init(modelURL: URL) throws {
         GPU.set(cacheLimit: 64 * 1024 * 1024)
-        model = try ReuseModel(url: modelURL, half: half)
+        model = try Device.withDefaultDevice(.gpu) { try ReuseModel(url: modelURL) }
     }
-    func enhance(_ input: [Float], progress: @escaping (Double) throws -> Void) throws -> [Float] {
+    /// Restores a complete recording. The callback may throw to cancel inference.
+    public func enhance(_ input: [Float], progress: @escaping (Double) throws -> Void = { _ in }) throws -> [Float] {
         guard !input.isEmpty, input.allSatisfy({ $0.isFinite }) else {
             throw ReuseError.invalid("The recording is empty or contains invalid samples.")
         }
-        let result = try renderWindows(input, progress: progress)
+        let result = try Device.withDefaultDevice(.gpu) { try renderWindows(input, progress: progress) }
         try progress(1)
         return result
     }

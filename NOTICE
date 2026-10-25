@@ -1,13 +1,39 @@
-RE-USE Apple
+RE-USE Apple contains separately licensed model components.
 Apple port and application packaging: Copyright (c) 2026 quangng2000.
 
-Architecture adapted from NVIDIA-NemotronLabs-RE-USE, revision
-31f82f2efad1095034492f236e8dac9239ba713b.
+ReuseAudio (Core/, the original offline CLI and app)
+-------------------------------------------------
+The offline NVIDIA NemotronLabs RE-USE model and derived port use OpenMDW-1.1.
+Architecture revision: 31f82f2efad1095034492f236e8dac9239ba713b.
 Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+See LICENSE, Resources/MODEL-LICENSE.txt and Resources/THIRD-PARTY-NOTICES.txt.
+The root LICENSE does not replace the separate streaming license below.
 
-This adaptation is distributed under OpenMDW-1.1; see LICENSE.
-NVIDIA's original model agreement is preserved in Resources/MODEL-LICENSE.txt.
-Dependency licenses and reference implementation attribution are preserved in
-Resources/THIRD-PARTY-NOTICES.txt.
+ReuseStreaming (Sources/ReuseStreaming/, streaming examples and research assets)
+-------------------------------------------------------------------------------
+The Real-time RE-USE architecture, checkpoint and derivative Swift/Metal port
+are subject to the NVIDIA One-Way Noncommercial License v1 (NSCLv1), included
+in Research/LICENSE.txt. These materials are for noncommercial research and
+education only. They are not included in the ReuseAudio library product.
+Retain that license and all applicable NVIDIA attribution when redistributing.
 
-This is an independent port, not an official NVIDIA or Apple product.
+Original Real-time RE-USE materials:
+https://huggingface.co/nvidia/Real-time_RE-USE
+Revision: 4c0c186272ca853cd18d832fc5c28777b62f32d1
+
+Original source notice:
+Copyright (c) 2025, NVIDIA CORPORATION.  All rights reserved.
+NVIDIA CORPORATION and its licensors retain all intellectual property
+and proprietary rights in and to this software, related documentation
+and any modifications thereto.  Any use, reproduction, disclosure or
+distribution of this software and related documentation without an express
+license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+The Apple adaptation replaces PyTorch/CUDA execution with Swift, MLX and Metal,
+implements incremental audio framing/state, and adds parallel/fused GPU kernels.
+It does not change the pinned model weights. Modified files retain their
+applicable notices. Hashes and source identities: Research/ModelProvenance.json.
+
+MLX and its dependencies retain their own licenses. This project is independent
+of NVIDIA and Apple and does not imply their endorsement. See docs/citation.md
+for the original authors and the repository citation request.

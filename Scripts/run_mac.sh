@@ -14,10 +14,10 @@ if [[ ! "${xcode_major:-}" =~ ^[0-9]+$ ]] ||
 fi
 mkdir -p "$project_dir/Logs"
 python3 "$project_dir/Scripts/prepare_model.py"
-if ! xcodebuild build -project "$project_dir/ReusePocket.xcodeproj" -scheme ReuseProbe \
+if ! (cd "$project_dir" && xcodebuild build -scheme ReuseProbe \
   -configuration Release -destination 'platform=macOS,arch=arm64' -derivedDataPath "$project_dir/Build" \
   -clonedSourcePackagesDirPath "$project_dir/SourcePackages" -jobs 4 \
-  ARCHS=arm64 > "$project_dir/Logs/build-mac.log" 2>&1; then
+  ARCHS=arm64 CODE_SIGNING_ALLOWED=NO > "$project_dir/Logs/build-mac.log" 2>&1); then
   tail -n 50 "$project_dir/Logs/build-mac.log" >&2
   exit 1
 fi

@@ -4,9 +4,8 @@ options:
     iOS: '17.0'
     macOS: '14.0'
 packages:
-  MLX:
-    url: https://github.com/ml-explore/mlx-swift.git
-    exactVersion: 0.29.1
+  ReuseApple:
+    path: ../..
 settings:
   base:
     SWIFT_VERSION: '5.0'
@@ -17,15 +16,13 @@ targets:
     type: application
     platform: iOS
     sources:
-      - Core
-      - App
-      - path: Resources
+      - ../../App
+      - path: ../../Resources
         buildPhase: resources
+        excludes: [realtime-reuse.safetensors, REALTIME-LICENSE.txt]
     dependencies:
-      - package: MLX
-        product: MLX
-      - package: MLX
-        product: MLXFFT
+      - package: ReuseApple
+        product: ReuseAudio
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: io.github.quangng2000.ReusePocket
@@ -39,26 +36,8 @@ targets:
         CODE_SIGN_STYLE: Automatic
         MARKETING_VERSION: '0.1'
         CURRENT_PROJECT_VERSION: '1'
-  ReuseProbe:
-    type: tool
-    platform: macOS
-    sources: [Core, Probe]
-    dependencies:
-      - package: MLX
-        product: MLX
-      - package: MLX
-        product: MLXFFT
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: io.github.quangng2000.ReuseProbe
-        ARCHS: arm64
-        CODE_SIGNING_ALLOWED: NO
 schemes:
   ReusePocket:
     build:
       targets:
         ReusePocket: all
-  ReuseProbe:
-    build:
-      targets:
-        ReuseProbe: all

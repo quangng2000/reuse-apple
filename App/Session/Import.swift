@@ -1,3 +1,4 @@
+import ReuseAudio
 import Foundation
 
 extension EnhancementSession {

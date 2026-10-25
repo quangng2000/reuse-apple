@@ -1,0 +1,51 @@
+{
+  "validation_date": "2026-10-25",
+  "timezone": "America/Los_Angeles",
+  "scope": "Standalone Swift Package extraction checks on Mac; unsigned iOS example builds. This is not a new physical-iPhone performance measurement.",
+  "model": "nvidia/Real-time_RE-USE",
+  "model_revision": "4c0c186272ca853cd18d832fc5c28777b62f32d1",
+  "checkpoint_sha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "precision": "float32",
+  "layers": 4,
+  "lookahead_frames": 0,
+  "checks": {
+    "package_tests_passed": 16,
+    "checkpoint_gpu_tests_included": true,
+    "offline_ios_unsigned_build_passed": true,
+    "streaming_ios_unsigned_build_passed": true,
+    "offline_gpu_smoke_passed": true,
+    "offline_boundary_checks_passed": 4,
+    "resampler_cases_passed": 6,
+    "json_report_regression_checks_passed": true,
+    "offline_app_excludes_streaming_checkpoint_and_license": true,
+    "streaming_cli_checks_passed": [
+      "help",
+      "invalid layer count",
+      "duplicate arguments",
+      "existing-output refusal",
+      "input-overwrite refusal",
+      "symlink refusal",
+      "explicit force",
+      "unchanged input bytes",
+      "valid JSON"
+    ]
+  },
+  "package_vs_mac_prototype": {
+    "samples": 64000,
+    "sample_rate": 16000,
+    "finite": true,
+    "exact_equal": true,
+    "max_abs_difference": 0.0,
+    "rmse": 0.0,
+    "stoi_package": 0.6697850478602619,
+    "stoi_prototype": 0.6697850478602619,
+    "stoi_input": 0.5000000070148772,
+    "sha256_package": "d268ba45f4871b8fdd1db00eadafacc03c8fb39b231ddb22c23c08f629160a21",
+    "sha256_prototype": "d268ba45f4871b8fdd1db00eadafacc03c8fb39b231ddb22c23c08f629160a21"
+  },
+  "limitations": [
+    "Single four-second diagnostic; not general speech-quality evidence.",
+    "No personal audio, private local paths or device identifiers are included.",
+    "Unsigned iOS builds validate compilation, not installation or device speed."
+  ]
+}

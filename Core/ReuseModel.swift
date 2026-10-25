@@ -6,9 +6,10 @@ import Foundation
 import CryptoKit
 import MLX
 
-enum ReuseError: LocalizedError {
+/// Invalid input, unsupported checkpoint, or restoration failure.
+public enum ReuseError: LocalizedError {
     case invalid(String)
-    var errorDescription: String? { if case .invalid(let s) = self { return s }; return nil }
+    public var errorDescription: String? { if case .invalid(let s) = self { return s }; return nil }
 }
 
 /// Inference-only, batch-one RE-USE. Activations use NHWC / NLC layouts.

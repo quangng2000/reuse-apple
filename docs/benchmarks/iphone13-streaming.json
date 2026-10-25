@@ -1,0 +1,68 @@
+{
+  "model": "nvidia/Real-time_RE-USE",
+  "revision": "4c0c186272ca853cd18d832fc5c28777b62f32d1",
+  "checkpoint_sha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "device": "iPhone 13 Pro Max / A15",
+  "operating_system": "iOS 26.2.1",
+  "implementation": "Pre-package Swift/MLX 0.29.1 research prototype; optimized FP32 four-layer path",
+  "layers": 4,
+  "lookahead_frames": 0,
+  "sample_rate": 16000,
+  "input_source_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+  "scope": "60 seconds of repeated four-second audio, file replay as fast as possible; not a paced live-call measurement. One continuous model/transform state across repeat seams.",
+  "duration_seconds": 60,
+  "input_repetitions": 15,
+  "output_samples": 960000,
+  "all_finite": true,
+  "timing": {
+    "frame_count": 3001,
+    "mean_ms": 18.277891869534933,
+    "median_ms": 18.275958340382203,
+    "p95_ms": 19.033749995287508,
+    "p99_ms": 20.013958332128823,
+    "maximum_ms": 23.006750008789822,
+    "over_20ms": 31,
+    "percent_over_20ms": 1.0329890036654448
+  },
+  "processing_seconds_excluding_warmup": 54.96940941666253,
+  "real_time_factor": 0.9161568236110421,
+  "ten_second_window_means_ms": [
+    18.214486167707946,
+    18.497116666228976,
+    18.272116333420854,
+    18.30550633382518,
+    18.211983333341777,
+    18.15803041640902
+  ],
+  "environment_before": {
+    "low_power_mode": false,
+    "thermal_state": "nominal"
+  },
+  "environment_after": {
+    "low_power_mode": false,
+    "thermal_state": "nominal"
+  },
+  "thermal_scope": "Snapshots at start/end only; no continuous thermal history.",
+  "original_implementation_4_second_run": {
+    "mean_frame_ms": 44.31692143367599,
+    "p95_frame_ms": 53.06958331493661,
+    "frames": 201
+  },
+  "optimized_4_second_quality": {
+    "waveform_rmse": 2.0131301806542384e-08,
+    "maximum_absolute_difference": 2.086162567138672e-07,
+    "baseline_stoi": 0.669841891034036,
+    "optimized_stoi": 0.6698418808724282
+  },
+  "earlier_short_run_outlier": {
+    "frame_index": 78,
+    "frame_ms": 1461.3388333236799,
+    "mean_frame_ms_including_outlier": 25.804819651839985,
+    "cause": "Undetermined; did not recur in the 60-second replay."
+  },
+  "limitations": [
+    "Repeated diagnostic audio is not independent quality evidence.",
+    "No microphone, echo cancellation, codec, transport or speaker latency included.",
+    "Timings predate standalone-package extraction; package equivalence must be checked separately."
+  ]
+}

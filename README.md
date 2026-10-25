@@ -1,64 +1,65 @@
 # RE-USE Apple
 
-**Enhance speech locally on Apple silicon.** A Swift / MLX / Metal port of
-[NVIDIA NemotronLabs RE-USE](https://huggingface.co/nvidia/NVIDIA-NemotronLabs-RE-USE),
-with a Mac command-line tool and an iPhone/iPad recording app.
+**Speech enhancement on Apple silicon, as a standalone Swift Package.**
+Use native Swift APIs backed by MLX and Metal. Audio stays on the device;
+inference needs no Python, CUDA, or server.
 
-- One shared inference engine; audio stays on your device.
-- 9.61M parameters, FP32, a 38.6 MB checkpoint downloaded separately.
-- Import audio, enhance speech, and save a 16 kHz mono WAV.
-- Fused Metal Mamba scan; no CUDA, PyTorch, or server at inference time.
+- **`ReuseAudio`** — offline enhancement with NVIDIA NemotronLabs RE-USE.
+  9.61M parameters, FP32, OpenMDW-1.1 license; commercial use permitted.
+- **`ReuseStreaming`** — incremental enhancement with NVIDIA Real-time RE-USE.
+  Four-layer default, FP32, 16 kHz mono; **noncommercial research only**.
+- Mac command-line tools and iPhone/iPad examples consume the library APIs.
 
-This uses **MLX and Metal**, not PyTorch's MPS backend. It is an independent
-Apple port, not an NVIDIA or Apple product.
+## Add the package
 
-## Run on Mac
+In Xcode, add `https://github.com/quangng2000/reuse-apple` as a package dependency
+and select the library product you need. Requirements: Apple silicon,
+macOS 14+ or iOS/iPadOS 17+, and Xcode 16.4+.
 
-Requires an Apple-silicon Mac, macOS 14+, Xcode 16.4+ with its command-line tools,
-and Python 3 for model setup.
+```swift
+import ReuseStreaming
+
+let enhancer = try StreamingEnhancer(modelURL: checkpointURL)
+try enhancer.warmUp() // Optional: prepare GPU kernels before capture.
+let restored = try enhancer.push(mono16kSamples)
+let finalSamples = try enhancer.finish()
+```
+
+Call a stream serially from a background worker. It preserves state across
+chunks and emits audio when enough samples arrive. Download model weights
+separately. See [Swift Package integration](docs/package.md) and
+[streaming API and examples](docs/streaming.md).
+
+## Try the tools
 
 ```sh
 git clone https://github.com/quangng2000/reuse-apple.git
 cd reuse-apple
-bash Scripts/run_mac.sh --input /path/noisy.wav --output /path/enhanced.wav
+python3 Scripts/prepare_streaming_model.py
+bash Scripts/run_streaming.sh --input noisy.wav --output enhanced.wav
 ```
 
-The first run downloads and verifies the pinned model, resolves the pinned Swift
-packages, and builds the tool. Add `--benchmark` for three timed inference passes.
-Existing output files are protected unless you pass `--force`.
+For the offline model, use
+`bash Scripts/run_mac.sh --input noisy.wav --output enhanced.wav`.
+The tools protect existing outputs unless `--force` is specified. Their builds
+use Xcode so MLX's Metal shaders are compiled. See [development](docs/development.md)
+and [the streaming iPhone example](Examples/StreamingApp/README.md).
 
-## Run on iPhone or iPad
+## Measured performance
 
-```sh
-python3 Scripts/prepare_model.py
-open ReusePocket.xcodeproj
-```
+The optimized four-layer prototype processed 60 seconds of repeated audio on an
+**iPhone 13 Pro Max** at **18.28 ms/frame average**, **19.03 ms p95**. About 1%
+of frames exceeded the 20 ms processing budget. Waveform checks preserved the
+original output to FP32 rounding differences. This measures processing, not
+complete call latency. See [benchmark scope and evidence](docs/streaming-validation.md).
 
-Select the **ReusePocket** scheme and a connected device running iOS/iPadOS 17+.
-Choose your development team and a unique bundle identifier in Signing & Capabilities,
-then build and run. Record up to 30 seconds or import up to 60 seconds; keep the
-app in the foreground while enhancing.
+## Licenses and attribution
 
-## Compatibility and validation
+The products have **different licenses**. [OpenMDW-1.1](LICENSE) covers the
+offline component. [NVIDIA NSCLv1](Research/LICENSE.txt) covers the streaming
+model and derivative port; it cannot be included in a paid app under that license.
+See [NOTICE](NOTICE) for the boundary and required attribution.
 
-Mac GPU inference is verified on an **M4 Pro**. The iPhone/iPad target is built
-for ARM64, but physical iPhone and iPad performance has **not** been validated.
-This is shared Apple-platform code, not a guarantee for every device or Intel Mac.
-
-The prototype processed a four-second clip in about **2.3 seconds** on M4 Pro.
-That is a saved-recording benchmark, not a live-streaming or phone-speed claim.
-See [validation details](docs/validation.md), [architecture](docs/architecture.md),
-and [development checks](docs/development.md).
-
-## Model, license, and citation
-
-The port and NVIDIA-derived architecture use [OpenMDW-1.1](LICENSE).
-The pinned NemotronLabs model permits commercial use; retain the license and
-required attribution notices when redistributing it.
-The checkpoint, [model card](Resources/MODEL-CARD.md), and
-[third-party notices](Resources/THIRD-PARTY-NOTICES.txt) retain their original attribution.
-Weights, personal recordings, and experimental fixtures are not stored in Git.
-
-If this is useful in research, cite this repository and the
-[RE-USE paper](https://arxiv.org/abs/2603.02641). See [citation details](docs/citation.md)
-and [CITATION.cff](CITATION.cff).
+This independent Apple port uses MLX/Metal; it is not PyTorch's MPS backend or
+an NVIDIA/Apple product. Model weights and personal recordings are excluded
+from Git. If used in research, please [cite the port and original papers](docs/citation.md).

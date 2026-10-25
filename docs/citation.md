@@ -12,6 +12,20 @@ request is separate from the license terms.
 }
 ```
 
+For `ReuseStreaming`, also cite the real-time model's paper:
+
+```bibtex
+@article{fu2026one,
+  title={One Model, Many Latencies: Universal Speech Enhancement for Diverse Real-Time Applications},
+  author={Fu, Szu-Wei and Chao, Rong and Yang, Xuesong and Huang, Sung-Feng and Juki{\'c}, Ante and Tsao, Yu and Wang, Yu-Chiang Frank},
+  journal={arXiv preprint arXiv:2606.25621},
+  year={2026}
+}
+```
+
+Citation does not replace the applicable license or attribution notices.
+The offline and streaming components have different licenses; see [NOTICE](../NOTICE).
+
 The model and architecture are NVIDIA's work. Cite their paper as well:
 
 ```bibtex

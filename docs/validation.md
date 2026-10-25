@@ -1,5 +1,9 @@
 # Validation scope
 
+This page describes the **offline `ReuseAudio` model**. The separate streaming
+model's physical-iPhone measurements are in [streaming validation](streaming-validation.md).
+Those measurements must not be attributed to the offline 30-layer model.
+
 ## Existing prototype evidence
 
 The port was checked on an Apple M4 Pro using the pinned NemotronLabs checkpoint,

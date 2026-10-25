@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "08769CDE4FFE375A23DE06DF"
-               BuildableName = "ReuseProbe"
-               BlueprintName = "ReuseProbe"
-               ReferencedContainer = "container:ReusePocket.xcodeproj">
+               BlueprintIdentifier = "2FD36EDE6699070B54C8A651"
+               BuildableName = "ReuseStreamingExample.app"
+               BlueprintName = "ReuseStreamingExample"
+               ReferencedContainer = "container:ReuseStreamingExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "08769CDE4FFE375A23DE06DF"
-            BuildableName = "ReuseProbe"
-            BlueprintName = "ReuseProbe"
-            ReferencedContainer = "container:ReusePocket.xcodeproj">
+            BlueprintIdentifier = "2FD36EDE6699070B54C8A651"
+            BuildableName = "ReuseStreamingExample.app"
+            BlueprintName = "ReuseStreamingExample"
+            ReferencedContainer = "container:ReuseStreamingExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -55,10 +55,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "08769CDE4FFE375A23DE06DF"
-            BuildableName = "ReuseProbe"
-            BlueprintName = "ReuseProbe"
-            ReferencedContainer = "container:ReusePocket.xcodeproj">
+            BlueprintIdentifier = "2FD36EDE6699070B54C8A651"
+            BuildableName = "ReuseStreamingExample.app"
+            BlueprintName = "ReuseStreamingExample"
+            ReferencedContainer = "container:ReuseStreamingExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,10 +72,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "08769CDE4FFE375A23DE06DF"
-            BuildableName = "ReuseProbe"
-            BlueprintName = "ReuseProbe"
-            ReferencedContainer = "container:ReusePocket.xcodeproj">
+            BlueprintIdentifier = "2FD36EDE6699070B54C8A651"
+            BuildableName = "ReuseStreamingExample.app"
+            BlueprintName = "ReuseStreamingExample"
+            ReferencedContainer = "container:ReuseStreamingExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -2,8 +2,10 @@
 import AVFoundation
 import Foundation
 
-enum AudioFileIO {
-    static func read(_ url: URL) throws -> [Float] {
+/// Apple audio-file conversion for mono/stereo recordings up to 60 seconds.
+public enum AudioFileIO {
+    /// Converts supported audio to 16 kHz mono Float32 samples.
+    public static func read(_ url: URL) throws -> [Float] {
         let file = try AVAudioFile(forReading: url, commonFormat: .pcmFormatFloat32, interleaved: false)
         try validate(file)
         let format = file.processingFormat
@@ -46,7 +48,8 @@ enum AudioFileIO {
                 .update(from: chunk.floatChannelData![channel], count: Int(chunk.frameLength))
         }
     }
-    static func write(_ samples: [Float], to url: URL) throws {
+    /// Writes finite 16 kHz mono Float32 WAV audio at the requested URL.
+    public static func write(_ samples: [Float], to url: URL) throws {
         guard samples.allSatisfy({ $0.isFinite }), !samples.isEmpty,
               let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 16000, channels: 1, interleaved: false),
               let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(samples.count)) else {

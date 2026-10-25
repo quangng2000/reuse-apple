@@ -1,3 +1,4 @@
+import ReuseAudio
 import Foundation
 
 struct EnhancementResult {
@@ -13,7 +14,7 @@ enum AudioEnhancement {
         let samples = try AudioFileIO.read(input)
         try Task.checkCancellation()
         // FP32 remains the default until FP16 parity is validated.
-        let engine = try ReuseEngine(modelURL: model, half: false)
+        let engine = try ReuseEngine(modelURL: model)
         let output = try restore(samples, engine: engine, progress: progress)
         let reducedLevel = try save(output, target: target)
         return EnhancementResult(elapsed: Date().timeIntervalSince(start),

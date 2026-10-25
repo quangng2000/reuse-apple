@@ -1,6 +1,12 @@
-# Shared Apple inference engine
+# Apple inference engines
 
-The Mac command-line tool and the iOS/iPadOS app compile the same `Core/` sources.
+The standalone Swift Package exposes `ReuseAudio` and `ReuseStreaming` as
+separate products. The latter adds a stateful frame API and carries a different,
+noncommercial license. See [package integration](package.md),
+[streaming architecture/API](streaming.md), and [license boundaries](../NOTICE).
+The existing offline behavior below remains available through `ReuseAudio`.
+
+The Mac command-line tool and the iOS/iPadOS app use the shared `Core/` engine.
 Swift handles audio files and application state. MLX schedules array operations;
 custom Metal kernels implement PReLU and the Mamba selective scan on the GPU.
 There is no PyTorch dependency and no call to PyTorch's MPS backend.

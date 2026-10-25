@@ -7,105 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07B370DEC0B8CC0445A4A566 /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = BEA2231E33FC7C5FA0DFE61E /* MLXFFT */; };
-		0B7240C1AA76C2BD5173A27B /* AudioTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B85F8F3C654567CC71D147 /* AudioTransform.swift */; };
-		0DA3A28C69AD17B98EF03E71 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3D88810B842FEDC74384BE /* main.swift */; };
-		132A3BA9B95799DFFE76641F /* ReuseEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDB063A54D16F53A6F0C855 /* ReuseEngine.swift */; };
-		1615744FC3130AC618CD11BB /* SelectiveScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A485ECA158E89FDF84DBAB6 /* SelectiveScan.swift */; };
 		1661C5A8C98476AAE5B711A6 /* RecordingControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5A29A4ACE6608319C4FFB /* RecordingControls.swift */; };
 		242CFE87F0F0AF341CD6C0E1 /* model.safetensors in Resources */ = {isa = PBXBuildFile; fileRef = F91084B9A76999565CBECADE /* model.safetensors */; };
 		249EC2B6F2214D4E2CCD398E /* PlaybackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4972F4D20F28A1C587B22267 /* PlaybackButton.swift */; };
-		264377BB6317664889BBF3B2 /* ModelConvolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E095242904DB154979C25 /* ModelConvolution.swift */; };
-		305F1E7C0C6248F1F59D7E5E /* ReuseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF96C9EE66E45015C5143A52 /* ReuseModel.swift */; };
 		3382209B5D58CFDA3020909B /* ModelNoticesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55C8B26FD36B8D2817FFC28 /* ModelNoticesView.swift */; };
 		368A6FB7A6DDBC15C8331FC7 /* MODEL-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C3D8BE6515B5EA3AE3EA543 /* MODEL-LICENSE.txt */; };
-		38994A94C1C6F6EC422C5F82 /* AudioTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B85F8F3C654567CC71D147 /* AudioTransform.swift */; };
 		3AD3B63F5CDA19D0DDFB5197 /* ReusePocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CACDED8AC02061D30FA195 /* ReusePocketApp.swift */; };
-		41CF38E04AEC1A11AC202E48 /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = F9256F40640B2AB8594CD241 /* MLXFFT */; };
-		52C439BA91CD19643FE380FF /* ModelInference.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266836D6D869ADFB806381A /* ModelInference.swift */; };
-		5D6B004510ACCB36BAE54148 /* ReuseEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDB063A54D16F53A6F0C855 /* ReuseEngine.swift */; };
-		5F27C6141572FE6AC856A689 /* ProbeRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C77892C62EFECACD928C526 /* ProbeRunner.swift */; };
 		65F85E1335E9EA837BAD844C /* EnhancementControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE39C9CC1C3F1B6F4EBDAE /* EnhancementControls.swift */; };
-		6D1282A7DCE45ADCD8B30D82 /* ModelLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826B0E97C142A5E26B366DE7 /* ModelLayers.swift */; };
 		72D1B0FD78F3A8893BE11B65 /* EnhancementSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110819F60D97D764456D0495 /* EnhancementSession.swift */; };
 		73FD813773BA5B3AD6FF068C /* MODEL-CARD.md in Resources */ = {isa = PBXBuildFile; fileRef = B662B8E5793EEBFFBB0E50C8 /* MODEL-CARD.md */; };
-		823356899667718A1810669A /* ReuseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF96C9EE66E45015C5143A52 /* ReuseModel.swift */; };
 		8289EED5B3B7B229A0BE1A8D /* THIRD-PARTY-NOTICES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8FAE9B8CAC1BA0BAF47461DC /* THIRD-PARTY-NOTICES.txt */; };
-		8D2B94216FC5A3DA5417D23A /* AudioFileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59514C27E0B5B9DF8B5C8D61 /* AudioFileIO.swift */; };
-		97781015B8582F0BB7A79D51 /* AudioFileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59514C27E0B5B9DF8B5C8D61 /* AudioFileIO.swift */; };
-		9CED42F9F3011E64BB1FE12D /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 874C93520567E251182F8A7B /* MLX */; };
 		B65EBD51EE05F9473B7C3F2A /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78964B27549F0EEE494EB53F /* Recording.swift */; };
 		B6BB20CB15072512E4EB5524 /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738D378B9A93DA146ECBEA1A /* IntroductionView.swift */; };
-		BE68D85DE3CA290DA74BBD7B /* ModelMamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CDAA9BACB1AF61753371B8 /* ModelMamba.swift */; };
-		BEA5B6229C71C20322B66580 /* SelectiveScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A485ECA158E89FDF84DBAB6 /* SelectiveScan.swift */; };
 		BEAC783BD473ED3BC0BF821E /* Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7504AA00D7227A07849A1ABA /* Import.swift */; };
-		BF8944D83BA51EE61A9DD6F8 /* ModelLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826B0E97C142A5E26B366DE7 /* ModelLayers.swift */; };
-		C1165FFFB5CE03C1415A784F /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = FEE026F714E9915802EB2763 /* MLX */; };
+		C1165FFFB5CE03C1415A784F /* ReuseAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 8673EB31FF3E7BDFAC33609E /* ReuseAudio */; };
 		C24395CE3ED53A133AA0FA4E /* ModelProvenance.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC1AA6BF4DD6DD1DBDE02D /* ModelProvenance.json */; };
-		C2C5E623A30C4590A0989A80 /* ModelInference.swift in Sources */ = {isa = PBXBuildFile; fileRef = B266836D6D869ADFB806381A /* ModelInference.swift */; };
-		C853B216E9FD3FB5CCE13CEB /* AudioConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47378A21761A31E161095CC1 /* AudioConversion.swift */; };
-		C992557214ACBF005260AB5F /* AudioConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47378A21761A31E161095CC1 /* AudioConversion.swift */; };
 		D470190252813A6D1CCDE1EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710F7A3C56867698702EDD9 /* ContentView.swift */; };
-		DD1A5EFB02ECB619089B1766 /* ModelMamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CDAA9BACB1AF61753371B8 /* ModelMamba.swift */; };
 		E4379197898BA1B05F736F8F /* AudioEnhancement.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1F87776318E9AC02819AB /* AudioEnhancement.swift */; };
 		E4B4438297BC9D52CBEBA54B /* Playback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01233720CC14771E9169E82F /* Playback.swift */; };
-		F9A36BAB144A81FCABB27557 /* ModelConvolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E095242904DB154979C25 /* ModelConvolution.swift */; };
-		FD67D94CD1911FFDE3921619 /* ProbeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CFC8B02EE36FB3EA0494FE /* ProbeOptions.swift */; };
 		FEAAF0293420F32B27FDEA49 /* Enhancing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC72CF4BAB68D9998CE7D06F /* Enhancing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		01233720CC14771E9169E82F /* Playback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playback.swift; sourceTree = "<group>"; };
 		04CACDED8AC02061D30FA195 /* ReusePocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusePocketApp.swift; sourceTree = "<group>"; };
-		0C77892C62EFECACD928C526 /* ProbeRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeRunner.swift; sourceTree = "<group>"; };
 		0C91B2EE5B936FEF7B1F04C6 /* ReusePocket.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ReusePocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		110819F60D97D764456D0495 /* EnhancementSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancementSession.swift; sourceTree = "<group>"; };
-		1CDB063A54D16F53A6F0C855 /* ReuseEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseEngine.swift; sourceTree = "<group>"; };
 		2710F7A3C56867698702EDD9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2A413D96A3628B686067AB4D /* reuse-apple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "reuse-apple"; path = ../..; sourceTree = SOURCE_ROOT; };
 		3AEE39C9CC1C3F1B6F4EBDAE /* EnhancementControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancementControls.swift; sourceTree = "<group>"; };
 		3C3D8BE6515B5EA3AE3EA543 /* MODEL-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "MODEL-LICENSE.txt"; sourceTree = "<group>"; };
-		47378A21761A31E161095CC1 /* AudioConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioConversion.swift; sourceTree = "<group>"; };
 		4972F4D20F28A1C587B22267 /* PlaybackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackButton.swift; sourceTree = "<group>"; };
 		4FAC1AA6BF4DD6DD1DBDE02D /* ModelProvenance.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ModelProvenance.json; sourceTree = "<group>"; };
-		59514C27E0B5B9DF8B5C8D61 /* AudioFileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileIO.swift; sourceTree = "<group>"; };
-		6A485ECA158E89FDF84DBAB6 /* SelectiveScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectiveScan.swift; sourceTree = "<group>"; };
 		738D378B9A93DA146ECBEA1A /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		7504AA00D7227A07849A1ABA /* Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Import.swift; sourceTree = "<group>"; };
 		78964B27549F0EEE494EB53F /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
-		826B0E97C142A5E26B366DE7 /* ModelLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLayers.swift; sourceTree = "<group>"; };
-		89CDAA9BACB1AF61753371B8 /* ModelMamba.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelMamba.swift; sourceTree = "<group>"; };
 		8FAE9B8CAC1BA0BAF47461DC /* THIRD-PARTY-NOTICES.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "THIRD-PARTY-NOTICES.txt"; sourceTree = "<group>"; };
-		98B85F8F3C654567CC71D147 /* AudioTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTransform.swift; sourceTree = "<group>"; };
 		ADE1F87776318E9AC02819AB /* AudioEnhancement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEnhancement.swift; sourceTree = "<group>"; };
-		B266836D6D869ADFB806381A /* ModelInference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInference.swift; sourceTree = "<group>"; };
 		B662B8E5793EEBFFBB0E50C8 /* MODEL-CARD.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "MODEL-CARD.md"; sourceTree = "<group>"; };
-		CD3D88810B842FEDC74384BE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		CF96C9EE66E45015C5143A52 /* ReuseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseModel.swift; sourceTree = "<group>"; };
-		D06E095242904DB154979C25 /* ModelConvolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConvolution.swift; sourceTree = "<group>"; };
-		D0CFC8B02EE36FB3EA0494FE /* ProbeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOptions.swift; sourceTree = "<group>"; };
 		D9A5A29A4ACE6608319C4FFB /* RecordingControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingControls.swift; sourceTree = "<group>"; };
-		E211749A86E88139B728BAF1 /* ReuseProbe */ = {isa = PBXFileReference; includeInIndex = 0; path = ReuseProbe; sourceTree = BUILT_PRODUCTS_DIR; };
 		E55C8B26FD36B8D2817FFC28 /* ModelNoticesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelNoticesView.swift; sourceTree = "<group>"; };
 		F91084B9A76999565CBECADE /* model.safetensors */ = {isa = PBXFileReference; path = model.safetensors; sourceTree = "<group>"; };
 		FC72CF4BAB68D9998CE7D06F /* Enhancing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enhancing.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		725A13A5D13B845B532ACE9E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9CED42F9F3011E64BB1FE12D /* MLX in Frameworks */,
-				07B370DEC0B8CC0445A4A566 /* MLXFFT in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B92F7AA04403936030F61872 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1165FFFB5CE03C1415A784F /* MLX in Frameworks */,
-				41CF38E04AEC1A11AC202E48 /* MLXFFT in Frameworks */,
+				C1165FFFB5CE03C1415A784F /* ReuseAudio in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +72,8 @@
 				4FAC1AA6BF4DD6DD1DBDE02D /* ModelProvenance.json */,
 				8FAE9B8CAC1BA0BAF47461DC /* THIRD-PARTY-NOTICES.txt */,
 			);
-			path = Resources;
+			name = Resources;
+			path = ../../Resources;
 			sourceTree = "<group>";
 		};
 		67AF8FE5AF9879B853227B6E /* Views */ = {
@@ -140,21 +92,10 @@
 			isa = PBXGroup;
 			children = (
 				ACD8087210C3B3420C934175 /* App */,
-				D0960BBBBBD785F91AF95296 /* Core */,
-				6F1ABC3D77804CA868B1973F /* Probe */,
+				DFCEC5022775847278D3B2E4 /* Packages */,
 				02C6DA7A2A5978503F8A886B /* Resources */,
 				B1CB1BA1158C8FA4BE9FBECB /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		6F1ABC3D77804CA868B1973F /* Probe */ = {
-			isa = PBXGroup;
-			children = (
-				CD3D88810B842FEDC74384BE /* main.swift */,
-				D0CFC8B02EE36FB3EA0494FE /* ProbeOptions.swift */,
-				0C77892C62EFECACD928C526 /* ProbeRunner.swift */,
-			);
-			path = Probe;
 			sourceTree = "<group>";
 		};
 		ACD8087210C3B3420C934175 /* App */ = {
@@ -165,14 +106,14 @@
 				C4FEE8A29B45E9C97E5EFAE9 /* Session */,
 				67AF8FE5AF9879B853227B6E /* Views */,
 			);
-			path = App;
+			name = App;
+			path = ../../App;
 			sourceTree = "<group>";
 		};
 		B1CB1BA1158C8FA4BE9FBECB /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				0C91B2EE5B936FEF7B1F04C6 /* ReusePocket.app */,
-				E211749A86E88139B728BAF1 /* ReuseProbe */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -190,46 +131,17 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
-		D0960BBBBBD785F91AF95296 /* Core */ = {
+		DFCEC5022775847278D3B2E4 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				47378A21761A31E161095CC1 /* AudioConversion.swift */,
-				59514C27E0B5B9DF8B5C8D61 /* AudioFileIO.swift */,
-				98B85F8F3C654567CC71D147 /* AudioTransform.swift */,
-				D06E095242904DB154979C25 /* ModelConvolution.swift */,
-				B266836D6D869ADFB806381A /* ModelInference.swift */,
-				826B0E97C142A5E26B366DE7 /* ModelLayers.swift */,
-				89CDAA9BACB1AF61753371B8 /* ModelMamba.swift */,
-				1CDB063A54D16F53A6F0C855 /* ReuseEngine.swift */,
-				CF96C9EE66E45015C5143A52 /* ReuseModel.swift */,
-				6A485ECA158E89FDF84DBAB6 /* SelectiveScan.swift */,
+				2A413D96A3628B686067AB4D /* reuse-apple */,
 			);
-			path = Core;
+			name = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		08769CDE4FFE375A23DE06DF /* ReuseProbe */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1685693D2A0B3DCA91081FBA /* Build configuration list for PBXNativeTarget "ReuseProbe" */;
-			buildPhases = (
-				ED66B5D73BC754929396B22A /* Sources */,
-				725A13A5D13B845B532ACE9E /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ReuseProbe;
-			packageProductDependencies = (
-				874C93520567E251182F8A7B /* MLX */,
-				BEA2231E33FC7C5FA0DFE61E /* MLXFFT */,
-			);
-			productName = ReuseProbe;
-			productReference = E211749A86E88139B728BAF1 /* ReuseProbe */;
-			productType = "com.apple.product-type.tool";
-		};
 		5161546FA82E34CD8E81C372 /* ReusePocket */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6AA7936F14E549E8E40050C /* Build configuration list for PBXNativeTarget "ReusePocket" */;
@@ -244,8 +156,7 @@
 			);
 			name = ReusePocket;
 			packageProductDependencies = (
-				FEE026F714E9915802EB2763 /* MLX */,
-				F9256F40640B2AB8594CD241 /* MLXFFT */,
+				8673EB31FF3E7BDFAC33609E /* ReuseAudio */,
 			);
 			productName = ReusePocket;
 			productReference = 0C91B2EE5B936FEF7B1F04C6 /* ReusePocket.app */;
@@ -276,14 +187,13 @@
 			mainGroup = 6E77019A17700B7D4CE6A49A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				5D210C0C248A9BD3E0C755F0 /* XCRemoteSwiftPackageReference "mlx-swift" */,
+				8452CA4EEDBE709AB364A4EF /* XCLocalSwiftPackageReference "../.." */,
 			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				5161546FA82E34CD8E81C372 /* ReusePocket */,
-				08769CDE4FFE375A23DE06DF /* ReuseProbe */,
 			);
 		};
 /* End PBXProject section */
@@ -308,49 +218,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C853B216E9FD3FB5CCE13CEB /* AudioConversion.swift in Sources */,
 				E4379197898BA1B05F736F8F /* AudioEnhancement.swift in Sources */,
-				8D2B94216FC5A3DA5417D23A /* AudioFileIO.swift in Sources */,
-				0B7240C1AA76C2BD5173A27B /* AudioTransform.swift in Sources */,
 				D470190252813A6D1CCDE1EC /* ContentView.swift in Sources */,
 				65F85E1335E9EA837BAD844C /* EnhancementControls.swift in Sources */,
 				72D1B0FD78F3A8893BE11B65 /* EnhancementSession.swift in Sources */,
 				FEAAF0293420F32B27FDEA49 /* Enhancing.swift in Sources */,
 				BEAC783BD473ED3BC0BF821E /* Import.swift in Sources */,
 				B6BB20CB15072512E4EB5524 /* IntroductionView.swift in Sources */,
-				264377BB6317664889BBF3B2 /* ModelConvolution.swift in Sources */,
-				C2C5E623A30C4590A0989A80 /* ModelInference.swift in Sources */,
-				BF8944D83BA51EE61A9DD6F8 /* ModelLayers.swift in Sources */,
-				DD1A5EFB02ECB619089B1766 /* ModelMamba.swift in Sources */,
 				3382209B5D58CFDA3020909B /* ModelNoticesView.swift in Sources */,
 				E4B4438297BC9D52CBEBA54B /* Playback.swift in Sources */,
 				249EC2B6F2214D4E2CCD398E /* PlaybackButton.swift in Sources */,
 				B65EBD51EE05F9473B7C3F2A /* Recording.swift in Sources */,
 				1661C5A8C98476AAE5B711A6 /* RecordingControls.swift in Sources */,
-				132A3BA9B95799DFFE76641F /* ReuseEngine.swift in Sources */,
-				823356899667718A1810669A /* ReuseModel.swift in Sources */,
 				3AD3B63F5CDA19D0DDFB5197 /* ReusePocketApp.swift in Sources */,
-				BEA5B6229C71C20322B66580 /* SelectiveScan.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ED66B5D73BC754929396B22A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C992557214ACBF005260AB5F /* AudioConversion.swift in Sources */,
-				97781015B8582F0BB7A79D51 /* AudioFileIO.swift in Sources */,
-				38994A94C1C6F6EC422C5F82 /* AudioTransform.swift in Sources */,
-				F9A36BAB144A81FCABB27557 /* ModelConvolution.swift in Sources */,
-				52C439BA91CD19643FE380FF /* ModelInference.swift in Sources */,
-				6D1282A7DCE45ADCD8B30D82 /* ModelLayers.swift in Sources */,
-				BE68D85DE3CA290DA74BBD7B /* ModelMamba.swift in Sources */,
-				FD67D94CD1911FFDE3921619 /* ProbeOptions.swift in Sources */,
-				5F27C6141572FE6AC856A689 /* ProbeRunner.swift in Sources */,
-				5D6B004510ACCB36BAE54148 /* ReuseEngine.swift in Sources */,
-				305F1E7C0C6248F1F59D7E5E /* ReuseModel.swift in Sources */,
-				1615744FC3130AC618CD11BB /* SelectiveScan.swift in Sources */,
-				0DA3A28C69AD17B98EF03E71 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,40 +294,11 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		74AF4F99CB0352A8F4109810 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = arm64;
-				CODE_SIGNING_ALLOWED = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.quangng2000.ReuseProbe;
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		797DEB1421DEE623DF19CA00 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = arm64;
-				CODE_SIGNING_ALLOWED = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.quangng2000.ReuseProbe;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -525,6 +376,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = targeted;
@@ -559,15 +411,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1685693D2A0B3DCA91081FBA /* Build configuration list for PBXNativeTarget "ReuseProbe" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				797DEB1421DEE623DF19CA00 /* Debug */,
-				74AF4F99CB0352A8F4109810 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		422CDC45FDBDF761B6B0EDF5 /* Build configuration list for PBXProject "ReusePocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -588,37 +431,17 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		5D210C0C248A9BD3E0C755F0 /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ml-explore/mlx-swift.git";
-			requirement = {
-				kind = exactVersion;
-				version = 0.29.1;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		8452CA4EEDBE709AB364A4EF /* XCLocalSwiftPackageReference "../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../..;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		874C93520567E251182F8A7B /* MLX */ = {
+		8673EB31FF3E7BDFAC33609E /* ReuseAudio */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5D210C0C248A9BD3E0C755F0 /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLX;
-		};
-		BEA2231E33FC7C5FA0DFE61E /* MLXFFT */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5D210C0C248A9BD3E0C755F0 /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLXFFT;
-		};
-		F9256F40640B2AB8594CD241 /* MLXFFT */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5D210C0C248A9BD3E0C755F0 /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLXFFT;
-		};
-		FEE026F714E9915802EB2763 /* MLX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5D210C0C248A9BD3E0C755F0 /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLX;
+			productName = ReuseAudio;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

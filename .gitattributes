@@ -3,3 +3,5 @@ LICENSE -text whitespace=-trailing-space,-blank-at-eof
 Resources/MODEL-LICENSE.txt -text whitespace=-trailing-space,-blank-at-eof
 Resources/MODEL-CARD.md -text whitespace=-trailing-space,-blank-at-eof
 Resources/THIRD-PARTY-NOTICES.txt -text whitespace=-trailing-space,-blank-at-eof
+Research/LICENSE.txt -text whitespace=-trailing-space,-blank-at-eof
+Sources/ReuseStreaming/LICENSE -text whitespace=-trailing-space,-blank-at-eof
