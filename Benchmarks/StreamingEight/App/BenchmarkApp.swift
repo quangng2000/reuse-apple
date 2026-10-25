@@ -6,23 +6,34 @@ final class BenchmarkViewModel: ObservableObject {
     @Published var status = "Ready for the eight-layer FP32 comparison."
     @Published var running = false
 
-    func run() {
+    func run(profileOnly: Bool = false) {
         guard !running else { return }
         running = true
         UIApplication.shared.isIdleTimerDisabled = true
         UIDevice.current.isBatteryMonitoringEnabled = true
-        status = "Loading frozen baseline and candidate…"
+        status = profileOnly ? "Loading pinned stage-profile diagnostic…" : "Loading frozen baseline and candidate…"
         Task.detached(priority: .userInitiated) { [self] in
+            let runID = UUID().uuidString
             do {
-                let runner = try EightLayerBenchmark { message in
+                let progress: (String) -> Void = { message in
                     Task { @MainActor [self] in self.status = message }
                 }
-                let report = try runner.run()
+                let message: String
+                if profileOnly {
+                    let runner = try EightLayerStageProfile(progress: progress)
+                    let frames = try runner.run()
+                    message = "Profile complete. \(frames) measured frames saved in Documents/latest-profile.json."
+                } else {
+                    let runner = try EightLayerBenchmark(progress: progress, runID: runID)
+                    let report = try runner.run()
+                    message = "Complete. \(report) trials, run \(runID), saved in Documents/latest-results.json."
+                }
                 await MainActor.run {
-                    self.status = "Complete. \(report) trial results saved in Documents/latest-results.json."
+                    self.status = message
                 }
             } catch {
-                EightLayerBenchmark.recordFailure(error)
+                if profileOnly { EightLayerStageProfile.recordFailure(error) }
+                else { EightLayerBenchmark.recordFailure(error, runID: runID) }
                 await MainActor.run { self.status = "Stopped: " + error.localizedDescription }
             }
             await MainActor.run {
@@ -50,7 +61,9 @@ struct ReuseStreamingEightBenchmarkApp: App {
             }
             .padding(24)
             .task {
-                if ProcessInfo.processInfo.arguments.contains("--autorun") { model.run() }
+                let arguments = ProcessInfo.processInfo.arguments
+                if arguments.contains("--profile-only") { model.run(profileOnly: true) }
+                else if arguments.contains("--autorun") { model.run() }
             }
         }
     }

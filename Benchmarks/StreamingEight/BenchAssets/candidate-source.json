@@ -1,10 +1,15 @@
 {
-  "base_revision": "bdf56d19f4dbc16fb9ee949d42b70b4b6b5fe43e",
-  "source_sha256": "9b823aaf694fd883394b0f6c476dc0219ce2927f02816e9216c95fa946946cb8",
+  "base_revision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
+  "source_sha256": "10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
+  "fingerprint_method": "SHA256 of compact JSON (sort_keys=True,separators=comma:colon) of path/sha256 records sorted by path",
   "files": [
     {
       "path": "Sources/ReuseStreaming/LICENSE",
       "sha256": "6d1daa9c89ec421ba80fe051ac9f0dd46010d4fa4e8f4af654eb8e62f64e2ad5"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaBidirectionalFrequency.swift",
+      "sha256": "051e6f830b992daf8f694f86cb951330b1234f637fbc7ce1c57f15f06abfc5fe"
     },
     {
       "path": "Sources/ReuseStreaming/Model/Mamba/MambaFiltering.swift",
@@ -31,12 +36,16 @@
       "sha256": "c543321afdb63dd453e00fc3b04ad77e7a57c1b9263c236d538527c0cc4ad804"
     },
     {
+      "path": "Sources/ReuseStreaming/Model/StreamingCompiledFrame.swift",
+      "sha256": "d684b8445bcbe62248530d88c04deaf86e487a5e6e771dcd1e53f95fe16c6215"
+    },
+    {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseCheckpoint.swift",
       "sha256": "dfbb8421ff4a4e0aa4739f5383e8fa423a4721a55193cec15e2179c0ff28f839"
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseInference.swift",
-      "sha256": "851af22e4cc9a68c418b6ee1377cdb529c62c3b895e0848842dea85d2f0637e2"
+      "sha256": "cd99416979b043961b4e26a8876c1295a864eaca60925789f2bc1be89db5fdf4"
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseLayers.swift",
@@ -44,11 +53,11 @@
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseMamba.swift",
-      "sha256": "c27fecec63e970ad96b6fab37ad0afa3a129802639246458cd66144da362c42d"
+      "sha256": "55d1852b8743921e5e6114945f0fdbee4a1801b6a382f0e079770bfaa990802e"
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseModel.swift",
-      "sha256": "e0df9f072cc60cb87d20234903ed76ea5dc7ecd68d10d5b2abcbd7cd988f594b"
+      "sha256": "f8d00694218ec50fbf28113e4eff393cab09ef5d1540948b4a0a4b1fe9a5dce5"
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseScan.swift",
@@ -68,7 +77,7 @@
     },
     {
       "path": "Sources/ReuseStreaming/StreamingEnhancer.swift",
-      "sha256": "eeefd599be1f98503295bc7ad110bd823328164d8ef2eed5cdef0e2fae81b79c"
+      "sha256": "e43a37bc8cf179b94e09e9fe76132243366731fb3645247b4275cec8b4a1e49d"
     },
     {
       "path": "Sources/ReuseStreaming/StreamingError.swift",

@@ -7,7 +7,10 @@ import MLX
 extension StreamingReuseModel {
     /// First call consumes lookahead + 1 frames, then exactly one frame per call.
     /// Magnitudes are log1p compressed; inputs and outputs are [frequency, time].
-    func callAsFunction(magnitude: MLXArray, phase: MLXArray) -> (MLXArray, MLXArray) {
+    /// Direct callers retain eager evaluation. The streaming frame wrapper may
+    /// defer it only when synthesis also evaluates every updated state array.
+    func callAsFunction(magnitude: MLXArray, phase: MLXArray,
+                        deferEvaluation: Bool = false) -> (MLXArray, MLXArray) {
         precondition(magnitude.ndim == 2 && phase.shape == magnitude.shape)
         precondition(magnitude.dim(1) == (isFirstFrame ? lookahead + 1 : 1))
         var x = encode(magnitude, phase)
@@ -16,9 +19,15 @@ extension StreamingReuseModel {
             if !useSingleEvaluation { eval(x) }
         }
         let (mag, pha) = decode(x, frequencies: magnitude.dim(0))
-        eval([mag, pha] + Array(convolutionStates.values) + Array(recurrentStates.values))
+        if !deferEvaluation { eval([mag, pha] + frameStateArrays) }
         isFirstFrame = false
         return (mag, pha)
+    }
+
+    /// These caches include graph branches not necessarily needed by this
+    /// frame's audio output. Materialize all of them before the next frame.
+    var frameStateArrays: [MLXArray] {
+        Array(convolutionStates.values) + Array(recurrentStates.values)
     }
 
     private func encode(_ magnitude: MLXArray, _ phase: MLXArray) -> MLXArray {

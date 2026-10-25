@@ -1,6 +1,6 @@
 {
   "repository": "quangng2000/reuse-apple",
-  "revision": "bdf56d19f4dbc16fb9ee949d42b70b4b6b5fe43e",
+  "revision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
   "optimized": true,
   "layers": 8,
   "precision": "float32",
@@ -23,7 +23,7 @@
     },
     {
       "path": "Sources/ReuseStreaming/Model/Mamba/MambaProjectionFrequency.swift",
-      "sha256": "c9c3e6b610ae1b1b20451d4a15b9cca11eae247038282db9847cb116112d6f73"
+      "sha256": "afab7b3c478337f48f58e79c4c5e1cbb9222dc9ef16f11e9e4034948f8b0a50c"
     },
     {
       "path": "Sources/ReuseStreaming/Model/Mamba/MambaProjectionScan.swift",
@@ -39,7 +39,7 @@
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseInference.swift",
-      "sha256": "8336a67bf1efa0f5ab375897a8e824680ef348e75daf046636a093e73a4b451f"
+      "sha256": "851af22e4cc9a68c418b6ee1377cdb529c62c3b895e0848842dea85d2f0637e2"
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseLayers.swift",
@@ -67,11 +67,11 @@
     },
     {
       "path": "Sources/ReuseStreaming/Pipeline/StreamingTransform.swift",
-      "sha256": "38cd8518631e30cf2b8443f6df7e246c281b7725c53db18c7bb79ee7603ddeb1"
+      "sha256": "e0fe806ca594c69bfdc9bd42118d37dfa02d9c86fd82913e2790d147f5ea8fc8"
     },
     {
       "path": "Sources/ReuseStreaming/StreamingEnhancer.swift",
-      "sha256": "bfb94cadec971a4c17cf83af03aea40ee5c27d583e47450e70abbb3928edf80c"
+      "sha256": "eeefd599be1f98503295bc7ad110bd823328164d8ef2eed5cdef0e2fae81b79c"
     },
     {
       "path": "Sources/ReuseStreaming/StreamingError.swift",

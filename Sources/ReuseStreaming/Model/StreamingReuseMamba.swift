@@ -67,6 +67,18 @@ extension StreamingReuseModel {
     }
 
     private func frequencyBlock(_ input: MLXArray, _ prefix: String) -> MLXArray {
+        if useBatchedFrequency && useFusedMambaFilter && useFusedMambaProjection {
+            let operation: MambaBidirectionalFrequency
+            if let cached = bidirectionalFrequency[prefix] {
+                operation = cached
+            } else {
+                operation = MambaBidirectionalFrequency(model: self, prefix: prefix)
+                bidirectionalFrequency[prefix] = operation
+            }
+            let (forward, backward) = operation(input, reversedIndices: frequencyScan.reversedIndices(input.dim(1)))
+            let output = linear(concatenated([forward, backward], axis: 2), prefix + ".output_proj")
+            return normalize(output, prefix + ".norm") + input
+        }
         let forward = mamba(input, prefix + ".forward_blocks", streaming: false) + input
         let reversed = reverseSequence(input)
         let backward = reverseSequence(mamba(reversed, prefix + ".backward_blocks", streaming: false) + reversed)

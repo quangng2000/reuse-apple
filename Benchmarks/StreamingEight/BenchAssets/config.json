@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "baselineRevision": "bdf56d19f4dbc16fb9ee949d42b70b4b6b5fe43e",
-  "candidateRevision": "source-sha256:9b823aaf694fd883394b0f6c476dc0219ce2927f02816e9216c95fa946946cb8",
+  "baselineRevision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
+  "candidateRevision": "source-sha256:10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
   "checkpointFile": "realtime-reuse.safetensors",
   "checkpointSHA256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
   "inputFile": "input.f32",
@@ -30,5 +30,14 @@
         "baseline"
       ]
     }
-  ]
+  ],
+  "requireBitwiseOutputEquality": true,
+  "baselineOptions": {
+    "compilation": "disabled",
+    "pooledFrequency": false
+  },
+  "candidateOptions": {
+    "compilation": "decoderFeatures",
+    "pooledFrequency": true
+  }
 }

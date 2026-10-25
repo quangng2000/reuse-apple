@@ -15,7 +15,6 @@ versus 46.42 seconds (RTF 1.451) for the baseline. Every frame exceeded the
 20 ms input hop in this unpaced replay, so eight layers still do not sustain
 real-time processing on this phone. This is a modest improvement in this measured
 session, with two trials per variant; it is not an end-to-end call benchmark.
-
 All eight short and continuous trials had **bit-for-bit identical output** to
 their phase's baseline. Output lengths, finite samples and the SHA256 of each
 copied output file were verified on the host. The short phase's pooled mean was
@@ -64,6 +63,16 @@ diagnosing correctness. State stays continuous across repetition seams within a
 trial. Each trial starts with a fresh reset and three dummy warmup frames; loading,
 warmup, output serialization and validation are outside the timed replay.
 
+The current reference is pinned to `2446c8383ac65da5376d9159fa1d079535c4e36b`.
+The candidate explicitly enables package-only `compilation: .decoderFeatures` and
+`pooledFrequency: true`; the reference uses compilation disabled and no pooling.
+Both native targets and the package use whole-module Swift compilation. The
+application's compiler package identity is `reuse_apple` solely to access these
+benchmark-only package options. Config and result JSON record both option sets.
+Before a final build, replace `source-sha256:PENDING_SOURCE_FREEZE` in the staged
+configuration with the independently verified frozen candidate source SHA256.
+The app rejects the placeholder rather than labeling a new binary with an old hash.
+
 `paced: false` measures file replay as fast as possible. Optional `paced: true`
 waits for synthetic 20 ms input arrivals and reports their processing lateness.
 Neither mode measures microphone, acoustic echo cancellation, transport, codec,
@@ -71,13 +80,15 @@ jitter buffer or speaker latency.
 
 Every trial saves raw frame times, wall time, thermal observations, finite sample
 counts, an output SHA256 and the full output. Candidate output is compared to the
-first baseline in the same phase, with exact float-bit equality reported separately
-from the configured absolute tolerance. A parity failure saves partial evidence
-and stops subsequent trials; it does not silently accept a new output.
+first baseline in the same phase. **Every float bit must match.** The configured
+absolute tolerance and maximum absolute difference remain diagnostic information
+and cannot accept differing bits. Validation occurs outside timed replay; the
+first failed comparison saves partial evidence and prevents any subsequent trial.
 
 Generate and build on the development Mac:
 
 ```sh
+python3 Benchmarks/Profiling/prepare.py
 xcodegen generate --spec Benchmarks/StreamingEight/project.yml
 xcodebuild -project Benchmarks/StreamingEight/ReuseStreamingEightBenchmark.xcodeproj \
   -scheme ReuseStreamingEightBenchmark -configuration Release \
@@ -94,6 +105,10 @@ app disables auto-lock during the run and restores it afterward. Console events
 begin `REUSE_EIGHT_BENCHMARK_EVENT=`. Results are atomically saved to
 `Documents/latest-progress.json` after each trial and `Documents/latest-results.json`
 after completion. Exceptions additionally produce `latest-failure.json`.
+Each new run has a UUID present in console events, reports, trial rows, failures,
+and output filenames. Match the UUID from the current launch before accepting a
+copied `latest-results.json`; an earlier successful file may still exist while a
+new run is loading or after a failure.
 
 The first model load in a process may use system shader caches. Report it as a
 load measurement, not a guaranteed uncached compile. Compare like-for-like phase,
@@ -103,10 +118,11 @@ After copying the completed results JSON from the device, produce a validated
 summary with Python's standard library:
 
 ```sh
-python3 Benchmarks/StreamingEight/summarize.py /path/to/latest-results.json > summary.json
+python3 Benchmarks/StreamingEight/summarize.py /path/to/latest-results.json \
+  --run-id CURRENT_LAUNCH_UUID > summary.json
 ```
 
-The summarizer requires all eight trials, the pinned baseline and checkpoint,
+The summarizer requires all eight trials, a trusted pinned baseline and checkpoint,
 eight-layer FP32 metadata, finite raw timings, and valid parity records. It pools
 all frames separately for each phase and variant, retaining individual trial
 means, thermal observations, and parity. The 32-second phase is primary; do not
@@ -115,3 +131,12 @@ wall-time RTF also includes the outer replay loop. No frames or outliers are
 discarded. The fraction over 20 ms is a slow-frame fraction for file replay,
 not a measured live-call deadline-miss rate. Two trials per variant do not support
 treating individual frames as independent experimental repetitions.
+Historical `bdf56d19f4dbc16fb9ee949d42b70b4b6b5fe43e` reports remain supported without
+`--run-id`; they are labeled as legacy reports without a UUID. Current `2446c83`
+comparisons additionally require a valid UUID, recorded engine options, matched
+whole-module settings, and bitwise equality for all completed trials.
+
+For a separate pinned stage diagnostic, launch with `--profile-only`; see
+[`../Profiling/README.md`](../Profiling/README.md). Its forced completion boundaries
+distort normal execution and its timings must not replace the uninstrumented
+comparison.

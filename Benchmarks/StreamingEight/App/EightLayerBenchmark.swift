@@ -17,6 +17,11 @@ extension ReuseStreamingReference.StreamingEnhancer: EightLayerEngine {}
 
 private struct Configuration: Decodable {
     struct Phase: Decodable { let id: String; let repetitions: Int; let trialOrder: [String] }
+    struct EngineOptions: Decodable {
+        let compilation: String
+        let pooledFrequency: Bool
+        var report: [String: Any] { ["compilation": compilation, "pooled_frequency": pooledFrequency] }
+    }
     let schemaVersion: Int
     let baselineRevision: String
     let candidateRevision: String
@@ -27,6 +32,9 @@ private struct Configuration: Decodable {
     let paced: Bool
     let cooldownSeconds: Double
     let maximumAbsoluteOutputDifference: Double
+    let requireBitwiseOutputEquality: Bool
+    let baselineOptions: EngineOptions
+    let candidateOptions: EngineOptions
     let phases: [Phase]
 }
 
@@ -73,6 +81,7 @@ private func emit(_ value: [String: Any]) {
 }
 
 final class EightLayerBenchmark {
+    let runID: String
     private let resources: URL
     private let documents: URL
     private let configuration: Configuration
@@ -81,8 +90,9 @@ final class EightLayerBenchmark {
     private var trials = [[String: Any]]()
     private var baseReport = [String: Any]()
 
-    init(progress: @escaping (String) -> Void) throws {
+    init(progress: @escaping (String) -> Void, runID: String = UUID().uuidString) throws {
         self.progress = progress
+        self.runID = runID
         guard let url = Bundle.main.resourceURL?.appendingPathComponent("BenchAssets") else {
             throw BenchmarkError.invalid("Missing benchmark assets")
         }
@@ -92,7 +102,13 @@ final class EightLayerBenchmark {
             from: Data(contentsOf: url.appendingPathComponent("config.json")))
         guard configuration.schemaVersion == 1, configuration.layers == 8,
               !configuration.phases.isEmpty, configuration.maximumAbsoluteOutputDifference > 0,
-              configuration.cooldownSeconds >= 0 else { throw BenchmarkError.invalid("Invalid eight-layer benchmark configuration") }
+              configuration.cooldownSeconds >= 0, UUID(uuidString: runID) != nil,
+              configuration.requireBitwiseOutputEquality,
+              configuration.baselineRevision == "2446c8383ac65da5376d9159fa1d079535c4e36b",
+              configuration.baselineOptions.compilation == "disabled", !configuration.baselineOptions.pooledFrequency,
+              configuration.candidateOptions.compilation == "decoderFeatures", configuration.candidateOptions.pooledFrequency,
+              configuration.candidateRevision.range(of: "^source-sha256:[0-9a-f]{64}$", options: .regularExpression) != nil
+        else { throw BenchmarkError.invalid("Invalid eight-layer benchmark configuration or unfrozen candidate source") }
         let bytes = try Data(contentsOf: url.appendingPathComponent(configuration.inputFile))
         guard bytes.count >= 640 * 4, bytes.count.isMultiple(of: 4) else {
             throw BenchmarkError.invalid("Fixture must be nonempty little-endian float32 audio")
@@ -112,10 +128,10 @@ final class EightLayerBenchmark {
             .write(to: documents.appendingPathComponent(name), options: .atomic)
     }
 
-    static func recordFailure(_ error: Error) {
-        emit(["event": "failed", "error": error.localizedDescription])
+    static func recordFailure(_ error: Error, runID: String) {
+        emit(["event": "failed", "run_id": runID, "error": error.localizedDescription])
         let document = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let record: [String: Any] = ["status": "failed", "error": error.localizedDescription,
+        let record: [String: Any] = ["status": "failed", "run_id": runID, "error": error.localizedDescription,
             "time": ISO8601DateFormatter().string(from: Date()),
             "partial_results_file": "Documents/latest-progress.json"]
         if let bytes = try? JSONSerialization.data(withJSONObject: record, options: [.prettyPrinted, .sortedKeys]) {
@@ -133,11 +149,14 @@ final class EightLayerBenchmark {
         let modelData = try Data(contentsOf: modelURL, options: .mappedIfSafe)
         let checkpointHash = sha256(modelData)
         guard checkpointHash == configuration.checkpointSHA256 else { throw BenchmarkError.invalid("Checkpoint SHA256 mismatch") }
-        baseReport = ["schema_version": 1, "started_at": ISO8601DateFormatter().string(from: Date()),
+        baseReport = ["schema_version": 1, "run_id": runID, "started_at": ISO8601DateFormatter().string(from: Date()),
             "device": ["hardware_model": hardware, "os_version": ProcessInfo.processInfo.operatingSystemVersionString,
                        "physical_device": !hardware.hasPrefix("arm64") && !hardware.hasPrefix("x86"),
                        "battery_level_before": battery(), "low_power_mode": ProcessInfo.processInfo.isLowPowerModeEnabled],
             "baseline_revision": configuration.baselineRevision, "candidate_revision": configuration.candidateRevision,
+            "baseline_options": configuration.baselineOptions.report, "candidate_options": configuration.candidateOptions.report,
+            "swift_compilation_mode": "wholemodule", "require_bitwise_output_equality": true,
+            "output_parity_requirement": "bitwise_equal", "absolute_tolerance_is_acceptance_gate": false,
             "layers": configuration.layers, "precision": "float32", "lookahead_frames": 0,
             "optimized_argument_for_both_variants": true,
             "checkpoint_sha256": checkpointHash, "input_sha256": sha256(floatData(input)),
@@ -148,14 +167,17 @@ final class EightLayerBenchmark {
             "timing_clock": "DispatchTime uptimeNanoseconds for wall time; package lastFrameMilliseconds for GPU-completed frames",
             "warmup_scope": "Public warmUp: three dummy render frames, then reset, before every trial; excluded from trial time.",
             "output_max_absolute_tolerance": configuration.maximumAbsoluteOutputDifference]
-        emit(["event": "run_started", "hardware": hardware, "layers": configuration.layers])
+        emit(["event": "run_started", "run_id": runID, "hardware": hardware, "layers": configuration.layers,
+              "baseline_revision": configuration.baselineRevision, "candidate_revision": configuration.candidateRevision,
+              "baseline_options": configuration.baselineOptions.report, "candidate_options": configuration.candidateOptions.report])
         var engines = [String: EightLayerEngine]()
         var loadTimes = [String: Double]()
         var started = now()
         engines["baseline"] = try ReuseStreamingReference.StreamingEnhancer(modelURL: modelURL, layers: 8, optimized: true)
         loadTimes["baseline_ms"] = elapsed(started) * 1000
         started = now()
-        engines["candidate"] = try ReuseStreaming.StreamingEnhancer(modelURL: modelURL, layers: 8, optimized: true)
+        engines["candidate"] = try ReuseStreaming.StreamingEnhancer(modelURL: modelURL, layers: 8, optimized: true,
+                                                                  compilation: .decoderFeatures, pooledFrequency: true)
         loadTimes["candidate_ms"] = elapsed(started) * 1000
         baseReport["load_times_ms_excluded"] = loadTimes
         try persist("latest-progress.json", status: "running")
@@ -176,7 +198,7 @@ final class EightLayerBenchmark {
                 try engine.warmUp()
                 let warmMS = elapsed(warmStart) * 1000
                 let before = thermal(), batteryBefore = battery()
-                emit(["event": "trial_started", "trial": identifier, "samples": audio.count, "thermal": before])
+                emit(["event": "trial_started", "run_id": runID, "trial": identifier, "samples": audio.count, "thermal": before])
                 let trialStart = now()
                 var output = [Float](), frames = [Double](), arrivalLateness = [Double]()
                 var thermalCounts = [String: Int]()
@@ -211,10 +233,12 @@ final class EightLayerBenchmark {
                     if a.bitPattern != b.bitPattern { different += 1 }
                 }
                 let outputBytes = floatData(output)
-                let outputFile = "output-" + identifier + ".f32"
+                let outputFile = "output-" + runID + "-" + identifier + ".f32"
                 try outputBytes.write(to: documents.appendingPathComponent(outputFile), options: .atomic)
-                let passed = maximum <= configuration.maximumAbsoluteOutputDifference
-                var record: [String: Any] = ["id": identifier, "phase": phase.id, "variant": variant,
+                let passed = different == 0
+                let options = variant == "baseline" ? configuration.baselineOptions : configuration.candidateOptions
+                var record: [String: Any] = ["id": identifier, "run_id": runID, "phase": phase.id, "variant": variant,
+                    "engine_options": options.report,
                     "order_index": index, "input_repetitions": phase.repetitions,
                     "audio_seconds": Double(audio.count) / 16000, "output_samples": output.count,
                     "output_sha256": sha256(outputBytes), "output_file": "Documents/" + outputFile,
@@ -228,13 +252,16 @@ final class EightLayerBenchmark {
                                "rmse": sqrt(squared / Double(output.count)),
                                "relative_rmse": sqrt(squared / max(expectedSquared, 1e-30)),
                                "maximum_absolute_tolerance": configuration.maximumAbsoluteOutputDifference,
+                               "absolute_tolerance_passed": maximum <= configuration.maximumAbsoluteOutputDifference,
+                               "gate": "bitwise_equal",
                                "passed": passed]]
                 if !arrivalLateness.isEmpty { record["synthetic_input_arrival_lateness_ms"] = stats(arrivalLateness) }
                 trials.append(record)
                 try persist("latest-progress.json", status: passed ? "running" : "parity_failed")
-                emit(["event": "trial_completed", "trial": identifier, "timing": stats(frames),
-                      "parity_passed": passed, "max_abs_difference": maximum, "wall_seconds": wall])
-                guard passed else { throw BenchmarkError.invalid("Output parity failed in " + identifier) }
+                emit(["event": "trial_completed", "run_id": runID, "trial": identifier, "timing": stats(frames),
+                      "parity_passed": passed, "different_float_bit_patterns": different,
+                      "max_abs_difference": maximum, "wall_seconds": wall])
+                guard passed else { throw BenchmarkError.invalid("Bitwise output parity failed in " + identifier) }
                 if configuration.cooldownSeconds > 0 { Thread.sleep(forTimeInterval: configuration.cooldownSeconds) }
             }
         }
@@ -242,7 +269,7 @@ final class EightLayerBenchmark {
         baseReport["battery_level_after"] = battery()
         try persist("latest-results.json", status: "completed")
         try persist("latest-progress.json", status: "completed")
-        emit(["event": "run_completed", "trials": trials.count, "result_file": "Documents/latest-results.json"])
+        emit(["event": "run_completed", "run_id": runID, "trials": trials.count, "result_file": "Documents/latest-results.json"])
         return trials.count
     }
 }

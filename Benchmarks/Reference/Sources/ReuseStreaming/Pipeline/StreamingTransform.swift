@@ -29,14 +29,18 @@ final class StreamingTransform {
                 atan2(imaginary, spectrum.realPart()).expandedDimensions(axis: 1))
     }
 
-    func synthesize(magnitude: MLXArray, phase: MLXArray) -> [Float] {
+    func synthesize(magnitude: MLXArray, phase: MLXArray,
+                    evaluating stateArrays: [MLXArray] = []) -> [Float] {
         var mag = expm1(maximum(magnitude, 0)).reshaped([321])
         let empty = mean((mag .== 0).asType(.float32)) .> 0.5
         mag = which(empty, 0, mag)
         let angle = phase.reshaped([321])
         let spectrum = mag * cos(angle) + MLXArray(real: 0, imaginary: 1) * mag * sin(angle)
-        let samples = MLX.irfft(spectrum, n: 640).asArray(Float.self)
-        return overlapAdd(samples)
+        let samples = MLX.irfft(spectrum, n: 640)
+        // One completion point covers synthesis and every model cache. The
+        // following CPU read consumes evaluated samples without new GPU work.
+        if !stateArrays.isEmpty { eval([samples] + stateArrays) }
+        return overlapAdd(samples.asArray(Float.self))
     }
 
     private func overlapAdd(_ samples: [Float]) -> [Float] {
