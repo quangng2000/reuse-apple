@@ -1,5 +1,5 @@
 RE-USE Audio contains separately licensed model components.
-Apple port and application packaging: Copyright (c) 2026 quangng2000.
+Apple/Android ports and application packaging: Copyright (c) 2026 quangng2000.
 
 ReuseAudio (apple/Sources/ReuseAudio/, android/reuse-audio/, offline tools and examples)
 -------------------------------------------------
@@ -9,12 +9,14 @@ Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 See LICENSE, models/MODEL-LICENSE.txt and models/THIRD-PARTY-NOTICES.txt.
 The root LICENSE does not replace the separate streaming license below.
 
-ReuseStreaming (apple/Sources/ReuseStreaming/, streaming examples and research assets)
+ReuseStreaming (apple/Sources/ReuseStreaming/, android/reuse-streaming/,
+tools/streaming-export/, streaming examples and research assets)
 -------------------------------------------------------------------------------
-The Real-time RE-USE architecture, checkpoint and derivative Swift/Metal port
+The Real-time RE-USE architecture, checkpoint and derivative Swift/Metal and Kotlin/ONNX ports
 are subject to the NVIDIA One-Way Noncommercial License v1 (NSCLv1), included
-in apple/Research/LICENSE.txt. These materials are for noncommercial research and
-education only. They are not included in the ReuseAudio library product.
+in apple/Research/LICENSE.txt and android/reuse-streaming/model/NSCL-LICENSE.txt.
+These materials are for noncommercial research and education only. They are not
+included in the ReuseAudio library product or reuse-audio-android artifact.
 Retain that license and all applicable NVIDIA attribution when redistributing.
 
 Original Real-time RE-USE materials:
@@ -33,6 +35,12 @@ The Apple adaptation replaces PyTorch/CUDA execution with Swift, MLX and Metal,
 implements incremental audio framing/state, and adds parallel/fused GPU kernels.
 It does not change the pinned model weights. Modified files retain their
 applicable notices. Hashes and source identities: apple/Research/ModelProvenance.json.
+
+The Android streaming adaptation uses FP32 CPU ONNX Runtime, explicit persistent
+convolution/temporal state, and native PocketFFT framing/transforms. It preserves
+the selected original FP32 weights. Its source and validated export identities
+are recorded under android/reuse-streaming/model/. Android and Apple performance
+measurements are independent; Apple's Metal benchmarks do not describe Android.
 
 MLX and its dependencies retain their own licenses. This project is independent
 of NVIDIA and Apple and does not imply their endorsement. See docs/citation.md
