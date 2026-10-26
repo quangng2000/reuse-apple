@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.quangng2000"
-version = "0.1.0"
+version = "0.1.1"
 
 android {
     namespace = "io.riftco.reuseaudio"
@@ -22,7 +22,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
-    publishing { singleVariant("release") { withSourcesJar() } }
+    publishing { singleVariant("release") }
     sourceSets.getByName("androidTest").assets.srcDir(layout.buildDirectory.dir("generated/parity-assets"))
     externalNativeBuild {
         cmake { path = file("src/main/cpp/CMakeLists.txt"); version = "3.22.1" }
@@ -49,11 +49,74 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
 }
 
+val apiSourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from("src/main/kotlin")
+    from("src/main/cpp") { into("native") }
+    from("src/main/assets/reuse-audio/licenses") { into("licenses") }
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
+}
+
+val apiDocumentationJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+    // Kotlin API KDoc is supplied as readable source alongside the integration guide.
+    // Central explicitly permits a documentation JAR containing a README.
+    from(rootProject.file("README.md"))
+    from("src/main/kotlin") { into("api") }
+    from("src/main/assets/reuse-audio/licenses") { into("licenses") }
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
+}
+
 afterEvaluate {
     publishing.publications.create<MavenPublication>("release") {
         from(components["release"])
         artifactId = "reuse-audio-android"
+        artifact(apiSourcesJar)
+        artifact(apiDocumentationJar)
+        pom {
+            name.set("RE-USE Audio for Android")
+            description.set("On-device offline speech enhancement for Android using the 30-layer FP32 NVIDIA NemotronLabs RE-USE model with ONNX Runtime.")
+            url.set("https://github.com/quangng2000/reuse-audio")
+            inceptionYear.set("2026")
+            licenses {
+                license {
+                    name.set("OpenMDW License Agreement, version 1.1 (OpenMDW-1.1)")
+                    url.set("https://github.com/quangng2000/reuse-audio/blob/android-v${project.version}/LICENSE")
+                    distribution.set("repo")
+                }
+                license {
+                    name.set("BSD-3-Clause (PocketFFT)")
+                    url.set("https://github.com/quangng2000/reuse-audio/blob/android-v${project.version}/android/reuse-audio/src/main/cpp/POCKETFFT-LICENSE.txt")
+                    distribution.set("repo")
+                }
+                license {
+                    name.set("MIT (original JNI adapter)")
+                    url.set("https://github.com/quangng2000/reuse-audio/blob/android-v${project.version}/android/reuse-audio/src/main/assets/reuse-audio/licenses/REUSE-DSP-LICENSE.txt")
+                    distribution.set("repo")
+                }
+            }
+            developers {
+                developer {
+                    id.set("quangng2000")
+                    name.set("quangng2000")
+                    url.set("https://github.com/quangng2000")
+                }
+            }
+            scm {
+                connection.set("scm:git:https://github.com/quangng2000/reuse-audio.git")
+                developerConnection.set("scm:git:ssh://git@github.com/quangng2000/reuse-audio.git")
+                url.set("https://github.com/quangng2000/reuse-audio")
+                tag.set("android-v${project.version}")
+            }
+        }
     }
+}
+
+publishing.repositories.maven {
+    name = "CentralStaging"
+    url = uri(layout.buildDirectory.dir("central-repository"))
 }
 
 tasks.withType<Test>().configureEach {

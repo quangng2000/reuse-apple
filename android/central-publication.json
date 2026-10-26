@@ -1,0 +1,54 @@
+{
+  "artifactCount": 5,
+  "artifacts": [
+    {
+      "bytes": 66966,
+      "name": "reuse-audio-android-0.1.1-javadoc.jar",
+      "sha256": "3288366c0fa74126632d9eb7cf4c87d4e893e1c99f805a3697b93101f13f991e"
+    },
+    {
+      "bytes": 90397,
+      "name": "reuse-audio-android-0.1.1-sources.jar",
+      "sha256": "72baf55d180a5f6f90bc8ff2b3393bb3ba76a472d562e93aff437120e35e6377"
+    },
+    {
+      "bytes": 875973,
+      "name": "reuse-audio-android-0.1.1.aar",
+      "sha256": "0f874d3ea721ebee5d784abf4b3c825913cb49403c8dfd48f012794600701922"
+    },
+    {
+      "bytes": 2497,
+      "name": "reuse-audio-android-0.1.1.module",
+      "sha256": "e68548f4dccb70a157fae90dc64bc3f7029a77ceeb7f50ca119dbdded6cfba10"
+    },
+    {
+      "bytes": 2749,
+      "name": "reuse-audio-android-0.1.1.pom",
+      "sha256": "abbb34f4943a3ec181be31813613ee79f768fb0b69f558faf36abb76b34ddee5"
+    }
+  ],
+  "bundleBytes": 1034573,
+  "bundleCreated": true,
+  "bundleSha256": "4719e4a0304313698c6fcf051b12a40fba2415d342ed6376db81917b7d061b3c",
+  "coordinates": "io.github.quangng2000:reuse-audio-android:0.1.1",
+  "entryCount": 30,
+  "uploadReady": true,
+  "verifiedSignatureCount": 5,
+  "status": "signed-ready-for-upload",
+  "unitTests": {
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "releaseBuildABIs": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86",
+    "x86_64"
+  ],
+  "signingKeyFingerprint": "93C571756E6EF6906F88DFD2A37754DCEBAECBBE",
+  "sourceTag": "android-v0.1.1",
+  "inferenceChanges": false,
+  "physicalAndroidBenchmark": false
+}

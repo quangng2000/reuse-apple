@@ -19,10 +19,12 @@ includeBuild("dependencies/reuse-audio/android") {
     }
 }
 // app/build.gradle.kts
-dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.0") }
+dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.1") }
 ```
 
-No Maven publication is required for this composite build. Root project: `ReuseAudioAndroid`; library project: `:reuse-audio`.
+This composite build works directly from source. Maven Central release preparation
+and signing instructions are in [PUBLISHING.md](PUBLISHING.md). Root project:
+`ReuseAudioAndroid`; library project: `:reuse-audio`.
 
 ```kotlin
 import io.riftco.reuseaudio.*
