@@ -24,5 +24,9 @@
   "centralTokenReadOnlyAccessVerified": true,
   "publisherCompatibilityLocalTests": 25,
   "completedDeploymentFormat": "PUBLISHED may omit package URLs; exact deployment identity and public artifact hashes remain required",
-  "signingKeyFingerprint": "93C571756E6EF6906F88DFD2A37754DCEBAECBBE"
+  "signingKeyFingerprint": "93C571756E6EF6906F88DFD2A37754DCEBAECBBE",
+  "publisherCompatibilityCiTests": 25,
+  "publisherCompatibilityCiRunUrl": "https://github.com/quangng2000/reuse-audio/actions/runs/40409731999",
+  "publisherCompatibilityCiCommit": "de6b83c7de4f00440f7583d284ee2bedd39a1332",
+  "publisherCompatibilityCiConclusion": "success"
 }
