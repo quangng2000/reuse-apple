@@ -70,7 +70,8 @@ without resetting recurrent state between repetitions.
 The baseline is frozen at `bdf56d19f4dbc16fb9ee949d42b70b4b6b5fe43e`.
 The tested candidate engine source fingerprint is
 `9b823aaf694fd883394b0f6c476dc0219ce2927f02816e9216c95fa946946cb8`;
-per-file hashes are in `BenchAssets/candidate-source.json`.
+per-file hashes are in
+[that iteration's source manifest](https://github.com/quangng2000/reuse-apple/blob/2446c8383ac65da5376d9159fa1d079535c4e36b/Benchmarks/StreamingEight/BenchAssets/candidate-source.json).
 The two changes share identical delta projection/softplus work across each
 frequency scan's 16 state lanes and complete GPU evaluation once after synthesis
 while materializing every recurrent and convolution state. FP32, layers,
