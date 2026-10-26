@@ -210,7 +210,7 @@ class CentralClient:
                               "POST", b"", authenticated=True, operation="publish")
 
 
-def checked_status(status, deployment_id, version, artifact_ids=(ARTIFACT,)):
+def checked_status(status, deployment_id, version, artifact_ids=(ARTIFACT,), publish_accepted=False):
     require(status.get("deploymentId") == deployment_id, "deployment_identity_mismatch")
     require(status.get("deploymentName") == ARTIFACT + "-" + version, "deployment_name_mismatch")
     state = status.get("deploymentState")
@@ -218,10 +218,11 @@ def checked_status(status, deployment_id, version, artifact_ids=(ARTIFACT,)):
     expected = {"pkg:maven/" + GROUP + "/" + artifact_id + "@" + version for artifact_id in artifact_ids}
     purls = status.get("purls", [])
     require(isinstance(purls, list), "invalid_deployment_coordinates")
-    # Central has returned PUBLISHED with an empty purls list. That read-only
-    # state still requires exact receipt ID/name and every public artifact hash
-    # before success. Keep coordinates mandatory before any publish mutation.
-    if state in {"VALIDATED", "PUBLISHING"}:
+    # Central can clear component metadata after accepting the publish request.
+    # Only our matching durable receipt can authorize this PUBLISHING exception;
+    # VALIDATED must still identify the complete cohort before any mutation.
+    # PUBLISHED with no PURLs still requires every public artifact hash below.
+    if state == "VALIDATED" or (state == "PUBLISHING" and publish_accepted is not True):
         require(purls, "missing_deployment_coordinates")
     normalized = set()
     for purl in purls:
@@ -230,7 +231,7 @@ def checked_status(status, deployment_id, version, artifact_ids=(ARTIFACT,)):
         require(canonical in expected,
                 "deployment_coordinate_mismatch")
         normalized.add(canonical)
-    if state in {"VALIDATED", "PUBLISHING"} or (state == "PUBLISHED" and purls):
+    if state == "VALIDATED" or purls:
         require(normalized == expected, "deployment_coordinate_mismatch")
     return state
 
@@ -297,7 +298,8 @@ def publish_bundle(bundle, version, report_path, client, deadline, deployment_id
             write_report(report_path, report)
         while True:
             require(clock() < deadline, "publication_timeout")
-            state = checked_status(client.status(deployment_id), deployment_id, version, artifact_ids)
+            state = checked_status(client.status(deployment_id), deployment_id, version, artifact_ids,
+                                   publish_accepted=report["publishAccepted"])
             report["status"] = state
             if not report["states"] or report["states"][-1] != state:
                 report["states"].append(state)

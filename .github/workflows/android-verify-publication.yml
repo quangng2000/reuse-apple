@@ -1,0 +1,170 @@
+name: Verify an accepted Android publication
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Already submitted Android version
+        required: true
+        default: '0.1.2'
+      source_run_id:
+        description: Original first-attempt tag workflow run
+        required: true
+        default: '40416117665'
+      deployment_id:
+        description: Exact deployment ID from its saved receipt
+        required: true
+        default: '6b8cfb74-7585-4340-87c1-2b60e124ce88'
+      bundle_sha256:
+        description: Original signed bundle SHA-256
+        required: true
+        default: '6d0fef3b7b448ba6d4c067e338fad04f47a2cf87f8f99115573bc52c239b4d4e'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: android-publication-verification-${{ inputs.deployment_id }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  verify:
+    if: github.repository == 'quangng2000/reuse-audio' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      DEPLOYMENT_ID: ${{ inputs.deployment_id }}
+      EXPECTED_BUNDLE_SHA256: ${{ inputs.bundle_sha256 }}
+    steps:
+      - name: Check out trusted verification code and public key
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          persist-credentials: false
+
+      - name: Bind recovery to the original canonical tag run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, re, subprocess
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, 'android/tools')
+          from central_publish import validate_version, validate_deployment_id
+          version, source = os.environ['RELEASE_VERSION'], os.environ['SOURCE_RUN_ID']
+          validate_version(version)
+          validate_deployment_id(os.environ['DEPLOYMENT_ID'])
+          if not re.fullmatch(r'[1-9][0-9]{0,19}', source) or not re.fullmatch(r'[0-9a-f]{64}', os.environ['EXPECTED_BUNDLE_SHA256']):
+              raise SystemExit('Invalid original run ID or bundle hash')
+          run = json.loads(subprocess.check_output(['gh', 'api', f'repos/quangng2000/reuse-audio/actions/runs/{source}'], text=True, timeout=30))
+          tag = 'android-v' + version
+          commit = subprocess.check_output(['git', 'rev-parse', f'refs/tags/{tag}^{{}}'], text=True).strip()
+          if not (run['repository']['full_name'] == 'quangng2000/reuse-audio' and run['event'] == 'push' and
+                  run['run_attempt'] == 1 and run['head_branch'] == tag and run['head_sha'] == commit and
+                  run['path'] == '.github/workflows/android-release.yml' and run['status'] == 'completed'):
+              raise SystemExit('Recovery source is not the original completed canonical tag run')
+          subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'origin/main'], check=True)
+          record = {key: run[key] for key in ('id', 'event', 'run_attempt', 'head_branch', 'head_sha', 'path', 'status', 'conclusion')}
+          record.update(deploymentId=os.environ['DEPLOYMENT_ID'], bundleSha256=os.environ['EXPECTED_BUNDLE_SHA256'])
+          Path(os.environ['RUNNER_TEMP'], 'verification-source.json').write_text(json.dumps(record, indent=2) + '\n')
+          PY
+
+      - name: Download only the original signed publication artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: android-central-publication-${{ inputs.source_run_id }}-1
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-publication
+
+      - name: Test verification helpers without credentials
+        run: python3 -m unittest discover -s android/tools -p 'test_*.py' -v
+
+      - name: Verify the pinned original bundle, receipt and ten public-key signatures
+        run: |
+          set -euo pipefail
+          if ! command -v gpg >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install --yes --no-install-recommends gnupg
+          fi
+          command -v gpg python3
+          python3 - <<'PY'
+          import json, os, shutil, subprocess, sys, tempfile, zipfile
+          from pathlib import Path
+          sys.path.insert(0, 'android/tools')
+          from central_publish import load_bundle
+          from central_bundle import gpg_command, verify_signature
+          folder = Path(os.environ['RUNNER_TEMP']) / 'original-publication'
+          version = os.environ['RELEASE_VERSION']
+          bundle_path = folder / f'reuse-audio-android-{version}-central.zip'
+          bundle = load_bundle(bundle_path, version, include_streaming=True)
+          if bundle['sha256'] != os.environ['EXPECTED_BUNDLE_SHA256']:
+              raise SystemExit('Original signed bundle hash differs from the explicit recovery input')
+          receipt = json.loads((folder / 'publish-report.json').read_text())
+          if not (receipt['deploymentId'] == os.environ['DEPLOYMENT_ID'] and receipt['bundleSha256'] == bundle['sha256'] and
+                  receipt['coordinates'] == bundle['coordinates'] and all(receipt.get(flag) is True
+                  for flag in ('uploadRequested', 'publishRequested', 'publishAccepted'))):
+              raise SystemExit('Only an already accepted publish request can be verified')
+          with tempfile.TemporaryDirectory(dir=os.environ['RUNNER_TEMP']) as temporary:
+              temporary = Path(temporary)
+              home = temporary / 'gnupg'
+              home.mkdir(mode=0o700)
+              subprocess.run(gpg_command(home) + ['--import', 'android/release-signing-key.asc'], check=True, capture_output=True, timeout=30)
+              keys = subprocess.check_output(gpg_command(home) + ['--with-colons', '--list-keys'], text=True, stderr=subprocess.DEVNULL, timeout=30)
+              fingerprints, primary = [], False
+              for line in keys.splitlines():
+                  fields = line.split(':')
+                  if fields[0] == 'pub':
+                      primary = True
+                  elif fields[0] == 'sub':
+                      primary = False
+                  elif fields[0] == 'fpr' and primary:
+                      fingerprints.append(fields[9])
+                      primary = False
+              if fingerprints != ['93C571756E6EF6906F88DFD2A37754DCEBAECBBE']:
+                  raise SystemExit('Unexpected committed release public key')
+              with zipfile.ZipFile(bundle_path) as archive:
+                  for name, relative in bundle['paths'].items():
+                      artifact = temporary / name
+                      artifact.write_bytes(bundle['primary'][name])
+                      Path(str(artifact) + '.asc').write_bytes(archive.read(relative + '.asc'))
+                      verify_signature(gpg_command(home), artifact,
+                                       'reuse-streaming-android' if name.startswith('reuse-streaming-android-') else 'reuse-audio-android')
+          shutil.copyfile(folder / 'publish-report.json', folder / 'verification-report.json')
+          (folder / 'verified-signatures.json').write_text(json.dumps({'bundleSha256': bundle['sha256'], 'verifiedSignatureCount': 10,
+                  'coordinates': bundle['coordinates'], 'fingerprint': '93C571756E6EF6906F88DFD2A37754DCEBAECBBE'}, indent=2) + '\n')
+          PY
+
+      - name: Verify the same deployment and all ten public artifacts without publishing
+        env:
+          CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+        run: |
+          set -euo pipefail
+          python3 android/tools/central_verify.py \
+            --bundle "$RUNNER_TEMP/original-publication/reuse-audio-android-$RELEASE_VERSION-central.zip" \
+            --version "$RELEASE_VERSION" --include-streaming --deployment-id "$DEPLOYMENT_ID" \
+            --expected-bundle-sha256 "$EXPECTED_BUNDLE_SHA256" \
+            --report "$RUNNER_TEMP/original-publication/verification-report.json"
+
+      - name: Preserve safe read-only verification evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: android-publication-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/verification-source.json
+            ${{ runner.temp }}/original-publication/verification-report.json
+            ${{ runner.temp }}/original-publication/verified-signatures.json
+          if-no-files-found: ignore
+          retention-days: 30

@@ -166,7 +166,26 @@ by the setup script. The four secrets' values are never committed or logged.
 
 [Publisher protocol checks](../.github/workflows/android-publisher-checks.yml)
 run separately when the publishing helpers change, using mocked requests and no
-credentials. Completed Central deployments may return an empty package list;
-this is accepted only for `PUBLISHED`, with exact deployment identity and all
-public artifact hashes still required. Pre-publication identity checks remain
-strict.
+credentials. Central can clear its package list in `PUBLISHING` after accepting
+the publish request. That status is accepted only when the matching durable
+receipt already records `publishAccepted=true`. `VALIDATED` still requires both
+exact coordinates before any publish request. `PUBLISHED` may also omit package
+URLs, but exact deployment identity and every public artifact hash remain
+mandatory. A present package list must always match the expected cohort.
+
+### Verify an already accepted publish request
+
+If a status check fails after Central accepted publication, use
+[Verify an accepted Android publication](../.github/workflows/android-verify-publication.yml)
+from `main`. Supply the original tag-run ID, version, saved deployment ID, and
+original signed bundle SHA-256. This workflow verifies the canonical first-attempt
+tag run, matching receipt and all ten signatures using the committed public key.
+It uses no private signing key and runs no Gradle process.
+
+The dedicated `central_verify.py` client allows only deployment-status and
+public-artifact reads. Its upload and publish methods are disabled, including
+at the HTTP-request boundary. It can wait for the original deployment and
+verify the ten public hashes without submitting any new publication. It requires
+an original receipt whose upload, publish request and accepted-publish flags are
+all strictly true. Repeated verification never renews or recreates a release.
+Safe source/signature/verification receipts are retained as Actions artifacts.

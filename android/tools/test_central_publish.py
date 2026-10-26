@@ -392,6 +392,17 @@ class CohortPublicationTests(unittest.TestCase):
     run_publication = CentralPublicationTests.run_publication
     call_count = CentralPublicationTests.call_count
 
+    def clear_post_publish_coordinates(self, client):
+        original_status = client.status
+
+        def status(deployment_id):
+            result = original_status(deployment_id)
+            if result["deploymentState"] in {"PUBLISHING", "PUBLISHED"}:
+                result["purls"] = []
+            return result
+
+        client.status = status
+
     def test_cohort_has_ten_primaries_and_one_upload_publish(self):
         client = FakeClient(self.bundle)
         result = self.run_publication(client)
@@ -403,6 +414,76 @@ class CohortPublicationTests(unittest.TestCase):
         self.assertEqual(self.call_count(client, "public"), 12)
         with zipfile.ZipFile(self.bundle_path) as archive:
             self.assertEqual(len(archive.namelist()), 60)
+
+    def test_accepted_publish_can_clear_publishing_metadata_and_verify_all_ten_hashes(self):
+        client = FakeClient(self.bundle)
+        self.clear_post_publish_coordinates(client)
+        result = self.run_publication(client)
+        self.assertTrue(result["published"])
+        self.assertTrue(result["publishAccepted"])
+        self.assertIn("PUBLISHING", result["states"])
+        self.assertEqual(len(result["artifacts"]), 10)
+        self.assertEqual(self.call_count(client, "upload"), 1)
+        self.assertEqual(self.call_count(client, "publish"), 1)
+
+    def test_known_accepted_receipt_recovers_cleared_publishing_state_without_mutations(self):
+        self.report.write_text(json.dumps({"coordinate": f"{publisher.GROUP}:{publisher.ARTIFACT}:{VERSION}",
+                                          "coordinates": self.bundle["coordinates"],
+                                          "bundleSha256": self.bundle["sha256"], "deploymentId": DEPLOYMENT,
+                                          "uploadRequested": True, "publishRequested": True,
+                                          "publishAccepted": True, "states": ["VALIDATING", "VALIDATED"]}))
+        client = FakeClient(self.bundle, ["PUBLISHING", "PUBLISHED"])
+        self.clear_post_publish_coordinates(client)
+        result = self.run_publication(client, deployment_id=DEPLOYMENT)
+        self.assertTrue(result["published"])
+        self.assertEqual(len(result["artifacts"]), 10)
+        self.assertEqual(self.call_count(client, "upload"), 0)
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_empty_publishing_coordinates_without_accepted_publish_remain_rejected(self):
+        client = FakeClient(self.bundle, ["PUBLISHING"])
+        self.clear_post_publish_coordinates(client)
+        with self.assertRaisesRegex(publisher.PublishError, "missing_deployment_coordinates"):
+            self.run_publication(client)
+        self.assertEqual(self.call_count(client, "publish"), 0)
+        status = {"deploymentId": DEPLOYMENT, "deploymentName": publisher.ARTIFACT + "-" + VERSION,
+                  "deploymentState": "PUBLISHING", "purls": []}
+        with self.assertRaisesRegex(publisher.PublishError, "missing_deployment_coordinates"):
+            publisher.checked_status(status, DEPLOYMENT, VERSION, publisher.ARTIFACT_IDS)
+
+    def test_accepted_context_never_weakens_deployment_identity_or_present_purls(self):
+        base = {"deploymentId": DEPLOYMENT, "deploymentName": publisher.ARTIFACT + "-" + VERSION,
+                "deploymentState": "PUBLISHING", "purls": []}
+        offline = f"pkg:maven/{publisher.GROUP}/{publisher.ARTIFACT}@{VERSION}"
+        cases = [("deploymentId", OTHER_DEPLOYMENT, "deployment_identity_mismatch"),
+                 ("deploymentName", "another-deployment", "deployment_name_mismatch"),
+                 ("purls", ["pkg:maven/other/project@0.1.2"], "deployment_coordinate_mismatch"),
+                 ("purls", [offline], "deployment_coordinate_mismatch")]
+        for field, value, error in cases:
+            with self.subTest(field=field, value=value), self.assertRaisesRegex(publisher.PublishError, error):
+                publisher.checked_status(dict(base, **{field: value}), DEPLOYMENT, VERSION,
+                                         publisher.ARTIFACT_IDS, publish_accepted=True)
+
+    def test_validated_and_any_present_coordinate_set_stay_exact_even_after_acceptance(self):
+        base = {"deploymentId": DEPLOYMENT, "deploymentName": publisher.ARTIFACT + "-" + VERSION,
+                "deploymentState": "VALIDATED", "purls": []}
+        with self.assertRaisesRegex(publisher.PublishError, "missing_deployment_coordinates"):
+            publisher.checked_status(base, DEPLOYMENT, VERSION, publisher.ARTIFACT_IDS, publish_accepted=True)
+        partial = [f"pkg:maven/{publisher.GROUP}/{publisher.ARTIFACT}@{VERSION}"]
+        for state in publisher.STATES:
+            with self.subTest(state=state), self.assertRaisesRegex(publisher.PublishError, "deployment_coordinate_mismatch"):
+                publisher.checked_status(dict(base, deploymentState=state, purls=partial), DEPLOYMENT, VERSION,
+                                         publisher.ARTIFACT_IDS, publish_accepted=True)
+
+    def test_cleared_publishing_metadata_still_cannot_hide_a_bad_streaming_public_hash(self):
+        client = FakeClient(self.bundle)
+        self.clear_post_publish_coordinates(client)
+        public = client.public_file
+        client.public_file = lambda relative: b"wrong streaming bytes" if client.is_public and "/reuse-streaming-android/" in relative else public(relative)
+        with self.assertRaisesRegex(publisher.PublishError, "public_artifact_hash_mismatch"):
+            self.run_publication(client)
+        self.assertFalse(json.loads(self.report.read_text())["published"])
+        self.assertEqual(self.call_count(client, "publish"), 1)
 
     def test_cohort_requires_explicit_opt_in_and_both_complete_components(self):
         with self.assertRaises(publisher.PublishError):

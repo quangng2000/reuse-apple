@@ -8,12 +8,14 @@ on:
       - 'android/tools/fetch_streaming_assets.py'
       - 'android/tools/test_*.py'
       - '.github/workflows/android-publisher-checks.yml'
+      - '.github/workflows/android-verify-publication.yml'
   pull_request:
     paths:
       - 'android/tools/central_*.py'
       - 'android/tools/fetch_streaming_assets.py'
       - 'android/tools/test_*.py'
       - '.github/workflows/android-publisher-checks.yml'
+      - '.github/workflows/android-verify-publication.yml'
   workflow_dispatch:
 
 permissions:
