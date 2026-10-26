@@ -28,7 +28,8 @@ defaults:
 jobs:
   validate:
     name: Validate four-ABI Android publication
-    runs-on: ubuntu-24.04
+    # PCM parity fixtures use the established Apple ARM64 FP32 baseline.
+    runs-on: macos-15
     timeout-minutes: 60
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -72,11 +73,14 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Install host tools from Ubuntu repositories
+      - name: Verify ARM64 validation host and preinstalled tools
         run: |
           set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends python3 g++ gnupg
+          if [[ "$(uname -m)" != arm64 ]]; then
+            echo 'PCM parity validation requires the Apple ARM64 baseline.' >&2
+            exit 1
+          fi
+          command -v python3 clang++ gpg
 
       - name: Install pinned Android platform and native toolchain
         run: |
@@ -173,6 +177,8 @@ jobs:
 
       - name: Run host DSP, file, model integrity, inference and cancellation tests
         working-directory: android
+        env:
+          CXX: /usr/bin/clang++
         run: |
           set -euo pipefail
           ./gradlew --no-daemon --console=plain --max-workers=2 --rerun-tasks :reuse-audio:testDebugUnitTest

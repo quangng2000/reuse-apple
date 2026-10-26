@@ -74,9 +74,13 @@ uploaded or committed.
 
 [Android SDK release](../.github/workflows/android-release.yml) validates Android
 changes on pull requests and supports a manual validation-only run. It builds
-all four native ABIs and runs the complete host suite with the pinned public
+all four native ABIs on the standard ARM64 macOS runner and runs the complete host suite with the pinned public
 model and hash-verified synthetic regression fixtures. No model or numerical
 behavior is changed by the workflow.
+
+The FP32 PCM reference fixtures were validated on ARM64. The workflow uses
+Apple Clang on ARM64 for those exact regression checks; Linux x86 FFT rounding
+can choose a different phase branch around pi. Test limits remain unchanged.
 
 An initial push of an `android-v<VERSION>` tag on a commit already in the default
 branch triggers the isolated signing/publication job. The tag must exactly
