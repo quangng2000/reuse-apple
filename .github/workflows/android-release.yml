@@ -1,0 +1,358 @@
+name: Android SDK release
+
+on:
+  push:
+    tags: ['android-v*']
+  # Manual runs always validate; only an initial tag push can publish.
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/android-release.yml'
+      - 'android/**'
+      - 'tools/model-export/**'
+      - 'models/**'
+      - 'LICENSE'
+      - 'NOTICE'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  validate:
+    name: Validate four-ABI Android publication
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check release version and tag ancestry
+        id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+          text = Path('android/reuse-audio/build.gradle.kts').read_text()
+          versions = re.findall(r'^version\s*=\s*"([^"\n]+)"\s*$', text, re.MULTILINE)
+          if len(versions) != 1 or not re.fullmatch(r'\d+\.\d+\.\d+(?:-[A-Za-z0-9]+(?:[.-][A-Za-z0-9]+)*)?', versions[0]) or versions[0].endswith('-SNAPSHOT'):
+              raise SystemExit('Expected one literal release version in the Android Gradle file')
+          version = versions[0]
+          if os.environ['EVENT_NAME'] == 'push' and os.environ['REF_NAME'] != 'android-v' + version:
+              raise SystemExit('Android release tag must exactly match the Gradle version')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('version=' + version + '\n')
+          PY
+          if [[ "$EVENT_NAME" == push ]]; then
+            git show-ref --verify --quiet "refs/remotes/origin/$DEFAULT_BRANCH"
+            git merge-base --is-ancestor HEAD "refs/remotes/origin/$DEFAULT_BRANCH"
+          fi
+
+      - name: Install JDK 21
+        id: java
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install host tools from Ubuntu repositories
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends python3 g++ gnupg
+
+      - name: Install pinned Android platform and native toolchain
+        run: |
+          set -euo pipefail
+          sdkmanager="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$sdkmanager"
+          SDKMANAGER="$sdkmanager" python3 - <<'PY'
+          import os, subprocess
+          subprocess.run([os.environ['SDKMANAGER'], '--licenses'], input='y\n' * 100,
+                         text=True, stdout=subprocess.DEVNULL, check=True, timeout=180)
+          PY
+          "$sdkmanager" --install 'platforms;android-36' 'build-tools;35.0.0' \
+            'ndk;27.2.12479018' 'cmake;3.22.1'
+
+      - name: Fetch and verify public model and synthetic parity fixtures
+        env:
+          PARITY_ASSET_URL: https://github.com/quangng2000/reuse-audio/releases/download/android-v0.1.1/reuse-audio-android-0.1.1-parity.zip
+          PARITY_ASSET_SHA256: 5b7946b2ea90f8c0276f8f30e8e221819cb885f7267cc98b023d066717215c2e
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os, urllib.request, zipfile
+          from pathlib import Path, PurePosixPath
+          root = Path(os.environ['RUNNER_TEMP']) / 'reuse-audio-ci-fixtures'
+          root.mkdir()
+          metadata = json.loads(Path('tools/model-export/validated-artifact.json').read_text())
+          expected = metadata['artifact']
+          def fetch(url, name, limit, sha256=None):
+              destination = root / name
+              request = urllib.request.Request(url, headers={'User-Agent': 'reuse-audio-ci'})
+              with urllib.request.urlopen(request, timeout=120) as response, destination.open('wb') as output:
+                  count = 0
+                  while chunk := response.read(1024 * 1024):
+                      count += len(chunk)
+                      if count > limit:
+                          raise SystemExit('Public fixture exceeds its expected size limit')
+                      output.write(chunk)
+              if sha256 and hashlib.sha256(destination.read_bytes()).hexdigest() != sha256:
+                  raise SystemExit('Public fixture hash mismatch')
+              return destination
+          release = 'https://github.com/quangng2000/reuse-audio/releases/download/v0.3.0/'
+          model = fetch(release + expected['modelFile'], expected['modelFile'],
+                        expected['modelBytes'], expected['modelSha256'])
+          if model.stat().st_size != expected['modelBytes']:
+              raise SystemExit('Public ONNX model size mismatch')
+          manifest = fetch(release + 'reuse-30-fp32.manifest.json', 'downloaded-manifest.json', 16384)
+          if json.loads(manifest.read_text()) != expected:
+              raise SystemExit('Downloaded manifest differs from the checked-in trusted model contract')
+          trusted_manifest = root / 'trusted-manifest.json'
+          trusted_manifest.write_text(json.dumps(expected))
+          archive = fetch(os.environ['PARITY_ASSET_URL'], 'parity.zip', 16 * 1024 * 1024,
+                          os.environ['PARITY_ASSET_SHA256'])
+          parity = root / 'parity'
+          parity.mkdir()
+          required = {f'{count}-{kind}.f32' for count in (640, 8000, 64000)
+                      for kind in ('input', 'magnitude', 'phase', 'enhanced_magnitude', 'enhanced_phase', 'waveform')}
+          with zipfile.ZipFile(archive) as source:
+              names = source.namelist()
+              if len(names) != len(set(names)) or set(names) != required | {'parity.json', 'hann640.f32'}:
+                  raise SystemExit('Unexpected synthetic parity archive contents')
+              for entry in source.infolist():
+                  if PurePosixPath(entry.filename).name != entry.filename or entry.file_size > 2 * 1024 * 1024:
+                      raise SystemExit('Unsafe synthetic parity archive entry')
+                  (parity / entry.filename).write_bytes(source.read(entry))
+          receipt_file = parity / 'parity.json'
+          if hashlib.sha256(receipt_file.read_bytes()).hexdigest() != metadata['receiptSha256']['parity/parity.json']:
+              raise SystemExit('Synthetic parity receipt hash mismatch')
+          receipt = json.loads(receipt_file.read_text())
+          if (receipt['signalKind'], receipt['modelSha256'], receipt['checkpointSha256'], receipt['numLayers'], receipt['scanCount']) != ('signal', expected['modelSha256'], expected['checkpointSha256'], 30, 120):
+              raise SystemExit('Synthetic fixture provenance mismatch')
+          verified = set()
+          for case in receipt['cases']:
+              if not case['passed']:
+                  raise SystemExit('Synthetic parity receipt contains a failed reference case')
+              for fixture in case['fixtures'].values():
+                  name = fixture['file']
+                  if name not in required:
+                      raise SystemExit('Unexpected reference fixture filename')
+                  data = (parity / name).read_bytes()
+                  if len(data) != fixture['bytes'] or hashlib.sha256(data).hexdigest() != fixture['sha256']:
+                      raise SystemExit('Synthetic parity fixture integrity failure')
+                  verified.add(name)
+          if verified != required:
+              raise SystemExit('All 18 synthetic model/DSP fixture files are required')
+          with open(os.environ['GITHUB_ENV'], 'a') as environment:
+              for key, value in {'REUSE_MODEL_FILE': model, 'REUSE_MODEL_MANIFEST': trusted_manifest,
+                                 'REUSE_PARITY_DIR': parity}.items():
+                  environment.write(f'{key}={value}\n')
+          print('Verified pinned offline model and all 18 synthetic parity fixtures')
+          PY
+
+      - name: Check publishing helper tests
+        run: python3 -m unittest discover -s android/tools -p 'test_*.py' -v
+
+      - name: Run host DSP, file, model integrity, inference and cancellation tests
+        working-directory: android
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --console=plain --max-workers=2 --rerun-tasks :reuse-audio:testDebugUnitTest
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          reports = list(Path('reuse-audio/build/test-results/testDebugUnitTest').glob('TEST-*.xml'))
+          cases = [case for report in reports for case in ET.parse(report).getroot().iter('testcase')]
+          critical = {'independentlyExportedPytorchFixturesMatchKotlinDsp',
+                      'fullThirtyLayerOnnxCpuMatchesIndependentOracle',
+                      'activeNativeInferenceCancellationDrainsAndSessionRemainsUsable'}
+          names = {case.attrib.get('name') for case in cases
+                   if case.attrib.get('classname') == 'io.riftco.reuseaudio.ModelAndParityTests'}
+          if len(cases) < 17 or not critical <= names:
+              raise SystemExit('Missing required host model/DSP test cases')
+          if any(case.find(kind) is not None for case in cases for kind in ('skipped', 'failure', 'error')):
+              raise SystemExit('Host release tests must pass without skips')
+          print(f'Passed {len(cases)} host tests with all critical inference tests and zero skips')
+          PY
+
+      - name: Stage and validate unsigned Central publication
+        working-directory: android
+        env:
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --console=plain --max-workers=2 :reuse-audio:publishReleasePublicationToCentralStagingRepository
+          python3 tools/central_bundle.py --repository reuse-audio/build/central-repository \
+            --output "$RUNNER_TEMP/unused-unsigned-bundle.zip" --version "$RELEASE_VERSION" \
+            --allow-unsigned > reuse-audio/build/central-validation.json
+
+      - name: Stop Gradle processes before leaving validation
+        if: ${{ always() && steps.java.outcome == 'success' }}
+        working-directory: android
+        run: ./gradlew --stop
+
+      - name: Upload unsigned publication for the isolated signing job
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: android-central-unsigned-${{ github.run_id }}-${{ github.run_attempt }}
+          path: android/reuse-audio/build/central-repository/
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload validation evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: android-validation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            android/reuse-audio/build/central-validation.json
+            android/reuse-audio/build/test-results/testDebugUnitTest/TEST-*.xml
+            android/reuse-audio/build/reports/tests/testDebugUnitTest/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  publish:
+    name: Publish initial tag push to Maven Central
+    needs: validate
+    # Dispatches, PRs, forks and reruns can never receive publishing secrets.
+    # Recover an interrupted deployment from its saved report instead of reuploading.
+    if: >-
+      github.repository == 'quangng2000/reuse-audio' && github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags/android-v') && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      RELEASE_VERSION: ${{ needs.validate.outputs.version }}
+    steps:
+      - name: Check out the tested release helpers
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Download the tested unsigned Maven repository
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: android-central-unsigned-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/central-repository
+
+      - name: Install signing tools from Ubuntu repositories
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends python3 gnupg
+          mkdir -p "$RUNNER_TEMP/reuse-audio-central-output"
+
+      - name: Sign verified artifacts and publish once
+        env:
+          CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          ANDROID_SIGNING_KEY: ${{ secrets.ANDROID_SIGNING_KEY }}
+          ANDROID_SIGNING_PASSPHRASE: ${{ secrets.ANDROID_SIGNING_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          set +x
+          umask 077
+          export PUBLIC_OUTPUT="$RUNNER_TEMP/reuse-audio-central-output"
+          signing_directory=$(mktemp -d "$RUNNER_TEMP/android-signing.XXXXXX")
+          export SIGNING_DIRECTORY="$signing_directory"
+          cleanup() {
+            timeout 10s gpgconf --homedir "$signing_directory/gnupg" --kill all >/dev/null 2>&1 || true
+            rm -rf -- "$signing_directory"
+          }
+          trap cleanup EXIT
+          trap 'exit 130' INT
+          trap 'exit 143' TERM
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          for name in ('CENTRAL_TOKEN_USERNAME', 'CENTRAL_TOKEN_PASSWORD', 'ANDROID_SIGNING_KEY', 'ANDROID_SIGNING_PASSPHRASE'):
+              if not os.environ.get(name):
+                  raise SystemExit('A required publishing secret is not configured: ' + name)
+          directory = Path(os.environ['SIGNING_DIRECTORY'])
+          (directory / 'gnupg').mkdir(mode=0o700)
+          for name, secret in [('key.asc', 'ANDROID_SIGNING_KEY'), ('passphrase', 'ANDROID_SIGNING_PASSPHRASE')]:
+              path = directory / name
+              path.write_text(os.environ[secret])
+              path.chmod(0o600)
+          PY
+          unset ANDROID_SIGNING_KEY ANDROID_SIGNING_PASSPHRASE
+          if ! timeout 30s gpg --homedir "$signing_directory/gnupg" --batch --no-tty \
+            --with-colons --import-options show-only --import android/release-signing-key.asc \
+            > "$signing_directory/expected-key.txt" 2> "$signing_directory/public-key.log"; then
+            echo 'Committed release public key could not be inspected; no artifact was uploaded.' >&2
+            exit 1
+          fi
+          if ! timeout 60s gpg --homedir "$signing_directory/gnupg" --batch --no-tty \
+            --pinentry-mode loopback --passphrase-file "$signing_directory/passphrase" \
+            --import "$signing_directory/key.asc" > "$signing_directory/import.log" 2>&1; then
+            echo 'Signing key import failed; no artifact was uploaded.' >&2
+            exit 1
+          fi
+          rm -f "$signing_directory/key.asc"
+          timeout 30s gpg --homedir "$signing_directory/gnupg" --batch --with-colons --list-secret-keys \
+            > "$signing_directory/keys.txt" 2> "$signing_directory/key-list.log"
+          signing_fingerprint=$(python3 - <<'PY'
+          import os
+          from pathlib import Path
+          directory = Path(os.environ['SIGNING_DIRECTORY'])
+          def primary_fingerprints(filename, record):
+              fingerprints = []
+              primary = False
+              for line in (directory / filename).read_text().splitlines():
+                  fields = line.split(':')
+                  if fields[0] == record:
+                      primary = True
+                  elif fields[0] in ('sub', 'ssb'):
+                      primary = False
+                  elif fields[0] == 'fpr' and primary:
+                      fingerprints.append(fields[9])
+                      primary = False
+              return fingerprints
+          actual = primary_fingerprints('keys.txt', 'sec')
+          expected = primary_fingerprints('expected-key.txt', 'pub')
+          if len(actual) != 1 or len(expected) != 1:
+              raise SystemExit('Exactly one dedicated release key and committed public key are required')
+          if actual != expected:
+              raise SystemExit('Signing secret does not match the committed release public key')
+          print(actual[0])
+          PY
+          )
+          env -u CENTRAL_TOKEN_USERNAME -u CENTRAL_TOKEN_PASSWORD \
+            python3 android/tools/central_bundle.py --repository "$RUNNER_TEMP/central-repository" \
+            --output "$PUBLIC_OUTPUT/reuse-audio-android-$RELEASE_VERSION-central.zip" \
+            --version "$RELEASE_VERSION" --gpg-home "$signing_directory/gnupg" \
+            --signing-key "$signing_fingerprint" --passphrase-file "$signing_directory/passphrase" \
+            > "$PUBLIC_OUTPUT/bundle-report.json"
+          python3 android/tools/central_publish.py \
+            --bundle "$PUBLIC_OUTPUT/reuse-audio-android-$RELEASE_VERSION-central.zip" \
+            --version "$RELEASE_VERSION" --report "$PUBLIC_OUTPUT/publish-report.json"
+
+      - name: Preserve signed bundle and resumable publication report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: android-central-publication-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/reuse-audio-central-output/*.zip
+            ${{ runner.temp }}/reuse-audio-central-output/bundle-report.json
+            ${{ runner.temp }}/reuse-audio-central-output/publish-report.json
+          if-no-files-found: ignore
+          retention-days: 30

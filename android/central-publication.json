@@ -34,7 +34,7 @@
   "entryCount": 30,
   "uploadReady": true,
   "verifiedSignatureCount": 5,
-  "status": "signed-ready-for-upload",
+  "status": "published",
   "unitTests": {
     "tests": 17,
     "failures": 0,
@@ -50,5 +50,10 @@
   "signingKeyFingerprint": "93C571756E6EF6906F88DFD2A37754DCEBAECBBE",
   "sourceTag": "android-v0.1.1",
   "inferenceChanges": false,
-  "physicalAndroidBenchmark": false
+  "physicalAndroidBenchmark": false,
+  "deploymentId": "64789b82-b6d7-44d9-a518-20bbe778a292",
+  "verifiedAt": "2026-10-26T21:36:44.292460+00:00",
+  "publicArtifactsHashVerified": true,
+  "mavenCentralConsumerDependencyCheck": true,
+  "mavenCentralUrl": "https://central.sonatype.com/artifact/io.github.quangng2000/reuse-audio-android/0.1.1"
 }

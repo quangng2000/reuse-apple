@@ -8,7 +8,18 @@ The Android backend preserves the model architecture and checkpoint. Float32 FFT
 
 The standalone build requires JDK 21 and Android SDK 36. Kotlin 2.2.20, Gradle 8.13 (SHA-pinned wrapper), AGP 8.11.1, ONNX Runtime 1.23.2, NDK 27.2.12479018 and CMake 3.22.1 are pinned. AGP can install the pinned native toolchain when SDK licenses are accepted. Host tests also require a macOS/Linux C++17 compiler. The library supports Android API 26+ and Java bytecode 17.
 
-Include this build from an application using a Git-pinned checkout/submodule:
+The published Android SDK is available from Maven Central:
+
+```kotlin
+// settings.gradle.kts repositories: google(); mavenCentral()
+// app/build.gradle.kts
+dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.1") }
+```
+
+ONNX Runtime is resolved transitively. Provision the separately downloaded model
+with the trusted manifest described below.
+
+For development, you can instead include a Git-pinned checkout/submodule:
 
 ```kotlin
 // settings.gradle.kts
