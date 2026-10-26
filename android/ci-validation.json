@@ -1,0 +1,23 @@
+{
+  "workflow": ".github/workflows/android-release.yml",
+  "validatedCommit": "ca16933122cd2454102c5a8498598ad48f3ab956",
+  "runUrl": "https://github.com/quangng2000/reuse-audio/actions/runs/40407094494",
+  "runEvent": "workflow_dispatch",
+  "runConclusion": "success",
+  "checkedAt": "2026-10-26T21:53:50.952978+00:00",
+  "runner": "macos-15 ARM64, Apple Clang",
+  "hostTests": {
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "publisherHelperTests": 20,
+  "fourAbiReleaseBuild": true,
+  "unsignedPublicationArtifactCount": 5,
+  "signingJobInManualRun": "intentionally skipped",
+  "inferenceMathOrTestToleranceChanged": false,
+  "credentialsConfigured": false,
+  "firstMavenRelease": "io.github.quangng2000:reuse-audio-android:0.1.1",
+  "firstMavenReleasePubliclyVerified": true
+}
