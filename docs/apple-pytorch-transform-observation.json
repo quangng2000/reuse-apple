@@ -1,0 +1,168 @@
+{
+  "androidBackend": "Pre-PocketFFT Android DSP diagnostic, prior to the proposed replacement; not a statement about the final Android implementation",
+  "appleBackend": "Unchanged ReuseAudio .standard / MLX0.29.1 / Float32; same math as the retained Apple app baseline",
+  "appleSourceHashes": {
+    "Core/AudioConversion.swift": "9d21dacc9536bf44f353039dc0528ae95aebcb26987cace67cb267f4ec655e6d",
+    "Core/AudioFileIO.swift": "8fdcca88ae33b24c3beb7cd4087fb3157da579206c2870a818092cda80a91d48",
+    "Core/AudioTransform.swift": "0c662d784aa8c4bc353737a133f4fcebab9f8cbc43d251b9211244c1ddf7fa27",
+    "Core/Metal/OfflineNormalizationResidual.swift": "ee78acad9d8453b4e354d09053d83d0bb5b3c1499ff20c138759f5d0423d3799",
+    "Core/Metal/OfflineScanSource.swift": "2d130cbf71c343f2a0d3945d998958c4b8349b92c0b9b01828ecf94000938b2a",
+    "Core/Metal/OfflineSelectiveScan.swift": "fb375879edab53553a9ba07faee18bba2db1e6c53e0a23b5a6f7b40535ab373c",
+    "Core/Metal/ReuseOptimization.swift": "d2c5bd0db6d785cb841bab28506c2e366277c3edb19e1e3be786ca6f42d61777",
+    "Core/ModelConvolution.swift": "6fe6598dec278706382ca138ec383dc3b58d32a07b782da1e7f660db5e24a836",
+    "Core/ModelInference.swift": "fb8325c5d581f54806659248f452278362d43a6b251d35affac1fbe45da787a3",
+    "Core/ModelLayers.swift": "0e36fecf6d077a9b972f0e29e15322d9df211de125da5cbb3b61d6184ceec1da",
+    "Core/ModelMamba.swift": "1d5e6351e6a12588ac75868577f7cef94a40ca648ae263ca0adaad1e2054d809",
+    "Core/ReuseEngine.swift": "cda020fe2ab6b5a73b449021f2c64f263ad0432e75b451357c8286625c26e5f6",
+    "Core/ReuseModel.swift": "122597ae7a01fa44b1fa0df6288fb179198d20e20478262ae698228f0cdcc593",
+    "Core/SelectiveScan.swift": "a139c9b52d39caf6308c18bbf2b3f2a55b08b7f0e694e0adf8792727d8a33112"
+  },
+  "checkpointSHA256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+  "date": "2026-10-26",
+  "fixtureProvenance": {
+    "speech64000": "Provided generated/parity-speech/64000-input.f32; Android diagnostic path confirmed by fixture owner as the same speech input",
+    "tone640": "Provided generated/parity/640-input.f32, a 640-sample seeded fixture; no resampling or gain"
+  },
+  "fixtures": {
+    "speech64000": {
+      "analysis": {
+        "allFinite": true,
+        "firstFrameRawPhaseWrapDifferenceCount": 79,
+        "magnitudeMaximumAbsoluteError": 2.1010637283325195e-06,
+        "phaseMaximumRawAbsoluteError": 6.283185243606567,
+        "phaseMaximumWrappedAbsoluteError": 0.0009181499481201171,
+        "rawPhaseWrapDifferenceCount": 264,
+        "shape": [
+          321,
+          801
+        ]
+      },
+      "androidVsPyTorch": {
+        "actualAtWorstIndex": -0.1074567437171936,
+        "actualFinite": true,
+        "maximumAbsoluteError": 0.000205308198928833,
+        "referenceAtWorstIndex": -0.10766205191612244,
+        "referenceFinite": true,
+        "referenceRMS": 0.030132572742604672,
+        "relativeRMSError": 0.0005805615063175252,
+        "rmsError": 1.749381182066897e-05,
+        "samples": 64000,
+        "worstIndex": 51211
+      },
+      "appleVsAndroid": {
+        "actualAtWorstIndex": -0.04470429569482803,
+        "actualFinite": true,
+        "maximumAbsoluteError": 0.001174088567495346,
+        "referenceAtWorstIndex": -0.04587838426232338,
+        "referenceFinite": true,
+        "referenceRMS": 0.03013006372040161,
+        "relativeRMSError": 0.004760518582488181,
+        "rmsError": 0.00014343472823252483,
+        "samples": 64000,
+        "worstIndex": 51212
+      },
+      "appleVsPyTorch": {
+        "actualAtWorstIndex": -0.04470429569482803,
+        "actualFinite": true,
+        "maximumAbsoluteError": 0.0010457411408424377,
+        "referenceAtWorstIndex": -0.04575003683567047,
+        "referenceFinite": true,
+        "referenceRMS": 0.030132572742604672,
+        "relativeRMSError": 0.00440011216197764,
+        "rmsError": 0.00013258669979641075,
+        "samples": 64000,
+        "worstIndex": 51212
+      },
+      "fileSHA256": {
+        "android-waveform.f32": "6e1485fb92b49db4082e1a285d881820d19578e6fc4a499bd65801ce9ec24663",
+        "apple-hann640.f32": "626608a0ae0463c2aea9786bf3f46627209137b9c014944d13c3f7657d3c05d8",
+        "apple-magnitude.f32": "11414dc7bc003edd9440059b8bee3aafc5853d4fdeee02fd33b492e52e43967e",
+        "apple-phase.f32": "09bf8b3c645992ad0ad4924538a63f8591fbe2c754f191072de798337abe0d65",
+        "apple-waveform.f32": "443f4c5aaef3d58c6350d054b38e09dbc5d7f9fb992c339c3024d36bd71d9165",
+        "torch-input.f32": "f450f49830be940326cd5b5a8bc3ffed6ba0e8e0e39012b6d3a08dd05812777b",
+        "torch-magnitude.f32": "626c5cf37ae9011648251d196703beb7ae29e4e2d084e3a3746e077a543f6367",
+        "torch-phase.f32": "d453ec66f8a6067cc80854c70799d716718a7a85feb94c13212fdadf15f07341",
+        "torch-waveform.f32": "2cc2f4c95d2389ca3c2419751c2dba9a4acc569a4b65f0a822db8ecb3911d532"
+      },
+      "inputSamples": 64000
+    },
+    "tone640": {
+      "analysis": {
+        "allFinite": true,
+        "firstFrameRawPhaseWrapDifferenceCount": 79,
+        "magnitudeMaximumAbsoluteError": 1.8775463104248047e-06,
+        "phaseMaximumRawAbsoluteError": 6.283185243606567,
+        "phaseMaximumWrappedAbsoluteError": 0.0002899169921875,
+        "rawPhaseWrapDifferenceCount": 81,
+        "shape": [
+          321,
+          9
+        ]
+      },
+      "androidVsPyTorch": {
+        "actualAtWorstIndex": 0.001486427616328001,
+        "actualFinite": true,
+        "maximumAbsoluteError": 0.0013327514752745628,
+        "referenceAtWorstIndex": 0.002819179091602564,
+        "referenceFinite": true,
+        "referenceRMS": 0.005243767075529194,
+        "relativeRMSError": 0.05943032832363427,
+        "rmsError": 0.0003116387989513635,
+        "samples": 640,
+        "worstIndex": 182
+      },
+      "appleVsAndroid": {
+        "actualAtWorstIndex": 0.010321754962205887,
+        "actualFinite": true,
+        "maximumAbsoluteError": 0.001352611929178238,
+        "referenceAtWorstIndex": 0.008969143033027649,
+        "referenceFinite": true,
+        "referenceRMS": 0.005205074791040644,
+        "relativeRMSError": 0.06414114846158381,
+        "rmsError": 0.00033385947492578527,
+        "samples": 640,
+        "worstIndex": 200
+      },
+      "appleVsPyTorch": {
+        "actualAtWorstIndex": -0.019346188753843307,
+        "actualFinite": true,
+        "maximumAbsoluteError": 0.0009712371975183487,
+        "referenceAtWorstIndex": -0.01837495155632496,
+        "referenceFinite": true,
+        "referenceRMS": 0.005243767075529194,
+        "relativeRMSError": 0.04257884421018084,
+        "rmsError": 0.00022327354138343316,
+        "samples": 640,
+        "worstIndex": 166
+      },
+      "fileSHA256": {
+        "android-waveform.f32": "eadebf906707ff2640474749d2ea35497c80f53c697cb812b6d55ba3853d8b47",
+        "apple-hann640.f32": "626608a0ae0463c2aea9786bf3f46627209137b9c014944d13c3f7657d3c05d8",
+        "apple-magnitude.f32": "2cecc198a9438f57439b4950d1745fd6feec2924fbdd55e67800cee8ca90a753",
+        "apple-phase.f32": "7d2620c4162ffacf3312e0b9b05d299c66202f04d441e4bf2499ab9f88aaf5f4",
+        "apple-waveform.f32": "19fb8dc97db3cb5d56804bed311c492159db064d0d89ca54aece1b4114cf693f",
+        "torch-hann640.f32": "ca961f55e3d74499159074e0401c180a88f41c6a4a7d9540fb733cb3d8a91a27",
+        "torch-input.f32": "aa087913d00981067a940f1cbc6169335401accc5802f8566922116f78a45035",
+        "torch-magnitude.f32": "5cf07cb00481cdb1a6e27fd38ccb2ccf5058346d7206efa2178fd17602151bfe",
+        "torch-phase.f32": "aa2a81dc56630238dfec69ac093c5455d6a802d507c8c5e819deb1d7db4ceef2",
+        "torch-waveform.f32": "835e78361de08e78552d1842715471efe5b1bf76d8d92f1117caffdf4200e972"
+      },
+      "hann": {
+        "actualAtWorstIndex": 0.21814709901809692,
+        "actualFinite": true,
+        "maximumAbsoluteError": 3.8743019104003906e-07,
+        "referenceAtWorstIndex": 0.21814671158790588,
+        "referenceFinite": true,
+        "referenceRMS": 0.6123724275845727,
+        "relativeRMSError": 2.047486813642717e-07,
+        "rmsError": 1.2538244705177921e-07,
+        "samples": 640,
+        "worstIndex": 541
+      },
+      "inputSamples": 640
+    }
+  },
+  "interpretation": "The existing Apple frontend has small magnitude/Hann differences and raw phase branch wraps relative to PyTorch on the same PCM. This does not isolate every cause of waveform error, establish audio quality, change any tolerance, or replace the bitwise retained-Apple integration gate.",
+  "scope": "Unchanged Apple standard full-array enhance on exact supplied Float32LE PCM; no resampling, peak gain, math or tolerance changes.",
+  "toolSHA256": "a40b8ebd821910b03e64ad78d71b6b81a45e83602f0d305fd94997f31771b41a"
+}

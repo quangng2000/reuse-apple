@@ -1,0 +1,8 @@
+# Exporter/reference only. The Android application does not run Python.
+numpy==2.3.2
+torch==2.10.0
+safetensors==0.6.2
+onnx==1.19.1
+onnxruntime==1.23.2
+scipy==1.16.1
+pystoi==0.4.1

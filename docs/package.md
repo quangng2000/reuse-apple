@@ -11,11 +11,11 @@ Add this dependency to an Apple-platform package:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/quangng2000/reuse-apple", from: "0.2.0")
+    .package(url: "https://github.com/quangng2000/reuse-audio", from: "0.3.0")
 ],
 targets: [
     .target(name: "YourApp", dependencies: [
-        .product(name: "ReuseAudio", package: "reuse-apple")
+        .product(name: "ReuseAudio", package: "reuse-audio")
     ])
 ]
 ```

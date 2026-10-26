@@ -1,0 +1,6 @@
+.gradle/
+**/build/
+**/.cxx/
+**/.externalNativeBuild/
+local.properties
+.kotlin/

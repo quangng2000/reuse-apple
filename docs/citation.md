@@ -8,7 +8,7 @@ request is separate from the license terms.
   author = {quangng2000},
   title = {RE-USE Apple: Swift, MLX and Metal Speech Enhancement},
   year = {2026},
-  url = {https://github.com/quangng2000/reuse-apple}
+  url = {https://github.com/quangng2000/reuse-audio}
 }
 ```
 

@@ -1,0 +1,77 @@
+{
+  "actualAppBoundedFileFixtureSamples": 72000,
+  "cancellation": [
+    "throwing callback halts before subsequent blocks",
+    "independent later call exact",
+    "already-cancelled task never enters model"
+  ],
+  "checkpointSHA256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+  "commandFromSDKCheckout": [
+    "python3",
+    "../audio-restoration-ios/iosApp/Tests/SDKIntegration/run.py",
+    "--output",
+    "/tmp/ReuseAudioSDKAppleIntegration3",
+    "--sdk-path",
+    ".",
+    "--mlx-products",
+    "/tmp/AudioRestoreCommercialRegressionDerived/Build/Products/Release"
+  ],
+  "comparison": "Float.bitPattern equality; includes padding, all30blocks, overlap, final trim and global gain; original bytes preserved.",
+  "date": "2026-10-26",
+  "failures": 0,
+  "platform": "Apple silicon macOS; Xcode 16.4; MLX 0.29.1",
+  "retainedEvidenceFiles": [
+    "commands.json",
+    "source-hashes.json",
+    "ReuseAudio-build.log",
+    "VendoredReuseReference-build.log",
+    "test-build.log",
+    "tests.log"
+  ],
+  "retainedVendoredBitwiseWindowCounts": [
+    1,
+    641,
+    1643
+  ],
+  "schemaVersion": 1,
+  "scope": "Real pinned 30-layer FP32 regression, not latency or audio-quality benchmarking. No iPhone run.",
+  "sourceSHA256": {
+    "app/iosApp/App/Session/AudioEnhancement.swift": "a5e6524843e8e47047c75e246c4ad9d624aafd2b827515a8986cdbe28db3a8b2",
+    "app/iosApp/Core/AudioTransform.swift": "0c662d784aa8c4bc353737a133f4fcebab9f8cbc43d251b9211244c1ddf7fa27",
+    "app/iosApp/Core/BoundedAudioFileIO.swift": "b78de4aeca91513ae840462f79b9f74d3233908a8c66a98e48bf476c26fb1f59",
+    "app/iosApp/Core/ModelConvolution.swift": "6fe6598dec278706382ca138ec383dc3b58d32a07b782da1e7f660db5e24a836",
+    "app/iosApp/Core/ModelInference.swift": "9c7951177790958c6a5c57596ce8e141ae727529f93e37d54943ec7930ecd1a8",
+    "app/iosApp/Core/ModelLayers.swift": "0e36fecf6d077a9b972f0e29e15322d9df211de125da5cbb3b61d6184ceec1da",
+    "app/iosApp/Core/ModelMamba.swift": "9b2e8d6d91838c77ed8bc92ca3864a97885a2a89720e6f9e344877fc4bb42a57",
+    "app/iosApp/Core/OfflineFileRestoration.swift": "585c1fd2fa5d7575731e7f212da5c437912acc756dc0a6801b91f72cc800554c",
+    "app/iosApp/Core/ReuseEngine.swift": "d929f89f24d3d2c1346574babc892a4c31cacc3c285b9adb1b1ba3ef099fa17b",
+    "app/iosApp/Core/ReuseModel.swift": "a2265f6e8ecfa9b2547694c43234276e5135b12f06d320bf83b9e0e5756d850a",
+    "app/iosApp/Core/SelectiveScan.swift": "0b5d485cb7c80589212bcd8009a7eda71a66690e3f75f2e0281d38cfa2e0d3ae",
+    "app/iosApp/Resources/model.safetensors": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+    "sdk/../audio-restoration-ios/iosApp/Tests/SDKIntegration/SDKWindowIntegrationTests.swift": "e8d1ffeffe903dcad701673264983b61eab2f0ac8d0cb93aaae75509470f3157",
+    "sdk/Core/AudioConversion.swift": "9d21dacc9536bf44f353039dc0528ae95aebcb26987cace67cb267f4ec655e6d",
+    "sdk/Core/AudioFileIO.swift": "8fdcca88ae33b24c3beb7cd4087fb3157da579206c2870a818092cda80a91d48",
+    "sdk/Core/AudioTransform.swift": "0c662d784aa8c4bc353737a133f4fcebab9f8cbc43d251b9211244c1ddf7fa27",
+    "sdk/Core/Metal/OfflineNormalizationResidual.swift": "ee78acad9d8453b4e354d09053d83d0bb5b3c1499ff20c138759f5d0423d3799",
+    "sdk/Core/Metal/OfflineScanSource.swift": "2d130cbf71c343f2a0d3945d998958c4b8349b92c0b9b01828ecf94000938b2a",
+    "sdk/Core/Metal/OfflineSelectiveScan.swift": "fb375879edab53553a9ba07faee18bba2db1e6c53e0a23b5a6f7b40535ab373c",
+    "sdk/Core/Metal/ReuseOptimization.swift": "d2c5bd0db6d785cb841bab28506c2e366277c3edb19e1e3be786ca6f42d61777",
+    "sdk/Core/ModelConvolution.swift": "6fe6598dec278706382ca138ec383dc3b58d32a07b782da1e7f660db5e24a836",
+    "sdk/Core/ModelInference.swift": "fb8325c5d581f54806659248f452278362d43a6b251d35affac1fbe45da787a3",
+    "sdk/Core/ModelLayers.swift": "0e36fecf6d077a9b972f0e29e15322d9df211de125da5cbb3b61d6184ceec1da",
+    "sdk/Core/ModelMamba.swift": "1d5e6351e6a12588ac75868577f7cef94a40ca648ae263ca0adaad1e2054d809",
+    "sdk/Core/ReuseEngine.swift": "cda020fe2ab6b5a73b449021f2c64f263ad0432e75b451357c8286625c26e5f6",
+    "sdk/Core/ReuseModel.swift": "122597ae7a01fa44b1fa0df6288fb179198d20e20478262ae698228f0cdcc593",
+    "sdk/Core/SelectiveScan.swift": "a139c9b52d39caf6308c18bbf2b3f2a55b08b7f0e694e0adf8792727d8a33112",
+    "sdk/Tests/ReuseAudioTests/OfflineMetalTestSupport.swift": "691e0c4413805192d15a7ab584544f5e926b3b92e3a0e20e44108c56b3ff0da6",
+    "sdk/Tests/ReuseAudioTests/OfflinePublicWindowTests.swift": "9add2803815a4936ba1a36e086b13f77d9befb75f3ec9af9218f8ebc4d547b2d"
+  },
+  "testCount": 6,
+  "windowFixtureSampleCounts": [
+    1,
+    639,
+    640,
+    641,
+    1643
+  ]
+}

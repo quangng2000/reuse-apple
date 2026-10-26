@@ -1,0 +1,22 @@
+{
+  "component": "PocketFFT header-only C++ real FFT",
+  "repository": "https://github.com/mreineck/pocketfft",
+  "revision": "0fa0ef591e38c2758e3184c6c23e497b9f732ffa",
+  "path": "pocketfft_hdronly.h",
+  "sha256": "b15ca29cf47025e76c966d0c5a061e9b56e3e2b312cb05e993ee696f8d9812e5",
+  "bytes": 116684,
+  "license": "BSD-3-Clause",
+  "licenseFile": "POCKETFFT-LICENSE.txt",
+  "origin": "Exact submodule revision used by PyTorch v2.10.0, third_party/pocketfft",
+  "pytorchSource": "https://github.com/pytorch/pytorch/blob/v2.10.0/aten/src/ATen/native/mkl/SpectralOps.cpp",
+  "adapter": {
+    "transformSize": 640,
+    "inputAndOutputPrecision": "float32",
+    "forwardScale": 1,
+    "inverseScale": "1.0f / 640.0f",
+    "threads": 1,
+    "compilerFlags": ["-O2", "-fno-fast-math", "-ffp-contract=on"],
+    "fp32FMA": "Expression-local FP32 FMA matches the PyTorch ARM baseline; reassociation and fast-math remain disabled",
+    "noModelOrPhaseApproximation": true
+  }
+}

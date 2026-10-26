@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "artifact": {
+    "schemaVersion": 1,
+    "modelId": "nvidia/reuse-30-fp32",
+    "modelFile": "reuse-30-fp32.onnx",
+    "modelSha256": "90485d1081cac00736684f9fe6e16d229fcb8bf41a10a54b01f06f3cbe12ed91",
+    "modelBytes": 39132112,
+    "checkpointSha256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+    "sourceRevision": "31f82f2efad1095034492f236e8dac9239ba713b",
+    "numLayers": 30,
+    "parameterCount": 9607747,
+    "precision": "float32",
+    "sampleRate": 16000,
+    "fftSize": 640,
+    "hopSize": 80,
+    "windowSamples": 64000,
+    "overlapSamples": 8000,
+    "inputNames": [
+      "magnitude",
+      "phase"
+    ],
+    "outputNames": [
+      "enhanced_magnitude",
+      "enhanced_phase"
+    ],
+    "tensorShape": [
+      1,
+      321,
+      "frames"
+    ],
+    "mambaScans": 120,
+    "onnxOpset": 17,
+    "onnxRuntimeVersion": "1.23.2",
+    "license": "OpenMDW-1.1"
+  },
+  "math": "All30layers/120sequentialONNXScan recurrences; every original learned Float32 tensor byte unchanged; CPUExecutionProvider only",
+  "acceptance": {
+    "waveformMaxAbs": 0.0003,
+    "pairedSTOIAbsDelta": 0.0001,
+    "pairedSISDRAbsDeltaDB": 0.02,
+    "rawPhaseDiagnosticMaxAbs": 0.003,
+    "rawPhaseDiagnosticIsAudioGate": false
+  },
+  "cases": [
+    {
+      "inputKind": "signal",
+      "samples": 640,
+      "frames": 9,
+      "waveformMaxAbs": 7.729977369308472e-08,
+      "waveformRMSE": 2.6459115201589797e-08,
+      "rawMagnitudeMaxAbs": 1.5497207641601562e-06,
+      "rawPhaseWrappedMaxAbs": 7.915496826171875e-05,
+      "waveformAccepted": true,
+      "rawPhaseDiagnosticAccepted": true,
+      "quality": null
+    },
+    {
+      "inputKind": "signal",
+      "samples": 8000,
+      "frames": 101,
+      "waveformMaxAbs": 1.8067657947540283e-07,
+      "waveformRMSE": 1.6166052124205468e-08,
+      "rawMagnitudeMaxAbs": 2.950429916381836e-06,
+      "rawPhaseWrappedMaxAbs": 0.0001513957977294922,
+      "waveformAccepted": true,
+      "rawPhaseDiagnosticAccepted": true,
+      "quality": null
+    },
+    {
+      "inputKind": "signal",
+      "samples": 64000,
+      "frames": 801,
+      "waveformMaxAbs": 3.90857458114624e-05,
+      "waveformRMSE": 1.3375110230204291e-06,
+      "rawMagnitudeMaxAbs": 0.00032138824462890625,
+      "rawPhaseWrappedMaxAbs": 0.0010251998901367188,
+      "waveformAccepted": true,
+      "rawPhaseDiagnosticAccepted": true,
+      "quality": null
+    },
+    {
+      "inputKind": "silence",
+      "samples": 640,
+      "frames": 9,
+      "waveformMaxAbs": 6.67870044708252e-05,
+      "waveformRMSE": 2.0128453031845735e-05,
+      "rawMagnitudeMaxAbs": 0.0023501813411712646,
+      "rawPhaseWrappedMaxAbs": 0.22671723365783691,
+      "waveformAccepted": true,
+      "rawPhaseDiagnosticAccepted": false,
+      "quality": null
+    },
+    {
+      "inputKind": "impulse",
+      "samples": 640,
+      "frames": 9,
+      "waveformMaxAbs": 2.0489096641540527e-07,
+      "waveformRMSE": 5.207054968312266e-08,
+      "rawMagnitudeMaxAbs": 1.9222497940063477e-06,
+      "rawPhaseWrappedMaxAbs": 0.0008248686790466309,
+      "waveformAccepted": true,
+      "rawPhaseDiagnosticAccepted": true,
+      "quality": null
+    },
+    {
+      "inputKind": "explicit-speech-fixture",
+      "samples": 64000,
+      "frames": 801,
+      "waveformMaxAbs": 1.0773539543151855e-05,
+      "waveformRMSE": 1.5152437132559073e-06,
+      "rawMagnitudeMaxAbs": 7.2479248046875e-05,
+      "rawPhaseWrappedMaxAbs": 0.0028027892112731934,
+      "waveformAccepted": true,
+      "rawPhaseDiagnosticAccepted": true,
+      "quality": {
+        "metric": "pystoi.stoi(...,extended=False), one paired synthetic-crackle diagnostic only",
+        "inputSTOI": 0.5000000070148772,
+        "referenceSTOI": 0.7815098330688937,
+        "ortSTOI": 0.7815102489298308,
+        "inputSISDRDB": -8.595900955645998,
+        "referenceSISDRDB": 6.995219975465471,
+        "ortSISDRDB": 6.995251665018502
+      }
+    }
+  ],
+  "independentSourceWiringChecks": {
+    "signal": {
+      "magnitude": {
+        "shape": [
+          1,
+          321,
+          9
+        ],
+        "maxAbs": 0.0,
+        "rmse": 0.0,
+        "referencePeak": 0.6900110244750977,
+        "bitwiseEqual": true
+      },
+      "phase": {
+        "shape": [
+          1,
+          321,
+          9
+        ],
+        "maxAbs": 2.384185791015625e-07,
+        "rmse": 4.572258688198464e-09,
+        "referencePeak": 3.140374183654785,
+        "bitwiseEqual": false
+      }
+    },
+    "silence": {
+      "magnitude": {
+        "shape": [
+          1,
+          321,
+          9
+        ],
+        "maxAbs": 0.0,
+        "rmse": 0.0,
+        "referencePeak": 0.6286882758140564,
+        "bitwiseEqual": true
+      },
+      "phase": {
+        "shape": [
+          1,
+          321,
+          9
+        ],
+        "maxAbs": 0.0,
+        "rmse": 0.0,
+        "referencePeak": 3.14151930809021,
+        "bitwiseEqual": true
+      }
+    }
+  },
+  "nativeFFTProof": {
+    "sourceSha256": "b15ca29cf47025e76c966d0c5a061e9b56e3e2b312cb05e993ee696f8d9812e5",
+    "flags": [
+      "-std=c++17",
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=on",
+      "-DPOCKETFFT_NO_MULTITHREADING=1"
+    ],
+    "cases": [
+      {
+        "samples": 640,
+        "frames": 9,
+        "forwardBitwiseEqual": true,
+        "phaseBranchFlips": 0
+      },
+      {
+        "samples": 8000,
+        "frames": 101,
+        "forwardBitwiseEqual": true,
+        "phaseBranchFlips": 0
+      },
+      {
+        "samples": 64000,
+        "frames": 801,
+        "forwardBitwiseEqual": true,
+        "phaseBranchFlips": 0
+      }
+    ]
+  },
+  "limitations": [
+    "Numerical FP32 equivalence, not cross-runtime bitwise model identity.",
+    "Silence raw phase drift remains explicitly flagged; reconstructed waveform passes unchanged bound.",
+    "One paired LibriSpeech/crackle speech diagnostic, not a general speech-quality evaluation.",
+    "Android integration/device evidence is reported separately by the SDK tests; no physical Android latency or memory benchmark."
+  ],
+  "receiptSha256": {
+    "parity/parity.json": "55aa854dbb9030bc86358ca8b83bf67bb186ed85803f51f537fcc5617b27c3ea",
+    "parity-silence/parity.json": "f5200299191b18456df810de17f6171ef77d663be6b7bd72a6f24aba39a3f08a",
+    "parity-impulse/parity.json": "058d5960217412c303ca4b434d0a68120259fcd4212872650a19292bca25003c",
+    "parity-speech/parity.json": "2be32741844d65ff0b04e828bc0a26ea7f9d93d91fe1da9f764f21dd75afa3d5",
+    "pocketfft-proof/proof.json": "33fc4c37213ce103ef2c267e968e5dcfe817a9f4cab315bdeca3b9a11dcba306",
+    "upstream-parity.json": "b45478af8d93b155000d0240ae7e66faf18663f3997ae941effb10508fd874a9",
+    "upstream-silence-parity.json": "939a229c0de3ebbb03af42536ff1bc38244859e8fb253d07165ea8ac51dc18e8"
+  }
+}

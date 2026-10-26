@@ -29,3 +29,13 @@ Benchmarks/Fixtures/*.f32
 Benchmarks/StreamingEight/BenchAssets/*.f32
 Benchmarks/StreamingEight/BenchAssets/REALTIME-LICENSE.txt
 Benchmarks/StreamingEight/Results/
+
+# Android toolchain/build products and generated model exports.
+.gradle/
+**/build/
+**/.cxx/
+**/local.properties
+android/export/generated/
+*.onnx
+*.aar
+*.apk

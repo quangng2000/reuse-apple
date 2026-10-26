@@ -1,10 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this Apple port in research, please cite this repository and the NVIDIA RE-USE paper; see docs/citation.md."
-title: "RE-USE Apple: Swift, MLX and Metal Speech Enhancement"
+message: "If you use this implementation in research, please cite this repository and the NVIDIA RE-USE paper; see docs/citation.md."
+title: "RE-USE Audio: Native Apple and Android Speech Enhancement"
 type: software
 authors:
   - name: quangng2000
-version: 0.1.0
-date-released: 2026-10-23
-url: "https://github.com/quangng2000/reuse-apple"
-repository-code: "https://github.com/quangng2000/reuse-apple"
+version: 0.3.0
+date-released: 2026-10-26
+url: "https://github.com/quangng2000/reuse-audio"
+repository-code: "https://github.com/quangng2000/reuse-audio"

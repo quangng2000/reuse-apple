@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "validatedAtUTC": "2026-10-26T20:20:23.159635+00:00",
+  "scope": "Offline 30-layer FP32 Android SDK functional/numerical validation; no physical-phone latency, thermals, battery or broad audio-quality claim.",
+  "toolchain": {
+    "jdk": "21.0.8",
+    "kotlin": "2.2.20",
+    "gradle": "8.13",
+    "gradleDistributionSHA256": "20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78",
+    "agp": "8.11.1",
+    "compileSdk": 36,
+    "minSdk": 26,
+    "ndk": "27.2.12479018",
+    "cmake": "3.22.1",
+    "onnxRuntime": "1.23.2",
+    "provider": "CPU",
+    "nativeCompilerFlags": [
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=on"
+    ],
+    "nativePrecision": "float32",
+    "nativeThreads": 1,
+    "inferenceThreads": 2
+  },
+  "model": {
+    "modelId": "nvidia/reuse-30-fp32",
+    "modelSha256": "90485d1081cac00736684f9fe6e16d229fcb8bf41a10a54b01f06f3cbe12ed91",
+    "modelBytes": 39132112,
+    "checkpointSha256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+    "sourceRevision": "31f82f2efad1095034492f236e8dac9239ba713b",
+    "numLayers": 30,
+    "parameterCount": 9607747,
+    "precision": "float32"
+  },
+  "tests": {
+    "host": {
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "suites": {
+        "AudioTransformTests": 6,
+        "WindowAndFileTests": 6,
+        "ModelAndParityTests": 5
+      },
+      "coverage": [
+        "independent FFT/STFT and real-FFT phase endpoints",
+        "same-window overlap and >60-second bounded file path",
+        "global gain and finite/exact-length output",
+        "model integrity and output preservation on cancellation/failure",
+        "active native inference cancellation drains and session reuse",
+        "real 30-layer CPU spectral and complete PCM parity at 640/8000/64000 samples"
+      ]
+    },
+    "pairedSpeechHost": {
+      "passed": 1,
+      "samples": 64000,
+      "sampleRate": 16000,
+      "nativeVersusORTFixtureMaxAbs": 1.1618249e-07,
+      "independentPyTorchComparison": {
+        "referenceSha256": "c939519f20eba1871db6ffb28551d83e73811ccc3fab9a322661352a2a953c03",
+        "actualSha256": "87fd54ced983adea653e2f6cefb52c0da8d466632dc0cb2480ec550744b6f303",
+        "waveform": {
+          "shape": [
+            64000
+          ],
+          "maxAbs": 1.0788440704345703e-05,
+          "rmse": 1.5154319348220147e-06,
+          "referencePeak": 0.1922432780265808,
+          "referenceRMS": 0.030131073731696344,
+          "actualPeak": 0.19225192070007324,
+          "actualRMS": 0.030132573082452548,
+          "bitwiseEqual": false
+        },
+        "waveformMaxAbsThreshold": 0.0003,
+        "scope": "one explicitly supplied native-output diagnostic; not general quality or latency",
+        "pairedSpeechQuality": {
+          "referenceSTOI": 0.7815098330688937,
+          "actualSTOI": 0.781510217902048,
+          "referenceSISDRDB": 6.995219975465471,
+          "actualSISDRDB": 6.9952517433205275,
+          "stoiAbsDeltaThreshold": 0.0001,
+          "siSDRAbsDeltaThresholdDB": 0.02
+        },
+        "cleanSha256": "5362132f72110a77cc4843eac7a26d9f59bb3e4ff3309fbff7f2ef663723bcc8",
+        "passed": true
+      }
+    },
+    "androidInstrumentation": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "environment": "Dedicated Android API36 ARM64 headless emulator; microphone/audio disabled",
+      "coverage": [
+        "full 30-layer CPU JNI and full PCM parity",
+        "native AAC-LC stereo decode/resample and exact coded-frame/declared-trim length",
+        "cancellation preserves original and does not publish destination"
+      ],
+      "waveformMaxAbsThreshold": 0.0001
+    },
+    "abiStatus": {
+      "arm64-v8a": "release compiled; Android emulator runtime tested",
+      "armeabi-v7a": "release compiled only",
+      "x86": "release compiled only",
+      "x86_64": "release compiled only"
+    }
+  },
+  "artifact": {
+    "path": "reuse-audio/build/outputs/aar/reuse-audio-release.aar",
+    "bytes": 875086,
+    "sha256": "c57e9172585d855dee06ce465d167719c91867c494e39a39af3fdd2592343c1f",
+    "containsModelWeights": false,
+    "noticeAssets": 6,
+    "nativeLibrarySHA256": {
+      "arm64-v8a": "aa375be46e639a0a892a4ab9cd57b8d5d70e7623a20ac0c4c8fe69d2b9f278c7",
+      "armeabi-v7a": "6caace96b657f1044301fa126671dc1f5bebc2a72b2701260a91bed733ddb19f",
+      "x86": "9f4a98e3f71cd703fe69fe88fd770622ac2d3f92bbf8c6ca31167c686ae4986f",
+      "x86_64": "5efab62b22b76f0a388e1ab03445d804be5ea7ef3163b708a53e8c0d84448cad"
+    },
+    "note": "Hashes identify this validation build; regenerated AAR ZIP metadata may differ."
+  },
+  "dsp": {
+    "pocketFFTRevision": "0fa0ef591e38c2758e3184c6c23e497b9f732ffa",
+    "pocketFFTHeaderSHA256": "b15ca29cf47025e76c966d0c5a061e9b56e3e2b312cb05e993ee696f8d9812e5",
+    "jniAdapterSHA256": "c427ac5de6996fc5250ad9186818e8a70eaee1ad8bb03ba06fbf9e99683a2a53",
+    "audioTransformSHA256": "0fdd0b5a588170e9e5242d8cea63de2aac258fa6903d97889935ac0a87f1084b",
+    "hannKotlinSHA256": "cafbd6c38170d02cca2ba9d1d36508bbfcdecdcd95f14959c3920b3ce6f20c78",
+    "hann640Float32LESHA256": "ca961f55e3d74499159074e0401c180a88f41c6a4a7d9540fb733cb3d8a91a27",
+    "fftSize": 640,
+    "hopSize": 80,
+    "windowSamples": 64000,
+    "overlapSamples": 8000
+  },
+  "reproduce": "See android/README.md and android/export/README.md. Generated model/oracle assets and build outputs remain excluded from Git."
+}

@@ -1,18 +1,27 @@
-# RE-USE Apple
+# RE-USE Audio
 
-**Speech enhancement on Apple silicon, as a standalone Swift Package.**
-Use native Swift APIs backed by MLX and Metal. Audio stays on the device;
+**On-device speech enhancement for Apple and Android.**
+The Apple SDK uses Swift, MLX and Metal. The Android SDK uses Kotlin, CPU ONNX
+Runtime and a native FP32 FFT. Both offline backends use the same pinned
+30-layer NVIDIA NemotronLabs RE-USE checkpoint. Audio stays on the device;
 inference needs no Python, CUDA, or server.
 
 - **`ReuseAudio`** — offline enhancement with NVIDIA NemotronLabs RE-USE.
   9.61M parameters, FP32, OpenMDW-1.1 license; commercial use permitted.
 - **`ReuseStreaming`** — incremental enhancement with NVIDIA Real-time RE-USE.
   Four-layer default, FP32, 16 kHz mono; **noncommercial research only**.
-- Mac command-line tools and iPhone/iPad examples consume the library APIs.
+- **Android offline SDK** — all 30 layers in FP32, with WAV/AAC/M4A import,
+  bounded file processing, progress and cancellation. See [Android setup](android/README.md).
+- Mac command-line tools and iPhone/iPad examples consume the existing Swift APIs.
 
-## Add the package
+The Swift products, module names and existing public APIs remain unchanged.
+`Package.swift` retains the `ReuseApple` package name for compatibility. The
+additive [single-window API](docs/apple-bounded-window.md) lets apps keep bounded
+file transport without copying the neural engine into application sources.
 
-In Xcode, add `https://github.com/quangng2000/reuse-apple` as a package dependency
+## Add the Apple package
+
+In Xcode, add `https://github.com/quangng2000/reuse-audio` as a package dependency
 and select the library product you need. Requirements: Apple silicon,
 macOS 14+ or iOS/iPadOS 17+, and Xcode 16.4+.
 
@@ -33,8 +42,8 @@ separately. See [Swift Package integration](docs/package.md) and
 ## Try the tools
 
 ```sh
-git clone https://github.com/quangng2000/reuse-apple.git
-cd reuse-apple
+git clone https://github.com/quangng2000/reuse-audio.git
+cd reuse-audio
 python3 Scripts/prepare_streaming_model.py
 bash Scripts/run_streaming.sh --input noisy.wav --output enhanced.wav
 ```

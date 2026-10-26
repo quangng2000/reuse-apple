@@ -40,6 +40,27 @@ public final class ReuseEngine {
         try progress(1)
         return result
     }
+    /// Restores one independent 16 kHz mono Float32 window of 1...64,000 samples.
+    /// The output preserves this engine's zero padding: at least 640 samples,
+    /// rounded up to a multiple of 80. Only the input-length prefix is recording
+    /// audio. File clients own overlap blending, final trimming and global gain.
+    /// All 30 blocks run with the selected optimization; use `.standard` for the
+    /// original FP32 path. The callback reports block indices 0...30 and may
+    /// throw to cancel. Use the instance only from one serial worker.
+    public func enhanceWindow(_ input: [Float], progress: @escaping (Int) throws -> Void = { _ in }) throws -> [Float] {
+        guard !input.isEmpty, input.count <= window, input.allSatisfy({ $0.isFinite }) else {
+            throw ReuseError.invalid("A restoration window needs 1...64,000 finite samples.")
+        }
+        try Task.checkCancellation()
+        let result = try Device.withDefaultDevice(.gpu) {
+            try processWindow(input) { block in
+                try Task.checkCancellation()
+                try progress(block)
+            }
+        }
+        try Task.checkCancellation()
+        return result
+    }
     private func renderWindows(_ input: [Float], progress: @escaping (Double) throws -> Void) throws -> [Float] {
         let starts = Array(Swift.stride(from: 0, to: max(1, input.count - overlap), by: window - overlap))
         var result = [Float](repeating: 0, count: input.count)
