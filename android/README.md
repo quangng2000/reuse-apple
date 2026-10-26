@@ -13,7 +13,7 @@ The published Android SDK is available from Maven Central:
 ```kotlin
 // settings.gradle.kts repositories: google(); mavenCentral()
 // app/build.gradle.kts
-dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.1") }
+dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.2") }
 ```
 
 ONNX Runtime is resolved transitively. Provision the separately downloaded model
@@ -30,12 +30,18 @@ includeBuild("dependencies/reuse-audio/android") {
     }
 }
 // app/build.gradle.kts
-dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.1") }
+dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.2") }
 ```
 
 This composite build works directly from source. Maven Central release preparation
 and signing instructions are in [PUBLISHING.md](PUBLISHING.md). Root project:
 `ReuseAudioAndroid`; library project: `:reuse-audio`.
+
+The optional [`:reuse-streaming` module](reuse-streaming/README.md) is published
+separately as `io.github.quangng2000:reuse-streaming-android:0.1.2`. It provides
+stateful FP32 incremental inference with the distinct Real-time RE-USE model,
+not the offline 30-layer checkpoint. Its NSCLv1 license permits noncommercial
+research and education only. Neither artifact depends on the other.
 
 ```kotlin
 import io.riftco.reuseaudio.*

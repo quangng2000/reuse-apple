@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.quangng2000"
-version = "0.1.1"
+version = "0.1.2"
 
 android {
     namespace = "io.riftco.reuseaudio"

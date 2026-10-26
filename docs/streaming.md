@@ -6,6 +6,14 @@ has 13,475,815 parameters; the default four-layer, zero-lookahead path uses
 2,032,067. The full checkpoint is downloaded separately and verified by hash.
 This component uses the [NVIDIA noncommercial research license](../apple/Research/LICENSE.txt).
 
+Apple uses the Swift API below. Android has a separate Kotlin/ONNX Runtime CPU
+implementation in [`android/reuse-streaming`](../android/reuse-streaming/README.md),
+published as `io.github.quangng2000:reuse-streaming-android:0.1.2`. Both carry the
+model's convolution and temporal state across hops. The Android port uses the
+same pinned checkpoint and FP32 parameters; small operator/FFT rounding
+differences are tested numerically. The iPhone Metal timings below do not apply
+to Android. Android hardware latency has not been measured.
+
 ## Incremental inference
 
 ```swift

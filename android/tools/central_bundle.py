@@ -21,6 +21,7 @@ import zipfile
 
 GROUP = "io.github.quangng2000"
 ARTIFACT = "reuse-audio-android"
+STREAMING_ARTIFACT = "reuse-streaming-android"
 ORT_VERSION = "1.23.2"
 ABIS = {"arm64-v8a", "armeabi-v7a", "x86", "x86_64"}
 CHECKSUMS = ("md5", "sha1", "sha256", "sha512")
@@ -32,6 +33,24 @@ LICENSES = {
 API_SOURCES = {"ReuseEnhancer.kt", "ModelManifest.kt", "CancellationToken.kt"}
 LICENSE_ASSETS = (Path(__file__).resolve().parents[1] / "reuse-audio" / "src" / "main"
                   / "assets" / "reuse-audio" / "licenses")
+PROFILES = {
+    ARTIFACT: {
+        "assets": LICENSE_ASSETS, "licenses": LICENSES, "api": API_SOURCES,
+        "package": b"package io.riftco.reuseaudio", "asset_prefix": "assets/reuse-audio/licenses/",
+        "adapter": "reuse_audio_dsp.cpp", "library": "libreuseaudio_dsp.so",
+    },
+    STREAMING_ARTIFACT: {
+        "assets": (Path(__file__).resolve().parents[1] / "reuse-streaming" / "src" / "main"
+                   / "assets" / "reuse-streaming" / "licenses"),
+        "licenses": {"LICENSE.txt", "THIRD_PARTY_NOTICES.md", "POCKETFFT_LICENSE.txt",
+                     "ADAPTER_LICENSE.txt", "ONNXRUNTIME_LICENSE.txt", "ONNXRUNTIME_THIRD_PARTY_NOTICES.txt"},
+        "api": {"StreamingEnhancer.kt", "StreamingEnhancerConfiguration.kt", "StreamingModelManifest.kt",
+                "StreamingCancellationToken.kt", "StreamingException.kt"},
+        "package": b"package io.riftco.reusestreaming", "asset_prefix": "assets/reuse-streaming/licenses/",
+        "adapter": "reuse_audio_dsp.cpp", "library": "libreusestreaming_dsp.so",
+    },
+}
+STREAMING_LICENSE = Path(__file__).resolve().parents[2] / "apple" / "Research" / "LICENSE.txt"
 FORBIDDEN_SUFFIXES = {
     ".onnx", ".safetensors", ".pt", ".pth", ".ckpt", ".tflite", ".npy",
     ".npz", ".mlmodel", ".bin", ".pem", ".key", ".p12", ".pfx", ".jks",
@@ -53,13 +72,15 @@ def digest(data, algorithm):
     return hashlib.new(algorithm, data).hexdigest()
 
 
-def safe_content(name, data):
+def safe_content(name, data, artifact_id=ARTIFACT):
+    require(artifact_id in PROFILES, "Unapproved publication artifact")
     path = PurePosixPath(name)
     lower = name.lower()
     require(not path.is_absolute() and ".." not in path.parts and "\\" not in name,
             "Unsafe archive path")
-    require(not any(term in lower for term in ("streaming", "nscl", "real-time_re-use")),
-            "Streaming material is not allowed in the Android publication")
+    if artifact_id == ARTIFACT:
+        require(not any(term in lower for term in ("streaming", "nscl", "real-time_re-use")),
+                "Streaming material is not allowed in the offline publication")
     require(not any(part.lower().endswith(".mlmodelc") for part in path.parts),
             "Model weights are not allowed in the publication")
     require(path.suffix.lower() not in FORBIDDEN_SUFFIXES,
@@ -76,7 +97,7 @@ def safe_content(name, data):
             "A credential-like token is present")
 
 
-def zip_contents(path):
+def zip_contents(path, artifact_id=ARTIFACT):
     """Read bounded ZIP contents, including the AAR's nested classes.jar."""
     budget = [256 * 1024 * 1024]
 
@@ -92,7 +113,7 @@ def zip_contents(path):
                 budget[0] -= entry.file_size
                 require(budget[0] >= 0, "Archive exceeds the validation size limit")
                 data = archive.read(entry)
-                safe_content(entry.filename, data)
+                safe_content(entry.filename, data, artifact_id)
                 entries[entry.filename] = data
                 if entry.filename.endswith(".jar") and not entry.is_dir():
                     require(depth < 2, "Unexpected nested archive depth")
@@ -102,23 +123,30 @@ def zip_contents(path):
     return inspect(path)
 
 
-def verify_licenses(entries):
+def verify_licenses(entries, artifact_id=ARTIFACT):
+    profile = PROFILES[artifact_id]
     names = {PurePosixPath(name).name for name in entries}
-    require(LICENSES <= names, "Artifact is missing required license notices")
-    for source in LICENSE_ASSETS.iterdir():
+    require(profile["licenses"] <= names, "Artifact is missing required license notices")
+    for source in profile["assets"].iterdir():
         if source.is_file():
             copies = [data for name, data in entries.items() if PurePosixPath(name).name == source.name]
             require(copies and all(data == source.read_bytes() for data in copies),
                     "Artifact license notice differs from the checked-in source")
+    if artifact_id == STREAMING_ARTIFACT:
+        require(any(PurePosixPath(name).name == "LICENSE.txt" and data == STREAMING_LICENSE.read_bytes()
+                    for name, data in entries.items()), "Streaming artifact must retain the exact NSCLv1 license")
+    else:
+        require(not any(b"3.3 Use Limitation." in data for data in entries.values()),
+                "Offline artifact must not contain the streaming license")
     require(any(b"quangng2000" in data and b"Permission is hereby granted" in data
                 and b"MIT" in data for name, data in entries.items()
                 if "license" in name.lower() or "notice" in name.lower()),
             "Artifact is missing the adapter MIT license and attribution")
 
 
-def verify_pom(path, version):
+def verify_pom(path, version, artifact_id=ARTIFACT):
     data = path.read_bytes()
-    safe_content(path.name, data)
+    safe_content(path.name, data, artifact_id)
     pom = ET.fromstring(data)
     namespace = {"m": "http://maven.apache.org/POM/4.0.0"}
 
@@ -127,7 +155,7 @@ def verify_pom(path, version):
 
     require(pom.tag == "{http://maven.apache.org/POM/4.0.0}project", "Invalid POM namespace")
     for field, expected in {"modelVersion": "4.0.0", "groupId": GROUP,
-                            "artifactId": ARTIFACT, "version": version, "packaging": "aar"}.items():
+                            "artifactId": artifact_id, "version": version, "packaging": "aar"}.items():
         require(value(pom, field) == expected, "Incorrect POM " + field)
     for field in ("name", "description", "url", "scm/connection", "scm/developerConnection", "scm/url"):
         require(value(pom, field), "POM is missing " + field)
@@ -135,14 +163,27 @@ def verify_pom(path, version):
     licenses = pom.findall("m:licenses/m:license", namespace)
     require(licenses and all(value(item, "name") and value(item, "url") for item in licenses),
             "POM license names and URLs are required")
-    require(any("OpenMDW" in value(item, "name") for item in licenses),
-            "POM must identify the offline OpenMDW license")
-    require(not any("NSCL" in value(item, "name") for item in licenses),
-            "POM must not apply the streaming license")
+    license_names = [value(item, "name") for item in licenses]
+
+    def is_streaming_license(name):
+        return "NSCL" in name or "NVIDIA One-Way Noncommercial" in name
+
+    if artifact_id == STREAMING_ARTIFACT:
+        require(any(is_streaming_license(name) for name in license_names),
+                "POM must identify the streaming NSCLv1 license")
+        require(not any("OpenMDW" in name for name in license_names),
+                "Streaming POM must not claim the offline model license")
+    else:
+        require(any("OpenMDW" in name for name in license_names),
+                "POM must identify the offline OpenMDW license")
+        require(not any(is_streaming_license(name) for name in license_names),
+                "POM must not apply the streaming license")
     developers = pom.findall("m:developers/m:developer", namespace)
     require(developers and all(value(item, "name") and (value(item, "url") or value(item, "email"))
                                for item in developers), "POM developer identity and contact are required")
     dependencies = pom.findall("m:dependencies/m:dependency", namespace)
+    require(not any(value(item, "groupId") == GROUP and value(item, "artifactId") in PROFILES
+                    for item in dependencies), "Offline and research artifacts must remain independent")
     ort = [item for item in dependencies if value(item, "groupId") == "com.microsoft.onnxruntime"
            and value(item, "artifactId") == "onnxruntime-android"]
     require(len(ort) == 1 and value(ort[0], "version") == ORT_VERSION
@@ -151,42 +192,43 @@ def verify_pom(path, version):
     require(not pom.findall("m:repositories", namespace), "POM must resolve dependencies from Central")
 
 
-def verify_archives(aar, sources, documentation):
-    entries = zip_contents(aar)
-    verify_licenses(entries)
-    require(all(name.endswith("/") or name.startswith("assets/reuse-audio/licenses/")
+def verify_archives(aar, sources, documentation, artifact_id=ARTIFACT):
+    profile = PROFILES[artifact_id]
+    entries = zip_contents(aar, artifact_id)
+    verify_licenses(entries, artifact_id)
+    require(all(name.endswith("/") or name.startswith(profile["asset_prefix"])
                 for name in entries if name.startswith("assets/")),
             "AAR assets must contain license notices only")
     require("classes.jar" in entries and len(entries["classes.jar"]) > 100,
             "AAR is missing compiled classes")
     native = {name for name in entries if name.startswith("jni/") and not name.endswith("/")}
-    require(native == {f"jni/{abi}/libreuseaudio_dsp.so" for abi in ABIS},
+    require(native == {f"jni/{abi}/{profile['library']}" for abi in ABIS},
             "AAR must contain the DSP library for exactly the four supported ABIs")
     require(all(entries[name].startswith(b"\x7fELF") for name in native), "Invalid JNI binary")
-    source_entries = zip_contents(sources)
-    verify_licenses(source_entries)
+    source_entries = zip_contents(sources, artifact_id)
+    verify_licenses(source_entries, artifact_id)
     source_names = {PurePosixPath(name).name for name, data in source_entries.items() if len(data) > 100}
-    require(API_SOURCES <= source_names and {"reuse_audio_dsp.cpp", "pocketfft_hdronly.h"} <= source_names,
+    require(profile["api"] <= source_names and {profile["adapter"], "pocketfft_hdronly.h"} <= source_names,
             "Sources JAR must include the Kotlin API and native DSP sources")
-    for filename in API_SOURCES:
-        require(any(PurePosixPath(name).name == filename and b"package io.riftco.reuseaudio" in data
+    for filename in profile["api"]:
+        require(any(PurePosixPath(name).name == filename and profile["package"] in data
                     for name, data in source_entries.items()), "Sources JAR contains invalid Kotlin API sources")
-    doc_entries = zip_contents(documentation)
-    verify_licenses(doc_entries)
+    doc_entries = zip_contents(documentation, artifact_id)
+    verify_licenses(doc_entries, artifact_id)
     require(any(PurePosixPath(name).name == "README.md" and len(data.strip()) >= 100
                 for name, data in doc_entries.items()), "Documentation JAR requires a useful README.md")
     documented = {PurePosixPath(name).name for name, data in doc_entries.items()
                   if name.startswith("api/") and len(data) > 100 and b"/**" in data}
-    require(API_SOURCES <= documented, "Documentation JAR must include the public Kotlin API KDoc")
+    require(profile["api"] <= documented, "Documentation JAR must include the public Kotlin API KDoc")
 
 
-def verify_module(path, primary, version):
+def verify_module(path, primary, version, artifact_id=ARTIFACT):
     data = path.read_bytes()
-    safe_content(path.name, data)
+    safe_content(path.name, data, artifact_id)
     module = json.loads(data)
     component = module.get("component", {})
     require((component.get("group"), component.get("module"), component.get("version"))
-            == (GROUP, ARTIFACT, version), "Incorrect Gradle module coordinates")
+            == (GROUP, artifact_id, version), "Incorrect Gradle module coordinates")
     for variant in module.get("variants", []):
         for item in variant.get("files", []):
             name = item.get("url")
@@ -206,9 +248,9 @@ def gpg_command(gpg_home):
     return command
 
 
-def verify_signature(command, artifact):
+def verify_signature(command, artifact, artifact_id=ARTIFACT):
     signature = Path(str(artifact) + ".asc").read_bytes()
-    safe_content(artifact.name + ".asc", signature)
+    safe_content(artifact.name + ".asc", signature, artifact_id)
     require(signature.lstrip().startswith(b"-----BEGIN PGP SIGNATURE-----"),
             "Publication signatures must be ASCII-armored")
     result = subprocess.run(command + ["--status-fd", "1", "--verify", str(artifact) + ".asc", str(artifact)],
@@ -217,19 +259,18 @@ def verify_signature(command, artifact):
             "GPG signature verification failed for " + artifact.name)
 
 
-def bundle(args):
-    require(re.fullmatch(r"[0-9][A-Za-z0-9_.+-]*", args.version)
-            and not args.version.endswith("-SNAPSHOT"), "A release version is required")
-    repository = args.repository.expanduser().resolve()
-    relative = Path(*GROUP.split("."), ARTIFACT, args.version)
+def collect_publication(repository, version, artifact_id, require_module=False):
+    relative = Path(*GROUP.split("."), artifact_id, version)
     release = repository / relative
     require(release.is_dir(), "Publication version directory does not exist")
     require(release.resolve() == release, "Publication directories must not contain symlinks")
-    base = f"{ARTIFACT}-{args.version}"
+    base = f"{artifact_id}-{version}"
     names = [base + suffix for suffix in (".aar", ".pom", "-sources.jar", "-javadoc.jar")]
     require(all((release / name).is_file() for name in names), "Required publication artifact is missing")
     if (release / (base + ".module")).exists():
         names.append(base + ".module")
+    require(not require_module or base + ".module" in names,
+            "Cohort publications require Gradle module metadata for both artifacts")
     primary = {name: release / name for name in names}
     allowed = {name + suffix for name in names
                for suffix in ("", ".asc") + tuple("." + algorithm for algorithm in CHECKSUMS)
@@ -238,10 +279,25 @@ def bundle(args):
         require(not path.is_symlink() and path.is_file(), "Publication must contain ordinary files only")
         require(path.name in allowed or path.name.startswith("maven-metadata.xml"),
                 "Unexpected file in publication version directory")
-    verify_pom(primary[base + ".pom"], args.version)
-    verify_archives(primary[base + ".aar"], primary[base + "-sources.jar"], primary[base + "-javadoc.jar"])
+    verify_pom(primary[base + ".pom"], version, artifact_id)
+    verify_archives(primary[base + ".aar"], primary[base + "-sources.jar"], primary[base + "-javadoc.jar"], artifact_id)
     if base + ".module" in primary:
-        verify_module(primary[base + ".module"], primary, args.version)
+        verify_module(primary[base + ".module"], primary, version, artifact_id)
+    return primary
+
+
+def bundle(args):
+    require(re.fullmatch(r"[0-9][A-Za-z0-9_.+-]*", args.version)
+            and not args.version.endswith("-SNAPSHOT"), "A release version is required")
+    repository = args.repository.expanduser().resolve()
+    include_streaming = getattr(args, "include_streaming", False)
+    artifact_ids = [ARTIFACT, STREAMING_ARTIFACT] if include_streaming else [ARTIFACT]
+    primary, owners = {}, {}
+    # Validate the complete cohort before inspecting keys or signing any artifact.
+    for artifact_id in artifact_ids:
+        artifacts = collect_publication(repository, args.version, artifact_id, require_module=include_streaming)
+        primary.update(artifacts)
+        owners.update({name: artifact_id for name in artifacts})
     passphrase_file = getattr(args, "passphrase_file", None)
     require(not passphrase_file or args.signing_key, "--passphrase-file requires --signing-key")
     if args.signing_key:
@@ -261,10 +317,12 @@ def bundle(args):
     if signed:
         command = gpg_command(args.gpg_home)
         for artifact in signed:
-            verify_signature(command, artifact)
+            verify_signature(command, artifact, owners[artifact.name])
     ready = len(signed) == len(primary)
     require(ready or args.allow_unsigned, "Missing signatures; use --allow-unsigned for validation without a ZIP")
-    report = {"coordinates": f"{GROUP}:{ARTIFACT}:{args.version}", "uploadReady": ready,
+    coordinates = [f"{GROUP}:{artifact_id}:{args.version}" for artifact_id in artifact_ids]
+    report = {"schemaVersion": 2, "artifactIds": artifact_ids, "coordinateSet": coordinates,
+              "coordinates": coordinates if include_streaming else coordinates[0], "uploadReady": ready,
               "artifactCount": len(primary), "verifiedSignatureCount": len(signed),
               "artifacts": [{"name": name, "bytes": path.stat().st_size,
                              "sha256": digest(path.read_bytes(), "sha256")}
@@ -306,7 +364,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repository", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
-    parser.add_argument("--version", default="0.1.1")
+    parser.add_argument("--version", default="0.1.2")
+    parser.add_argument("--include-streaming", action="store_true",
+                        help="Validate and publish the separate NSCLv1 research artifact in the same bundle")
     parser.add_argument("--gpg-home", type=Path)
     parser.add_argument("--signing-key")
     parser.add_argument("--passphrase-file", type=Path,

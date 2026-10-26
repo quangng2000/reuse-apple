@@ -20,27 +20,41 @@ DEPLOYMENT = "64789b82-b6d7-44d9-a518-20bbe778a292"
 OTHER_DEPLOYMENT = "64789b82-b6d7-44d9-a518-20bbe778a293"
 
 
-def make_bundle(path, version=VERSION, corrupt_checksum=False, extra_file=False):
-    base = publisher.ARTIFACT + "-" + version
-    prefix = publisher.GROUP.replace(".", "/") + "/" + publisher.ARTIFACT + "/" + version + "/"
-    pom = (f'<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion>'
-           f'<groupId>{publisher.GROUP}</groupId><artifactId>{publisher.ARTIFACT}</artifactId>'
-           f'<version>{version}</version><packaging>aar</packaging></project>').encode()
-    primary = {base + ".pom": pom, base + ".aar": b"compiled Android artifact",
-               base + "-sources.jar": b"public Kotlin and native sources",
-               base + "-javadoc.jar": b"public API documentation"}
+def make_bundle(path, version=VERSION, corrupt_checksum=False, extra_file=False, include_streaming=False):
+    artifact_ids = publisher.ARTIFACT_IDS if include_streaming else (publisher.ARTIFACT,)
     with zipfile.ZipFile(path, "w") as archive:
-        for name, data in primary.items():
-            archive.writestr(prefix + name, data)
-            archive.writestr(prefix + name + ".asc", "-----BEGIN PGP SIGNATURE-----\nfixture\n-----END PGP SIGNATURE-----\n")
-            for algorithm in publisher.CHECKSUMS:
-                value = hashlib.new(algorithm, data).hexdigest()
-                if corrupt_checksum and algorithm == "sha256":
-                    value = "0" * 64
-                archive.writestr(prefix + name + "." + algorithm, value + "\n")
+        for artifact_id in artifact_ids:
+            base = artifact_id + "-" + version
+            prefix = publisher.GROUP.replace(".", "/") + "/" + artifact_id + "/" + version + "/"
+            pom = (f'<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion>'
+                   f'<groupId>{publisher.GROUP}</groupId><artifactId>{artifact_id}</artifactId>'
+                   f'<version>{version}</version><packaging>aar</packaging></project>').encode()
+            primary = {base + ".pom": pom, base + ".aar": b"compiled Android artifact",
+                       base + "-sources.jar": b"public Kotlin and native sources",
+                       base + "-javadoc.jar": b"public API documentation"}
+            if include_streaming:
+                primary[base + ".module"] = json.dumps({"component": {"group": publisher.GROUP,
+                                                                      "module": artifact_id, "version": version}}).encode()
+            for name, data in primary.items():
+                archive.writestr(prefix + name, data)
+                archive.writestr(prefix + name + ".asc", "-----BEGIN PGP SIGNATURE-----\nfixture\n-----END PGP SIGNATURE-----\n")
+                for algorithm in publisher.CHECKSUMS:
+                    value = hashlib.new(algorithm, data).hexdigest()
+                    if corrupt_checksum and algorithm == "sha256":
+                        value = "0" * 64
+                    archive.writestr(prefix + name + "." + algorithm, value + "\n")
         if extra_file:
             archive.writestr(prefix + "credentials.txt", b"must not be uploaded")
-    return publisher.load_bundle(path, version)
+    return publisher.load_bundle(path, version, include_streaming=include_streaming)
+
+
+def rewrite_bundle(path, change):
+    with zipfile.ZipFile(path) as archive:
+        entries = {name: archive.read(name) for name in archive.namelist()}
+    change(entries)
+    with zipfile.ZipFile(path, "w") as archive:
+        for name, data in entries.items():
+            archive.writestr(name, data)
 
 
 class FakeClock:
@@ -84,9 +98,11 @@ class FakeClient:
         self.calls.append(("status", deployment_id))
         state = self.states.pop(0) if len(self.states) > 1 else self.states[0]
         self.is_public = state == "PUBLISHED"
-        purl = f"pkg:maven/{publisher.GROUP}/{publisher.ARTIFACT}@{VERSION}"
-        result = {"deploymentId": DEPLOYMENT, "deploymentName": publisher.ARTIFACT + "-" + VERSION,
-                  "deploymentState": state, "purls": [purl + "?type=aar"] if state in {"VALIDATED", "PUBLISHING", "PUBLISHED"} else []}
+        version = self.bundle["components"][0]["coordinate"].rsplit(":", 1)[1]
+        purls = [f"pkg:maven/{publisher.GROUP}/{item['artifactId']}@{version}?type=aar"
+                 for item in self.bundle["components"]]
+        result = {"deploymentId": DEPLOYMENT, "deploymentName": publisher.ARTIFACT + "-" + version,
+                  "deploymentState": state, "purls": purls if state in {"VALIDATED", "PUBLISHING", "PUBLISHED"} else []}
         result.update(self.status_override)
         return result
 
@@ -361,6 +377,185 @@ class CentralPublicationTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertNotIn("private-value", output.getvalue())
         self.assertIn("missing_central_credentials", output.getvalue())
+
+
+class CohortPublicationTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.bundle_path = self.root / "cohort.zip"
+        self.bundle = make_bundle(self.bundle_path, include_streaming=True)
+        self.report = self.root / "report.json"
+        self.clock = FakeClock()
+
+    run_publication = CentralPublicationTests.run_publication
+    call_count = CentralPublicationTests.call_count
+
+    def test_cohort_has_ten_primaries_and_one_upload_publish(self):
+        client = FakeClient(self.bundle)
+        result = self.run_publication(client)
+        self.assertTrue(result["published"])
+        self.assertEqual(result["coordinates"], [f"{publisher.GROUP}:{artifact}:{VERSION}" for artifact in publisher.ARTIFACT_IDS])
+        self.assertEqual(len(result["artifacts"]), 10)
+        self.assertEqual(self.call_count(client, "upload"), 1)
+        self.assertEqual(self.call_count(client, "publish"), 1)
+        self.assertEqual(self.call_count(client, "public"), 12)
+        with zipfile.ZipFile(self.bundle_path) as archive:
+            self.assertEqual(len(archive.namelist()), 60)
+
+    def test_cohort_requires_explicit_opt_in_and_both_complete_components(self):
+        with self.assertRaises(publisher.PublishError):
+            publisher.load_bundle(self.bundle_path, VERSION)
+        for component in publisher.ARTIFACT_IDS:
+            with self.subTest(component=component):
+                make_bundle(self.bundle_path, include_streaming=True)
+                rewrite_bundle(self.bundle_path, lambda entries: [entries.pop(name) for name in list(entries)
+                                                                  if "/" + component + "/" in name])
+                with self.assertRaisesRegex(publisher.PublishError, "incomplete_or_unexpected_bundle_files"):
+                    publisher.load_bundle(self.bundle_path, VERSION, include_streaming=True)
+
+    def test_cohort_requires_module_signature_and_checksum_for_each_component(self):
+        prefix = self.bundle["components"][1]["prefix"] + publisher.STREAMING_ARTIFACT + "-" + VERSION
+        for suffix in (".module", ".aar.asc", ".pom.sha512"):
+            with self.subTest(suffix=suffix):
+                make_bundle(self.bundle_path, include_streaming=True)
+                rewrite_bundle(self.bundle_path, lambda entries: entries.pop(prefix + suffix))
+                with self.assertRaisesRegex(publisher.PublishError, "incomplete_or_unexpected_bundle_files"):
+                    publisher.load_bundle(self.bundle_path, VERSION, include_streaming=True)
+
+    def test_cohort_rejects_other_versions_unknown_artifacts_and_pom_coordinates(self):
+        original = self.bundle_path.read_bytes()
+        for replacement in ("/reuse-streaming-android/0.1.3/", "/other-android/0.1.2/"):
+            self.bundle_path.write_bytes(original)
+            def move(entries):
+                for name in list(entries):
+                    if "/reuse-streaming-android/0.1.2/" in name:
+                        entries[name.replace("/reuse-streaming-android/0.1.2/", replacement)] = entries.pop(name)
+            rewrite_bundle(self.bundle_path, move)
+            with self.assertRaisesRegex(publisher.PublishError, "invalid_bundle_path"):
+                publisher.load_bundle(self.bundle_path, VERSION, include_streaming=True)
+        self.bundle_path.write_bytes(original)
+        def wrong_pom(entries):
+            name = self.bundle["components"][1]["prefix"] + publisher.STREAMING_ARTIFACT + "-" + VERSION + ".pom"
+            entries[name] = entries[name].replace(b"<version>0.1.2</version>", b"<version>0.1.3</version>")
+            for algorithm in publisher.CHECKSUMS:
+                entries[name + "." + algorithm] = hashlib.new(algorithm, entries[name]).hexdigest().encode()
+        rewrite_bundle(self.bundle_path, wrong_pom)
+        with self.assertRaisesRegex(publisher.PublishError, "bundle_coordinate_mismatch"):
+            publisher.load_bundle(self.bundle_path, VERSION, include_streaming=True)
+
+    def test_existing_streaming_version_aborts_before_any_upload(self):
+        client = FakeClient(self.bundle)
+        public = client.public_file
+        client.public_file = lambda relative: b"existing" if "/reuse-streaming-android/" in relative else public(relative)
+        with self.assertRaisesRegex(publisher.PublishError, "version_already_published"):
+            self.run_publication(client)
+        self.assertEqual(self.call_count(client, "upload"), 0)
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_cohort_requires_exact_complete_purl_set_before_publish(self):
+        offline = f"pkg:maven/{publisher.GROUP}/{publisher.ARTIFACT}@{VERSION}"
+        streaming = f"pkg:maven/{publisher.GROUP}/{publisher.STREAMING_ARTIFACT}@{VERSION}"
+        for purls in ([offline], [streaming], [offline, streaming + "?type=jar"],
+                      [offline, streaming, "pkg:maven/other/project@0.1.2"]):
+            with self.subTest(purls=purls):
+                self.report.unlink(missing_ok=True)
+                client = FakeClient(self.bundle, ["VALIDATED"])
+                client.status_override["purls"] = purls
+                with self.assertRaisesRegex(publisher.PublishError, "deployment_coordinate_mismatch"):
+                    self.run_publication(client)
+                self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_mixed_aar_and_plain_purls_normalize_to_the_exact_cohort(self):
+        client = FakeClient(self.bundle)
+        client.status_override["purls"] = [f"pkg:maven/{publisher.GROUP}/{publisher.ARTIFACT}@{VERSION}",
+                                           f"pkg:maven/{publisher.GROUP}/{publisher.STREAMING_ARTIFACT}@{VERSION}?type=aar"]
+        self.assertTrue(self.run_publication(client)["published"])
+
+    def test_published_empty_purls_verifies_all_ten_hashes_without_publish_mutation(self):
+        client = FakeClient(self.bundle, ["PUBLISHED"])
+        client.status_override["purls"] = []
+        result = self.run_publication(client)
+        self.assertTrue(result["published"])
+        self.assertEqual(len(result["artifacts"]), 10)
+        self.assertEqual(self.call_count(client, "publish"), 0)
+        self.assertEqual(self.call_count(client, "public"), 12)
+
+    def test_published_partial_purls_and_streaming_hash_mismatch_never_succeed(self):
+        client = FakeClient(self.bundle, ["PUBLISHED"])
+        client.status_override["purls"] = [f"pkg:maven/{publisher.GROUP}/{publisher.ARTIFACT}@{VERSION}"]
+        with self.assertRaisesRegex(publisher.PublishError, "deployment_coordinate_mismatch"):
+            self.run_publication(client)
+        self.report.unlink()
+        client = FakeClient(self.bundle, ["PUBLISHED"])
+        client.status_override["purls"] = []
+        original_read = client.public_file
+        client.public_file = lambda relative: b"wrong streaming bytes" if client.is_public and "/reuse-streaming-android/" in relative else original_read(relative)
+        with self.assertRaisesRegex(publisher.PublishError, "public_artifact_hash_mismatch"):
+            self.run_publication(client)
+        self.assertFalse(json.loads(self.report.read_text())["published"])
+
+    def test_known_cohort_recovery_never_uploads_again(self):
+        client = FakeClient(self.bundle, ["PUBLISHING"])
+        with self.assertRaisesRegex(publisher.PublishError, "publication_timeout"):
+            self.run_publication(client, deadline=1)
+        client.states = ["PUBLISHED"]
+        self.assertTrue(self.run_publication(client, deployment_id=DEPLOYMENT)["published"])
+        self.assertEqual(self.call_count(client, "upload"), 1)
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_cohort_receipt_cannot_be_recovered_with_incomplete_coordinates(self):
+        client = FakeClient(self.bundle, ["PUBLISHING"])
+        with self.assertRaises(publisher.PublishError):
+            self.run_publication(client, deadline=1)
+        prior = json.loads(self.report.read_text())
+        prior["coordinates"] = prior["coordinates"][:1]
+        self.report.write_text(json.dumps(prior))
+        before = list(client.calls)
+        with self.assertRaisesRegex(publisher.PublishError, "prior_report_cohort_mismatch"):
+            self.run_publication(client, deployment_id=DEPLOYMENT)
+        self.assertEqual(before, client.calls)
+
+    def test_uncertain_cohort_mutations_are_never_automatically_retried(self):
+        client = FakeClient(self.bundle)
+        client.upload_error = publisher.PublishError("upload_network_error")
+        with self.assertRaises(publisher.PublishError):
+            self.run_publication(client)
+        with self.assertRaisesRegex(publisher.PublishError, "unknown_upload_outcome_requires_portal_review"):
+            self.run_publication(client, deployment_id=DEPLOYMENT)
+        self.assertEqual(self.call_count(client, "upload"), 1)
+        self.report.unlink()
+        client = FakeClient(self.bundle, ["VALIDATED"])
+        client.publish_error = publisher.PublishError("publish_network_error")
+        with self.assertRaises(publisher.PublishError):
+            self.run_publication(client)
+        client.publish_error = None
+        with self.assertRaisesRegex(publisher.PublishError, "publish_outcome_requires_portal_review"):
+            self.run_publication(client, deployment_id=DEPLOYMENT)
+        self.assertEqual(self.call_count(client, "publish"), 1)
+
+    def test_legacy_011_singleton_receipt_remains_recoverable(self):
+        version = "0.1.1"
+        bundle = make_bundle(self.root / "legacy.zip", version=version)
+        client = FakeClient(bundle, ["PUBLISHED"])
+        self.report.write_text(json.dumps({"coordinate": f"{publisher.GROUP}:{publisher.ARTIFACT}:{version}",
+                                          "bundleSha256": bundle["sha256"], "deploymentId": DEPLOYMENT,
+                                          "uploadRequested": True, "publishRequested": True,
+                                          "publishAccepted": True, "states": ["PUBLISHED"]}))
+        result = publisher.publish_bundle(bundle, version, self.report, client, 60, deployment_id=DEPLOYMENT,
+                                          clock=self.clock, sleep=self.clock.sleep)
+        self.assertTrue(result["published"])
+        self.assertEqual(self.call_count(client, "upload"), 0)
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_public_reads_reject_artifact_name_aliases_and_unknown_projects(self):
+        client = publisher.CentralClient("user", "secret", 60, clock=self.clock, opener=FakeOpener([]))
+        for relative in (f"io/github/quangng2000/unknown/{VERSION}/unknown-{VERSION}.pom",
+                         f"io/github/quangng2000/{publisher.ARTIFACT}/{VERSION}/{publisher.STREAMING_ARTIFACT}-{VERSION}.pom",
+                         f"io/github/quangng2000/{publisher.STREAMING_ARTIFACT}/{VERSION}/../../private.pom"):
+            with self.subTest(relative=relative), self.assertRaises(publisher.PublishError):
+                client.public_file(relative)
 
 
 if __name__ == "__main__":

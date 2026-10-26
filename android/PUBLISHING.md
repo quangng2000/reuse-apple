@@ -1,8 +1,13 @@
 # Android Maven Central publishing
 
-Coordinate: `io.github.quangng2000:reuse-audio-android:0.1.1`.
+Release coordinates:
+
+- `io.github.quangng2000:reuse-audio-android:0.1.2` — commercial offline model port.
+- `io.github.quangng2000:reuse-streaming-android:0.1.2` — optional NSCLv1 streaming research port.
+
+These are independent artifacts with distinct licenses and no dependency on each other.
 The Android artifact version is independent of the repository-wide Swift release
-version. The matching source tag is `android-v0.1.1`.
+version. The matching source tag is `android-v0.1.2`.
 
 The release AAR contains all four native ABIs and license notices. Model weights
 remain a separate, hash-verified download. ONNX Runtime is a transitive runtime
@@ -13,11 +18,19 @@ dependency in the published POM and Gradle module metadata.
 Use the pinned Android toolchain in [README.md](README.md). From `android/`:
 
 ```sh
-./gradlew :reuse-audio:publishReleasePublicationToCentralStagingRepository --max-workers=2
+./gradlew :reuse-audio:publishReleasePublicationToCentralStagingRepository \
+  :reuse-streaming:publishReleasePublicationToCentralStagingRepository --max-workers=2
+```
+
+Merge the two generated `*/build/central-repository` Maven trees into a fresh
+`build/central-repository`, rejecting duplicate paths. The Actions workflow does
+this automatically before validation. Then:
+
+```sh
 python3 tools/central_bundle.py \
-  --repository reuse-audio/build/central-repository \
-  --output reuse-audio/build/reuse-audio-android-0.1.1-central.zip \
-  --version 0.1.1 --allow-unsigned
+  --repository build/central-repository \
+  --output build/reuse-audio-android-0.1.2-central.zip \
+  --version 0.1.2 --include-streaming --allow-unsigned
 ```
 
 The unsigned check validates artifacts without creating an upload ZIP when
@@ -35,9 +48,9 @@ browser upload. Never add secrets, private keys or passphrases to a commit.
 
 ```sh
 python3 tools/central_bundle.py \
-  --repository reuse-audio/build/central-repository \
-  --output reuse-audio/build/reuse-audio-android-0.1.1-central.zip \
-  --version 0.1.1 \
+  --repository build/central-repository \
+  --output build/reuse-audio-android-0.1.2-central.zip \
+  --version 0.1.2 --include-streaming \
   --gpg-home /absolute/private/gnupg \
   --signing-key YOUR_PUBLIC_FINGERPRINT \
   --passphrase-file /absolute/private/signing-passphrase
@@ -46,7 +59,10 @@ python3 tools/central_bundle.py \
 The helper verifies the POM, sources, documentation, native ABIs, notices and
 signatures. It creates MD5/SHA-1/SHA-256/SHA-512 checksums and a ZIP using the exact
 Maven repository directory layout. No model weights, metadata indexes or secret
-files are included. It does not upload or publish anything.
+files are included. The combined release has ten primary files, ten signatures,
+and forty checksums. Both licensed profiles are checked before any signing.
+Without `--include-streaming`, the helper retains the offline-only mode needed
+to recover historical releases. It does not upload or publish anything.
 
 Upload the signed ZIP at [Central Publishing](https://central.sonatype.com/publishing).
 Wait for validation, inspect the component coordinate and publish it. Releases on
@@ -74,8 +90,9 @@ uploaded or committed.
 
 [Android SDK release](../.github/workflows/android-release.yml) validates Android
 changes on pull requests and supports a manual validation-only run. It builds
-all four native ABIs on the standard ARM64 macOS runner and runs the complete host suite with the pinned public
-model and hash-verified synthetic regression fixtures. No model or numerical
+both artifacts for all four native ABIs on the standard ARM64 macOS runner and
+runs both host suites with pinned public models and hash-verified synthetic
+regression fixtures, including streaming state carry and waveform/tail checks. No model or numerical
 behavior is changed by the workflow.
 
 The FP32 PCM reference fixtures were validated on ARM64. The workflow uses
@@ -84,7 +101,7 @@ can choose a different phase branch around pi. Test limits remain unchanged.
 
 An initial push of an `android-v<VERSION>` tag on a commit already in the default
 branch triggers the isolated signing/publication job. The tag must exactly
-match the literal Android `version` in `android/reuse-audio/build.gradle.kts`.
+match the same literal Android `version` in both module Gradle files.
 Apple/repository-wide tags such as `v0.3.1` do not publish an Android artifact.
 
 For the next Android release:
@@ -93,8 +110,10 @@ For the next Android release:
    into `main`.
 2. Create and push `android-v0.1.2` on that commit.
 3. Actions tests the library, validates the staged Maven artifacts, signs them,
-   uploads to Central, waits for validation, publishes once, and verifies every
-   public primary artifact against the signed bundle.
+   uploads one combined bundle to Central, waits for validation of both exact
+   coordinates, publishes once, and verifies all ten public primary artifacts
+   against the signed bundle. An existing version of either artifact prevents
+   another upload.
 
 One-time repository Actions secrets are required:
 
@@ -127,7 +146,7 @@ the exact original bundle, version and deployment ID:
 ```sh
 python3 android/tools/central_publish.py \
   --bundle /absolute/path/to/the-original-signed-bundle.zip \
-  --version 0.1.2 \
+  --version 0.1.2 --include-streaming \
   --deployment-id THE_SAVED_DEPLOYMENT_ID \
   --report /absolute/path/to/recovery-report.json
 ```
@@ -135,7 +154,9 @@ python3 android/tools/central_publish.py \
 Supply the two Central token values through the environment only. The helper
 never retries an upload or publish POST. Existing public versions cannot be
 overwritten. A successful report requires both Central's `PUBLISHED` state and
-public artifact hash verification. Public signed bundles and safe deployment
+public artifact hash verification for the entire recorded cohort. Recovery must
+match the original coordinate set as well as its deployment ID and bundle hash.
+Public signed bundles and safe deployment
 reports are retained as workflow artifacts for 30 days.
 
 The publishing credentials are configured for this repository. The dedicated

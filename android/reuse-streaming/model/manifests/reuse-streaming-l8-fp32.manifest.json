@@ -1,0 +1,456 @@
+{
+  "schemaVersion": 1,
+  "modelId": "nvidia/realtime-reuse-streaming-fp32",
+  "layers": 8,
+  "lookahead": 0,
+  "precision": "float32",
+  "sampleRate": 16000,
+  "fftSize": 640,
+  "hopSize": 320,
+  "frameSamples": 640,
+  "frequencyBins": 321,
+  "modelFile": "reuse-streaming-l8-fp32.onnx",
+  "modelSha256": "18db8d32b638702909de484d2a9cffc97ed09e6454c4caed3f0008fb0aab53e8",
+  "modelBytes": 11615514,
+  "checkpointSha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "checkpointBytes": 54055764,
+  "sourceRepository": "nvidia/Real-time_RE-USE",
+  "sourceRevision": "4c0c186272ca853cd18d832fc5c28777b62f32d1",
+  "sourceParameterCount": 13475815,
+  "activeParameterCount": 2866115,
+  "license": "NSCLv1",
+  "researchOnly": true,
+  "onnxOpset": 17,
+  "onnxRuntimeVersion": "1.23.2",
+  "inputNames": [
+    "magnitude",
+    "phase",
+    "cache_dense_encoder_dense_conv_1_1_0",
+    "cache_dense_encoder_dense_block_dense_block_0_1",
+    "cache_dense_encoder_dense_block_dense_block_1_1",
+    "cache_dense_encoder_dense_block_dense_block_2_1",
+    "cache_dense_encoder_dense_block_dense_block_3_1",
+    "cache_TSMamba_0_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_1_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_2_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_3_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_4_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_5_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_6_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_7_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+    "cache_mask_decoder_list_7_dense_block_dense_block_0_1",
+    "cache_mask_decoder_list_7_dense_block_dense_block_1_1",
+    "cache_mask_decoder_list_7_dense_block_dense_block_2_1",
+    "cache_mask_decoder_list_7_dense_block_dense_block_3_1",
+    "cache_mask_decoder_list_7_up_conv2_0_conv",
+    "cache_phase_decoder_list_7_dense_block_dense_block_0_1",
+    "cache_phase_decoder_list_7_dense_block_dense_block_1_1",
+    "cache_phase_decoder_list_7_dense_block_dense_block_2_1",
+    "cache_phase_decoder_list_7_dense_block_dense_block_3_1",
+    "cache_phase_decoder_list_7_up_conv2_0_conv"
+  ],
+  "outputNames": [
+    "enhanced_magnitude",
+    "enhanced_phase",
+    "next_dense_encoder_dense_conv_1_1_0",
+    "next_dense_encoder_dense_block_dense_block_0_1",
+    "next_dense_encoder_dense_block_dense_block_1_1",
+    "next_dense_encoder_dense_block_dense_block_2_1",
+    "next_dense_encoder_dense_block_dense_block_3_1",
+    "next_TSMamba_0_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_1_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_2_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_3_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_4_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_5_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_6_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_7_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+    "next_mask_decoder_list_7_dense_block_dense_block_0_1",
+    "next_mask_decoder_list_7_dense_block_dense_block_1_1",
+    "next_mask_decoder_list_7_dense_block_dense_block_2_1",
+    "next_mask_decoder_list_7_dense_block_dense_block_3_1",
+    "next_mask_decoder_list_7_up_conv2_0_conv",
+    "next_phase_decoder_list_7_dense_block_dense_block_0_1",
+    "next_phase_decoder_list_7_dense_block_dense_block_1_1",
+    "next_phase_decoder_list_7_dense_block_dense_block_2_1",
+    "next_phase_decoder_list_7_dense_block_dense_block_3_1",
+    "next_phase_decoder_list_7_up_conv2_0_conv"
+  ],
+  "states": [
+    {
+      "key": "dense_encoder.dense_conv_1_1.0",
+      "inputName": "cache_dense_encoder_dense_conv_1_1_0",
+      "outputName": "next_dense_encoder_dense_conv_1_1_0",
+      "shape": [
+        1,
+        2,
+        2,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.0.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_0_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_0_1",
+      "shape": [
+        1,
+        64,
+        2,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.1.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_1_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_1_1",
+      "shape": [
+        1,
+        128,
+        4,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.2.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_2_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_2_1",
+      "shape": [
+        1,
+        192,
+        8,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.3.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_3_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_3_1",
+      "shape": [
+        1,
+        256,
+        16,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.0.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_0_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_0_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.0.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.1.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_1_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_1_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.1.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.2.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_2_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_2_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.2.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.3.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_3_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_3_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.3.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.4.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_4_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_4_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.4.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.5.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_5_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_5_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.5.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.6.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_6_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_6_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.6.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.7.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_7_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_7_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.7.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.0.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_0_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_0_1",
+      "shape": [
+        1,
+        64,
+        2,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.1.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_1_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_1_1",
+      "shape": [
+        1,
+        128,
+        4,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.2.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_2_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_2_1",
+      "shape": [
+        1,
+        192,
+        8,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.3.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_3_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_3_1",
+      "shape": [
+        1,
+        256,
+        16,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.up_conv2.0.conv",
+      "inputName": "cache_mask_decoder_list_7_up_conv2_0_conv",
+      "outputName": "next_mask_decoder_list_7_up_conv2_0_conv",
+      "shape": [
+        1,
+        64,
+        2,
+        322
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.0.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_0_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_0_1",
+      "shape": [
+        1,
+        64,
+        2,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.1.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_1_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_1_1",
+      "shape": [
+        1,
+        128,
+        4,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.2.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_2_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_2_1",
+      "shape": [
+        1,
+        192,
+        8,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.3.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_3_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_3_1",
+      "shape": [
+        1,
+        256,
+        16,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.up_conv2.0.conv",
+      "inputName": "cache_phase_decoder_list_7_up_conv2_0_conv",
+      "outputName": "next_phase_decoder_list_7_up_conv2_0_conv",
+      "shape": [
+        1,
+        64,
+        2,
+        322
+      ],
+      "dtype": "float32"
+    }
+  ],
+  "stateBytes": 41575984,
+  "frequencyScanCount": 16,
+  "selectedWeightBytesUnchanged": true
+}

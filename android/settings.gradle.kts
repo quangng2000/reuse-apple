@@ -4,4 +4,4 @@ dependencyResolutionManagement {
     repositories { google(); mavenCentral() }
 }
 rootProject.name = "ReuseAudioAndroid"
-include(":reuse-audio")
+include(":reuse-audio", ":reuse-streaming")

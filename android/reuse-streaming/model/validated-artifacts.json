@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "modelId": "nvidia/realtime-reuse-streaming-fp32",
+  "defaultLayers": 4,
+  "supportedLayers": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "lookahead": 0,
+  "precision": "float32",
+  "sampleRate": 16000,
+  "fftSize": 640,
+  "hopSize": 320,
+  "frameSamples": 640,
+  "sourceRepository": "nvidia/Real-time_RE-USE",
+  "sourceRevision": "4c0c186272ca853cd18d832fc5c28777b62f32d1",
+  "checkpointSha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "checkpointBytes": 54055764,
+  "license": "NSCLv1",
+  "researchOnly": true,
+  "scope": "All advertised depths: independent NVIDIA CPU/ORT state-carry/reset and synthetic waveform functional validation; no Android-device latency claim.",
+  "models": [
+    {
+      "layers": 3,
+      "modelFile": "reuse-streaming-l3-fp32.onnx",
+      "modelBytes": 7368320,
+      "modelSha256": "fe288049dfce033e63f630353b2cfebf75d1ae0ed63039fb3531ff0308e75da2",
+      "manifestFile": "reuse-streaming-l3-fp32.manifest.json",
+      "manifestBytes": 9975,
+      "manifestSha256": "076cb8efe71e6687be12fc7847b2060812ca8b50c4cf359aec94020fcbd55c1b",
+      "stateBytes": 25913904,
+      "activeParameterCount": 1823555,
+      "parityFile": "l3/parity.json",
+      "parityBytes": 3058,
+      "paritySha256": "7b5fdde7f0118cf840b377e2021eb8828a8ef098cb30552b5ce84d8d7b33b939",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 9.5367431640625e-06,
+      "maximumWaveformAbsError": 9.313225746154785e-09
+    },
+    {
+      "layers": 4,
+      "modelFile": "reuse-streaming-l4-fp32.onnx",
+      "modelBytes": 8217659,
+      "modelSha256": "77d54456b8e87af87624f1989530b3c41d18a6cff65ccf32ab421a4b3b35829f",
+      "manifestFile": "reuse-streaming-l4-fp32.manifest.json",
+      "manifestBytes": 10815,
+      "manifestSha256": "7db2fc3ae2c0cbee912557d322ab37cb380dab5b834567cc9c4c893c70a267ef",
+      "stateBytes": 29046320,
+      "activeParameterCount": 2032067,
+      "parityFile": "l4/parity.json",
+      "parityBytes": 8760,
+      "paritySha256": "4571d67a533294a8551edddd1eb2c31c47a34fc1420cfa217468ab13179fa27a",
+      "spectralFrames": 8,
+      "audioSampleCounts": [
+        640,
+        641,
+        959,
+        960,
+        1377,
+        8000,
+        16000
+      ],
+      "maximumStateAbsError": 2.3484230041503906e-05,
+      "maximumWaveformAbsError": 4.249159246683121e-09
+    },
+    {
+      "layers": 5,
+      "modelFile": "reuse-streaming-l5-fp32.onnx",
+      "modelBytes": 9066998,
+      "modelSha256": "f1667ed52cc707fc292b6a02cbc713d5468e3c513da0e9ddcaa995a2754089af",
+      "manifestFile": "reuse-streaming-l5-fp32.manifest.json",
+      "manifestBytes": 11656,
+      "manifestSha256": "ba50a1bf139451ef94272c11cfa48cfce64b127bf239ebfaaed043e7ea431f42",
+      "stateBytes": 32178736,
+      "activeParameterCount": 2240579,
+      "parityFile": "l5/parity.json",
+      "parityBytes": 3061,
+      "paritySha256": "2bb3535758b137e2511e9f466bc32752f4063271f991eed8dcfcd71226fc1d23",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 1.0013580322265625e-05,
+      "maximumWaveformAbsError": 1.862645149230957e-09
+    },
+    {
+      "layers": 6,
+      "modelFile": "reuse-streaming-l6-fp32.onnx",
+      "modelBytes": 9916337,
+      "modelSha256": "f7e75756d6a1f64867b2cd183175c10f0cd6d1b3da0fe65509ed14081b791c4f",
+      "manifestFile": "reuse-streaming-l6-fp32.manifest.json",
+      "manifestBytes": 12496,
+      "manifestSha256": "65e3fe3e288fccbe546937aaa25e4a57c3b114e9a3fcc94356f99045abfbf4f6",
+      "stateBytes": 35311152,
+      "activeParameterCount": 2449091,
+      "parityFile": "l6/parity.json",
+      "parityBytes": 3061,
+      "paritySha256": "e5f9ed30e26f8a4b99e1bdea485ecb0cc09cac5fd5c66c409d7c922a0f00152a",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 8.940696716308594e-06,
+      "maximumWaveformAbsError": 1.9208528101444244e-09
+    },
+    {
+      "layers": 7,
+      "modelFile": "reuse-streaming-l7-fp32.onnx",
+      "modelBytes": 10765896,
+      "modelSha256": "905b7e2301a883f04945bc1721fbd7e92ad03d49f8fd9c155f88973a29701c1e",
+      "manifestFile": "reuse-streaming-l7-fp32.manifest.json",
+      "manifestBytes": 13337,
+      "manifestSha256": "e5ad98868884479e37110680a517d53ebd90e0dedec88491a5e482138d9f1761",
+      "stateBytes": 38443568,
+      "activeParameterCount": 2657603,
+      "parityFile": "l7/parity.json",
+      "parityBytes": 3058,
+      "paritySha256": "d615a544a82800dd24037803c05cdbab899a16ad5c23de7713b3cdce795e4a77",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 1.0013580322265625e-05,
+      "maximumWaveformAbsError": 1.8299033399671316e-09
+    },
+    {
+      "layers": 8,
+      "modelFile": "reuse-streaming-l8-fp32.onnx",
+      "modelBytes": 11615514,
+      "modelSha256": "18db8d32b638702909de484d2a9cffc97ed09e6454c4caed3f0008fb0aab53e8",
+      "manifestFile": "reuse-streaming-l8-fp32.manifest.json",
+      "manifestBytes": 14177,
+      "manifestSha256": "5c6c24127d4186963e3f075f5247934603981a2fa5893c231bbd71a7179c5366",
+      "stateBytes": 41575984,
+      "activeParameterCount": 2866115,
+      "parityFile": "l8/parity.json",
+      "parityBytes": 8760,
+      "paritySha256": "345c5320b42043ba02d0e5c0b48293a1425a592cb60d476e4c4aba58347e0f07",
+      "spectralFrames": 8,
+      "audioSampleCounts": [
+        640,
+        641,
+        959,
+        960,
+        1377,
+        8000,
+        16000
+      ],
+      "maximumStateAbsError": 2.765655517578125e-05,
+      "maximumWaveformAbsError": 2.735760062932968e-09
+    },
+    {
+      "layers": 9,
+      "modelFile": "reuse-streaming-l9-fp32.onnx",
+      "modelBytes": 12465131,
+      "modelSha256": "3e252b068ff54198693a94ce9a527c349ba1712b20c869f65e1d193b1cac4510",
+      "manifestFile": "reuse-streaming-l9-fp32.manifest.json",
+      "manifestBytes": 15017,
+      "manifestSha256": "e77404b9f35dd310a46ace1c7018aa13aad17424495c1dea557987d22ce9eb24",
+      "stateBytes": 44708400,
+      "activeParameterCount": 3074627,
+      "parityFile": "l9/parity.json",
+      "parityBytes": 3060,
+      "paritySha256": "2720e820699b29d719f416d03768b9b76c59c17b9b8897aaa886555d9e75f1e3",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 1.71661376953125e-05,
+      "maximumWaveformAbsError": 2.153683453798294e-09
+    },
+    {
+      "layers": 10,
+      "modelFile": "reuse-streaming-l10-fp32.onnx",
+      "modelBytes": 13314749,
+      "modelSha256": "c3214f1a1e57d53f2d6aa5b1711d1bc62af68536483d4c0561b48ccb439e8606",
+      "manifestFile": "reuse-streaming-l10-fp32.manifest.json",
+      "manifestBytes": 15859,
+      "manifestSha256": "c348a503ecb79776a7eb98599c66172cad30a58ddb330207064e3d42847fd834",
+      "stateBytes": 47840816,
+      "activeParameterCount": 3283139,
+      "parityFile": "l10/parity.json",
+      "parityBytes": 3059,
+      "paritySha256": "41841e5bf30f134ed66cdfcacc27f56a6bd64d2833e65d08993fdf1865913532",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 1.71661376953125e-05,
+      "maximumWaveformAbsError": 3.14321368932724e-09
+    },
+    {
+      "layers": 11,
+      "modelFile": "reuse-streaming-l11-fp32.onnx",
+      "modelBytes": 14164693,
+      "modelSha256": "625a8e1bc1b1bb440531df61a4d4ee2c128999afa8c2192e49b88176b948c741",
+      "manifestFile": "reuse-streaming-l11-fp32.manifest.json",
+      "manifestBytes": 16759,
+      "manifestSha256": "d846736807081964f25bdd089cc48f5902e467fb5e8d1247ea5d3bc87267768b",
+      "stateBytes": 50973232,
+      "activeParameterCount": 3491651,
+      "parityFile": "l11/parity.json",
+      "parityBytes": 3061,
+      "paritySha256": "ce72ebc6a84867e658319136cd1ef7e23c638c7f1e1cc1587158671a369d3b08",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 1.71661376953125e-05,
+      "maximumWaveformAbsError": 2.9103830456733704e-09
+    },
+    {
+      "layers": 12,
+      "modelFile": "reuse-streaming-l12-fp32.onnx",
+      "modelBytes": 15014464,
+      "modelSha256": "425fe4bf0c27f05505214bd565886bf266f52b21425fb78f1e70e81fb5caed3a",
+      "manifestFile": "reuse-streaming-l12-fp32.manifest.json",
+      "manifestBytes": 17609,
+      "manifestSha256": "226337e6e02fa455c42cd35735f89dd0d8bc4731feb5053192ec8b6299785f9f",
+      "stateBytes": 54105648,
+      "activeParameterCount": 3700163,
+      "parityFile": "l12/parity.json",
+      "parityBytes": 3061,
+      "paritySha256": "84242687b2d3800de9c55f9b05a9aa2b648d9ecef0ae95cdc98eabf63daf6ab2",
+      "spectralFrames": 3,
+      "audioSampleCounts": [
+        640
+      ],
+      "maximumStateAbsError": 1.71661376953125e-05,
+      "maximumWaveformAbsError": 3.4633558243513107e-09
+    }
+  ],
+  "releaseTag": "android-streaming-models-v1",
+  "parityArchive": {
+    "file": "reuse-streaming-parity-v1.zip",
+    "bytes": 685497,
+    "sha256": "c09df5b47e208ac2b1ad2281216fd736aa1c6f47d224eefe2e40a4f123b7bd00"
+  },
+  "parityMetadataFiles": {
+    "LICENSE": {
+      "bytes": 4060,
+      "sha256": "6d1daa9c89ec421ba80fe051ac9f0dd46010d4fa4e8f4af654eb8e62f64e2ad5"
+    },
+    "NOTICE": {
+      "bytes": 1662,
+      "sha256": "06bc795f985396e03f38b6df3b0b045e8c5fa55a2f024b5b84a8d44b0c01eee0"
+    },
+    "MAMBA-LICENSE.txt": {
+      "bytes": 11348,
+      "sha256": "760939b000194d04548ede6a857bbe735d1695d8422ec85955c8e2bd7f4b95c5"
+    },
+    "source.json": {
+      "bytes": 2496,
+      "sha256": "7b5e5b4e04a6d892009f3886d6ce3e7c9ad6d4f2dd1042d1ee774a89541a8f12"
+    }
+  }
+}

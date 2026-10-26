@@ -12,6 +12,8 @@ inference needs no Python, CUDA, or server.
   Four-layer default, FP32, 16 kHz mono; **noncommercial research only**.
 - **Android offline SDK** — all 30 layers in FP32, with WAV/AAC/M4A import,
   bounded file processing, progress and cancellation. See [Android setup](android/README.md).
+- **Android streaming research SDK** — stateful FP32 exits 3–12, arbitrary PCM
+  chunks, reset, tail flushing and cancellation. See [Android streaming](android/reuse-streaming/README.md).
 - Mac command-line tools and iPhone/iPad examples consume the existing Swift APIs.
 
 The Swift products, module names and existing public APIs remain unchanged.
@@ -25,9 +27,11 @@ file transport without copying the neural engine into application sources.
 - [`apple/Sources/ReuseStreaming`](apple/Sources/ReuseStreaming) — Apple streaming research SDK.
 - [`apple/Tests`](apple/Tests), [`apple/Examples`](apple/Examples),
   [`apple/Benchmarks`](apple/Benchmarks) — Apple tests and runnable projects.
-- [`android/reuse-audio`](android/reuse-audio) — Android SDK, JNI DSP and tests.
+- [`android/reuse-audio`](android/reuse-audio) — Android offline SDK, JNI DSP and tests.
+- [`android/reuse-streaming`](android/reuse-streaming) — separate Android streaming research SDK.
 - [`models`](models) — shared model provenance and licenses; downloaded weights stay out of Git.
 - [`tools/model-export`](tools/model-export) — shared checkpoint fetching, ONNX export and validation.
+- [`tools/streaming-export`](tools/streaming-export) — stateful streaming ONNX exports and independent CPU validation.
 - [`apple/scripts`](apple/scripts) — Apple build, setup and smoke-test commands.
 
 The root `Package.swift` remains the Swift Package entry point. Android uses
@@ -97,7 +101,7 @@ the original offline implementation remains the default. See the
 
 The products have **different licenses**. [OpenMDW-1.1](LICENSE) covers the
 offline component. [NVIDIA NSCLv1](apple/Research/LICENSE.txt) covers the streaming
-model and derivative port; it cannot be included in a paid app under that license.
+model and derivative ports on both platforms; they cannot be included in a paid app under that license.
 See [NOTICE](NOTICE) for the boundary and required attribution.
 
 These independent implementations use MLX/Metal on Apple and ONNX Runtime on

@@ -1,0 +1,29 @@
+Real-time RE-USE streaming export and CPU reference
+==================================================
+Copyright(c)2025 NVIDIA CORPORATION. All rights reserved.
+Original architecture/checkpoint/reference source:
+https://huggingface.co/nvidia/Real-time_RE-USE
+Revision4c0c186272ca853cd18d832fc5c28777b62f32d1.
+
+The original model and derivative streaming implementation are subject to the
+NVIDIA One-Way Noncommercial License v1 (NSCLv1), supplied in LICENSE. Only
+noncommercial research and educational use is permitted under that license.
+This is a separate component from the commercial offline30-layer RE-USE model.
+
+The exporter preserves selected learned FP32 tensors and expresses per-hop
+causal convolution/Mamba state as explicit ONNX inputs/outputs. The reference
+loads SHA-verified original NVIDIA modules and extracts the published online
+wrapper classes without running its CUDA/download CLI.
+
+Mamba CPU adapter: Copyright(c)2023 Tri Dao, Albert Gu, Apache-2.0.
+See MAMBA-LICENSE.txt. The standard ONNX primitive helper is reused from the
+offline exporter with its original OpenMDW-1.1 attribution retained in place.
+This independent port is not an NVIDIA product or an endorsement.
+
+Original source notice retained without modification:
+Copyright (c) 2025, NVIDIA CORPORATION.  All rights reserved.
+NVIDIA CORPORATION and its licensors retain all intellectual property
+and proprietary rights in and to this software, related documentation
+and any modifications thereto.  Any use, reproduction, disclosure or
+distribution of this software and related documentation without an express
+license agreement from NVIDIA CORPORATION is strictly prohibited.

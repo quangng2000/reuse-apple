@@ -31,6 +31,8 @@ import zipfile
 
 GROUP = "io.github.quangng2000"
 ARTIFACT = "reuse-audio-android"
+STREAMING_ARTIFACT = "reuse-streaming-android"
+ARTIFACT_IDS = (ARTIFACT, STREAMING_ARTIFACT)
 API_ORIGIN = "https://central.sonatype.com"
 PUBLIC_ORIGIN = "https://repo.maven.apache.org"
 CHECKSUMS = ("md5", "sha1", "sha256", "sha512")
@@ -64,28 +66,35 @@ def validate_deployment_id(value):
     return value
 
 
-def load_bundle(path, version):
+def load_bundle(path, version, include_streaming=False):
     """Validate exact Maven paths and checksum coverage without extracting files."""
     validate_version(version)
     require(path.is_file() and not path.is_symlink(), "bundle_missing_or_not_regular")
     require(0 < path.stat().st_size <= MAX_RESPONSE, "bundle_size_limit")
     contents = path.read_bytes()
-    prefix = GROUP.replace(".", "/") + "/" + ARTIFACT + "/" + version + "/"
-    base = ARTIFACT + "-" + version
-    required = {base + suffix for suffix in (".aar", ".pom", "-sources.jar", "-javadoc.jar")}
+    artifact_ids = ARTIFACT_IDS if include_streaming else (ARTIFACT,)
+    components = [{"artifactId": artifact_id, "coordinate": GROUP + ":" + artifact_id + ":" + version,
+                   "prefix": GROUP.replace(".", "/") + "/" + artifact_id + "/" + version + "/"}
+                  for artifact_id in artifact_ids]
     try:
         with zipfile.ZipFile(path) as archive:
             entries = archive.infolist()
-            require(len(entries) <= 30 and len({e.filename for e in entries}) == len(entries),
+            require(len(entries) <= 30 * len(artifact_ids) and len({e.filename for e in entries}) == len(entries),
                     "bundle_duplicate_or_extra_entries")
-            require(all(e.filename.startswith(prefix) and not e.is_dir()
+            require(all(any(e.filename.startswith(component["prefix"]) for component in components) and not e.is_dir()
                         and not (e.external_attr >> 16) & 0o170000 == 0o120000
                         and e.file_size <= MAX_RESPONSE for e in entries), "invalid_bundle_path")
             require(sum(e.file_size for e in entries) <= MAX_RESPONSE, "bundle_expansion_limit")
-            files = {e.filename[len(prefix):]: archive.read(e) for e in entries}
+            files = {e.filename: archive.read(e) for e in entries}
     except (zipfile.BadZipFile, RuntimeError, OSError):
         raise PublishError("invalid_bundle_archive") from None
-    primary = required | ({base + ".module"} if base + ".module" in files else set())
+    primary = set()
+    for component in components:
+        base = component["artifactId"] + "-" + version
+        prefix = component["prefix"]
+        primary.update(prefix + base + suffix for suffix in (".aar", ".pom", "-sources.jar", "-javadoc.jar"))
+        if include_streaming or prefix + base + ".module" in files:
+            primary.add(prefix + base + ".module")
     expected = {name + suffix for name in primary
                 for suffix in ("", ".asc") + tuple("." + algorithm for algorithm in CHECKSUMS)}
     require(set(files) == expected, "incomplete_or_unexpected_bundle_files")
@@ -97,17 +106,23 @@ def load_bundle(path, version):
         signature = files[name + ".asc"].strip()
         require(signature.startswith(b"-----BEGIN PGP SIGNATURE-----")
                 and signature.endswith(b"-----END PGP SIGNATURE-----"), "missing_armored_signature")
-    try:
-        pom = ET.fromstring(files[base + ".pom"])
-    except ET.ParseError:
-        raise PublishError("invalid_bundle_pom") from None
     ns = "{http://maven.apache.org/POM/4.0.0}"
-    require(pom.tag == ns + "project", "invalid_bundle_pom")
-    for key, expected_value in {"groupId": GROUP, "artifactId": ARTIFACT,
-                                "version": version, "packaging": "aar"}.items():
-        require(pom.findtext(ns + key) == expected_value, "bundle_coordinate_mismatch")
-    return {"bytes": contents, "sha256": sha256(contents), "prefix": prefix,
-            "primary": {name: files[name] for name in sorted(primary)}}
+    for component in components:
+        artifact_id = component["artifactId"]
+        try:
+            pom = ET.fromstring(files[component["prefix"] + artifact_id + "-" + version + ".pom"])
+        except ET.ParseError:
+            raise PublishError("invalid_bundle_pom") from None
+        require(pom.tag == ns + "project", "invalid_bundle_pom")
+        for key, expected_value in {"groupId": GROUP, "artifactId": artifact_id,
+                                    "version": version, "packaging": "aar"}.items():
+            require(pom.findtext(ns + key) == expected_value, "bundle_coordinate_mismatch")
+    # Basenames remain unique across these two explicit artifact IDs. Keep the
+    # legacy singleton shape while recording each full repository path.
+    return {"bytes": contents, "sha256": sha256(contents), "prefix": components[0]["prefix"],
+            "components": components, "coordinates": [item["coordinate"] for item in components],
+            "paths": {name.rsplit("/", 1)[1]: name for name in sorted(primary)},
+            "primary": {name.rsplit("/", 1)[1]: files[name] for name in sorted(primary)}}
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -153,8 +168,13 @@ class CentralClient:
             raise PublishError(operation + "_network_error") from None
 
     def public_file(self, relative):
-        require(re.fullmatch(r"io/github/quangng2000/reuse-audio-android/[A-Za-z0-9./+-]+", relative)
-                and ".." not in relative, "invalid_public_artifact_path")
+        parts = relative.split("/")
+        require(len(parts) == 6 and parts[:3] == GROUP.split(".") and parts[3] in ARTIFACT_IDS,
+                "invalid_public_artifact_path")
+        validate_version(parts[4])
+        require(parts[5] in {parts[3] + "-" + parts[4] + suffix
+                            for suffix in (".aar", ".pom", ".module", "-sources.jar", "-javadoc.jar")},
+                "invalid_public_artifact_path")
         return self._request(PUBLIC_ORIGIN + "/maven2/" + relative, missing_ok=True, operation="public_read")
 
     def upload(self, bundle, version):
@@ -190,12 +210,12 @@ class CentralClient:
                               "POST", b"", authenticated=True, operation="publish")
 
 
-def checked_status(status, deployment_id, version):
+def checked_status(status, deployment_id, version, artifact_ids=(ARTIFACT,)):
     require(status.get("deploymentId") == deployment_id, "deployment_identity_mismatch")
     require(status.get("deploymentName") == ARTIFACT + "-" + version, "deployment_name_mismatch")
     state = status.get("deploymentState")
     require(state in STATES, "invalid_deployment_state")
-    expected = "pkg:maven/" + GROUP + "/" + ARTIFACT + "@" + version
+    expected = {"pkg:maven/" + GROUP + "/" + artifact_id + "@" + version for artifact_id in artifact_ids}
     purls = status.get("purls", [])
     require(isinstance(purls, list), "invalid_deployment_coordinates")
     # Central has returned PUBLISHED with an empty purls list. That read-only
@@ -203,9 +223,15 @@ def checked_status(status, deployment_id, version):
     # before success. Keep coordinates mandatory before any publish mutation.
     if state in {"VALIDATED", "PUBLISHING"}:
         require(purls, "missing_deployment_coordinates")
+    normalized = set()
     for purl in purls:
-        require(isinstance(purl, str) and purl in {expected, expected + "?type=aar"},
+        require(isinstance(purl, str), "deployment_coordinate_mismatch")
+        canonical = purl[:-9] if purl.endswith("?type=aar") else purl
+        require(canonical in expected,
                 "deployment_coordinate_mismatch")
+        normalized.add(canonical)
+    if state in {"VALIDATED", "PUBLISHING"} or (state == "PUBLISHED" and purls):
+        require(normalized == expected, "deployment_coordinate_mismatch")
     return state
 
 
@@ -224,10 +250,14 @@ def publish_bundle(bundle, version, report_path, client, deadline, deployment_id
                    clock=time.monotonic, sleep=time.sleep, interval=15):
     """One explicit publication attempt, with a durable receipt before mutations."""
     coordinate = GROUP + ":" + ARTIFACT + ":" + version
+    components = bundle["components"]
+    coordinates = bundle["coordinates"]
+    artifact_ids = tuple(item["artifactId"] for item in components)
     if deployment_id:
         validate_deployment_id(deployment_id)
         require(report_path.is_file(), "recovery_requires_matching_receipt")
-    report = {"coordinate": coordinate, "bundleSha256": bundle["sha256"],
+    report = {"schemaVersion": 2, "coordinate": coordinate, "coordinates": coordinates,
+              "bundleSha256": bundle["sha256"],
               "publishingType": "USER_MANAGED", "published": False, "uploadRequested": False,
               "publishRequested": False, "publishAccepted": False, "states": [], "artifacts": []}
     if report_path.exists():
@@ -237,6 +267,8 @@ def publish_bundle(bundle, version, report_path, client, deadline, deployment_id
             raise PublishError("prior_report_unreadable") from None
         require(prior.get("coordinate") == coordinate and prior.get("bundleSha256") == bundle["sha256"],
                 "prior_report_artifact_mismatch")
+        require(prior.get("coordinates", [prior.get("coordinate")]) == coordinates,
+                "prior_report_cohort_mismatch")
         require(deployment_id, "prior_attempt_requires_explicit_recovery")
         require(prior.get("deploymentId"), "unknown_upload_outcome_requires_portal_review")
         require(prior.get("deploymentId") == deployment_id, "deployment_receipt_mismatch")
@@ -249,9 +281,10 @@ def publish_bundle(bundle, version, report_path, client, deadline, deployment_id
                       publishRequested=bool(prior.get("publishRequested")),
                       publishAccepted=bool(prior.get("publishAccepted")), states=previous_states)
     try:
-        pom_name = ARTIFACT + "-" + version + ".pom"
-        existing = client.public_file(bundle["prefix"] + pom_name)
-        require(deployment_id or existing is None, "version_already_published")
+        for component in components:
+            pom_name = component["artifactId"] + "-" + version + ".pom"
+            existing = client.public_file(component["prefix"] + pom_name)
+            require(deployment_id or existing is None, "version_already_published")
         if not deployment_id:
             report.update(status="UPLOAD_REQUESTED", uploadRequested=True)
             write_report(report_path, report)
@@ -264,7 +297,7 @@ def publish_bundle(bundle, version, report_path, client, deadline, deployment_id
             write_report(report_path, report)
         while True:
             require(clock() < deadline, "publication_timeout")
-            state = checked_status(client.status(deployment_id), deployment_id, version)
+            state = checked_status(client.status(deployment_id), deployment_id, version, artifact_ids)
             report["status"] = state
             if not report["states"] or report["states"][-1] != state:
                 report["states"].append(state)
@@ -288,7 +321,7 @@ def publish_bundle(bundle, version, report_path, client, deadline, deployment_id
         for name, expected_bytes in bundle["primary"].items():
             while True:
                 require(clock() < deadline, "public_sync_timeout")
-                actual = client.public_file(bundle["prefix"] + name)
+                actual = client.public_file(bundle["paths"][name])
                 if actual is not None:
                     require(sha256(actual) == sha256(expected_bytes), "public_artifact_hash_mismatch")
                     report["artifacts"] = [item for item in report["artifacts"] if item["name"] != name]
@@ -309,6 +342,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--version", required=True)
+    parser.add_argument("--include-streaming", action="store_true",
+                        help="Publish both the offline and separately licensed streaming research artifacts")
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--deployment-id", help="Recover this ID using its matching existing report; never upload again")
     parser.add_argument("--timeout-seconds", type=int, default=1800)
@@ -317,12 +352,13 @@ def main(argv=None):
         require(60 <= args.timeout_seconds <= 3600, "timeout_out_of_bounds")
         require(args.report.resolve() != args.bundle.resolve(), "report_must_not_overwrite_bundle")
         deadline = time.monotonic() + args.timeout_seconds
-        bundle = load_bundle(args.bundle, args.version)
+        bundle = load_bundle(args.bundle, args.version, include_streaming=args.include_streaming)
         client = CentralClient(os.environ.get("CENTRAL_TOKEN_USERNAME", ""),
                                os.environ.get("CENTRAL_TOKEN_PASSWORD", ""), deadline)
         report = publish_bundle(bundle, args.version, args.report, client, deadline,
                                 deployment_id=args.deployment_id)
         print(json.dumps({"coordinate": report["coordinate"], "deploymentId": report["deploymentId"],
+                          "coordinates": report["coordinates"],
                           "status": report["status"], "published": report["published"]}, sort_keys=True))
         return 0
     except PublishError as error:

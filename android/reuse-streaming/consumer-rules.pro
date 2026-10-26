@@ -1,0 +1,1 @@
+-keep class io.riftco.reusestreaming.StreamingFourier640 { *; }

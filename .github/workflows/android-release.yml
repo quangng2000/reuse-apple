@@ -10,6 +10,7 @@ on:
       - '.github/workflows/android-release.yml'
       - 'android/**'
       - 'tools/model-export/**'
+      - 'tools/streaming-export/**'
       - 'models/**'
       - 'LICENSE'
       - 'NOTICE'
@@ -51,10 +52,15 @@ jobs:
           python3 - <<'PY'
           import os, re
           from pathlib import Path
-          text = Path('android/reuse-audio/build.gradle.kts').read_text()
-          versions = re.findall(r'^version\s*=\s*"([^"\n]+)"\s*$', text, re.MULTILINE)
-          if len(versions) != 1 or not re.fullmatch(r'\d+\.\d+\.\d+(?:-[A-Za-z0-9]+(?:[.-][A-Za-z0-9]+)*)?', versions[0]) or versions[0].endswith('-SNAPSHOT'):
-              raise SystemExit('Expected one literal release version in the Android Gradle file')
+          versions = []
+          for module in ('reuse-audio', 'reuse-streaming'):
+              text = Path(f'android/{module}/build.gradle.kts').read_text()
+              matches = re.findall(r'^version\s*=\s*"([^"\n]+)"\s*$', text, re.MULTILINE)
+              if len(matches) != 1 or not re.fullmatch(r'\d+\.\d+\.\d+(?:-[A-Za-z0-9]+(?:[.-][A-Za-z0-9]+)*)?', matches[0]) or matches[0].endswith('-SNAPSHOT'):
+                  raise SystemExit('Expected one literal release version in each Android Gradle file')
+              versions.append(matches[0])
+          if len(set(versions)) != 1:
+              raise SystemExit('Offline and streaming artifacts must have the same release version')
           version = versions[0]
           if os.environ['EVENT_NAME'] == 'push' and os.environ['REF_NAME'] != 'android-v' + version:
               raise SystemExit('Android release tag must exactly match the Gradle version')
@@ -172,6 +178,12 @@ jobs:
           print('Verified pinned offline model and all 18 synthetic parity fixtures')
           PY
 
+      - name: Fetch and verify stateful streaming models and synthetic fixtures
+        run: |
+          set -euo pipefail
+          python3 android/tools/fetch_streaming_assets.py \
+            --output "$RUNNER_TEMP/reuse-streaming-ci-fixtures" --github-env "$GITHUB_ENV"
+
       - name: Check publishing helper tests
         run: python3 -m unittest discover -s android/tools -p 'test_*.py' -v
 
@@ -198,6 +210,35 @@ jobs:
               raise SystemExit('Host release tests must pass without skips')
           print(f'Passed {len(cases)} host tests with all critical inference tests and zero skips')
           PY
+          python3 - <<'PY'
+          import os, shutil, subprocess
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          assets = Path(os.environ['REUSE_STREAMING_ASSETS'])
+          critical = {'actualStatefulOnnxMatchesIndependentSpectralCarryAndReset',
+                      'actualModelWaveformParityChunkIndependenceAndReset',
+                      'actualOrtCancellationTerminatesAndResetRestoresIndependentOutput'}
+          for depth in (4, 3, 5, 6, 7, 8, 9, 10, 11, 12):
+              env = dict(os.environ,
+                         REUSE_STREAMING_MODEL_FILE=str(assets / 'models' / f'reuse-streaming-l{depth}-fp32.onnx'),
+                         REUSE_STREAMING_MODEL_MANIFEST=str(assets / 'models' / f'reuse-streaming-l{depth}-fp32.manifest.json'),
+                         REUSE_STREAMING_PARITY_DIR=str(assets / 'parity' / f'l{depth}'))
+              command = ['./gradlew', '--no-daemon', '--console=plain', '--max-workers=2', '--rerun-tasks',
+                         ':reuse-streaming:testReleaseUnitTest']
+              if depth != 4:
+                  command += ['--tests', 'io.riftco.reusestreaming.StreamingModelIntegrationTest']
+              subprocess.run(command, env=env, check=True, timeout=300)
+              reports = Path('reuse-streaming/build/test-results/testReleaseUnitTest')
+              cases = [case for report in reports.glob('TEST-*.xml') for case in ET.parse(report).getroot().iter('testcase')]
+              names = {case.attrib.get('name') for case in cases
+                       if case.attrib.get('classname') == 'io.riftco.reusestreaming.StreamingModelIntegrationTest'}
+              if len(cases) < (21 if depth == 4 else 3) or not critical <= names:
+                  raise SystemExit(f'Missing required streaming inference tests for depth {depth}')
+              if any(case.find(kind) is not None for case in cases for kind in ('skipped', 'failure', 'error')):
+                  raise SystemExit(f'Streaming depth {depth} must pass without skips')
+              shutil.copytree(reports, Path('build/release-test-evidence') / f'streaming-l{depth}')
+              print(f'Passed streaming depth {depth}: {len(cases)} tests; zero skips')
+          PY
 
       - name: Stage and validate unsigned Central publication
         working-directory: android
@@ -205,10 +246,28 @@ jobs:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-          ./gradlew --no-daemon --console=plain --max-workers=2 :reuse-audio:publishReleasePublicationToCentralStagingRepository
-          python3 tools/central_bundle.py --repository reuse-audio/build/central-repository \
+          ./gradlew --no-daemon --console=plain --max-workers=2 \
+            :reuse-audio:publishReleasePublicationToCentralStagingRepository \
+            :reuse-streaming:publishReleasePublicationToCentralStagingRepository
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil
+          target = Path('build/central-repository')
+          if target.exists():
+              raise SystemExit('Combined staging directory must be fresh')
+          for module in ('reuse-audio', 'reuse-streaming'):
+              source = Path(module) / 'build/central-repository'
+              for path in source.rglob('*'):
+                  if path.is_file():
+                      destination = target / path.relative_to(source)
+                      if destination.exists():
+                          raise SystemExit('Overlapping Maven staging artifacts')
+                      destination.parent.mkdir(parents=True, exist_ok=True)
+                      shutil.copyfile(path, destination)
+          PY
+          python3 tools/central_bundle.py --repository build/central-repository \
             --output "$RUNNER_TEMP/unused-unsigned-bundle.zip" --version "$RELEASE_VERSION" \
-            --allow-unsigned > reuse-audio/build/central-validation.json
+            --include-streaming --allow-unsigned > build/central-validation.json
 
       - name: Stop Gradle processes before leaving validation
         if: ${{ always() && steps.java.outcome == 'success' }}
@@ -219,7 +278,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: android-central-unsigned-${{ github.run_id }}-${{ github.run_attempt }}
-          path: android/reuse-audio/build/central-repository/
+          path: android/build/central-repository/
           if-no-files-found: error
           retention-days: 7
 
@@ -229,9 +288,12 @@ jobs:
         with:
           name: android-validation-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            android/reuse-audio/build/central-validation.json
+            android/build/central-validation.json
             android/reuse-audio/build/test-results/testDebugUnitTest/TEST-*.xml
             android/reuse-audio/build/reports/tests/testDebugUnitTest/
+            android/reuse-streaming/build/test-results/testReleaseUnitTest/TEST-*.xml
+            android/reuse-streaming/build/reports/tests/testReleaseUnitTest/
+            android/build/release-test-evidence/
           if-no-files-found: ignore
           retention-days: 14
 
@@ -344,12 +406,12 @@ jobs:
           env -u CENTRAL_TOKEN_USERNAME -u CENTRAL_TOKEN_PASSWORD \
             python3 android/tools/central_bundle.py --repository "$RUNNER_TEMP/central-repository" \
             --output "$PUBLIC_OUTPUT/reuse-audio-android-$RELEASE_VERSION-central.zip" \
-            --version "$RELEASE_VERSION" --gpg-home "$signing_directory/gnupg" \
+            --version "$RELEASE_VERSION" --include-streaming --gpg-home "$signing_directory/gnupg" \
             --signing-key "$signing_fingerprint" --passphrase-file "$signing_directory/passphrase" \
             > "$PUBLIC_OUTPUT/bundle-report.json"
           python3 android/tools/central_publish.py \
             --bundle "$PUBLIC_OUTPUT/reuse-audio-android-$RELEASE_VERSION-central.zip" \
-            --version "$RELEASE_VERSION" --report "$PUBLIC_OUTPUT/publish-report.json"
+            --version "$RELEASE_VERSION" --include-streaming --report "$PUBLIC_OUTPUT/publish-report.json"
 
       - name: Preserve signed bundle and resumable publication report
         if: ${{ always() }}
