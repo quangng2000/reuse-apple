@@ -92,6 +92,8 @@ REUSE_MODEL_MANIFEST="$PWD/../tools/model-export/generated/reuse-30-fp32.manifes
 
 For Android instrumentation, stage the same generated ONNX/manifest and `640-*.f32` oracle files in `reuse-audio/build/generated/parity-assets/` before running `:reuse-audio:connectedDebugAndroidTest`. The generated assets remain ignored. Instrumentation checks actual Android CPU/JNI inference, PCM restoration, native AAC decode/resampling, and cancellation. An emulator provides functional evidence; physical-device latency, thermals, and battery behavior require a real phone.
 
+The [0.1.2 release receipt](releases/0.1.2.json) records both public Maven artifacts, test scope, signatures, public hashes and the independent consumer build.
+
 `validation.json` describes the recorded validation build. Its artifact/source
 hashes and evidence paths retain their historical identity; current reproduction
 commands use the layout above.

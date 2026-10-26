@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.2",
+  "tag": "android-v0.1.2",
+  "tagCommit": "337c918b038f796271f1cea0673447eaa89cf548",
+  "implementationCommit": "5a5c3ba18bf24147d6060494f57510c61d6757bb",
+  "coordinates": [
+    "io.github.quangng2000:reuse-audio-android:0.1.2",
+    "io.github.quangng2000:reuse-streaming-android:0.1.2"
+  ],
+  "centralDeploymentId": "6b8cfb74-7585-4340-87c1-2b60e124ce88",
+  "centralState": "PUBLISHED",
+  "originalSignedBundleSha256": "6d0fef3b7b448ba6d4c067e338fad04f47a2cf87f8f99115573bc52c239b4d4e",
+  "signedBundleEntryCount": 60,
+  "verifiedSignatureCount": 10,
+  "signingKeyFingerprint": "93C571756E6EF6906F88DFD2A37754DCEBAECBBE",
+  "verifiedAt": "2026-10-26T23:20:12.089625+00:00",
+  "tagWorkflow": {
+    "runUrl": "https://github.com/quangng2000/reuse-audio/actions/runs/40416117665",
+    "validation": "success",
+    "uploadAndPublishAccepted": true,
+    "finalMonitoringError": "missing_deployment_coordinates during PUBLISHING after accepted publish"
+  },
+  "readOnlyVerification": {
+    "runUrl": "https://github.com/quangng2000/reuse-audio/actions/runs/40418817966",
+    "conclusion": "success",
+    "sourceCommit": "c820ac8ba955fcf64c2311779f1b6b0bc300ea85",
+    "originalDeploymentAndBundlePreserved": true,
+    "uploadCapability": false,
+    "publishCapability": false,
+    "allTenPublicHashesVerified": true
+  },
+  "validation": {
+    "offlineHostTests": 17,
+    "streamingHostTestInvocations": 48,
+    "streamingDepths": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "publisherAndRecoveryToolTests": 100,
+    "fourAbiBuilds": [
+      "arm64-v8a",
+      "armeabi-v7a",
+      "x86",
+      "x86_64"
+    ],
+    "existingOfflineAndAppleInferenceMathChanged": false
+  },
+  "publicConsumer": {
+    "repositories": [
+      "google",
+      "mavenCentral"
+    ],
+    "mavenLocal": false,
+    "localSdkDependencySubstitution": false,
+    "bothPublicApisCompiled": true,
+    "assembleRelease": "success",
+    "onnxRuntimeVersion": "1.23.2"
+  },
+  "streamingModelRelease": "https://github.com/quangng2000/reuse-audio/releases/tag/android-streaming-models-v1",
+  "streamingModelCatalog": "../reuse-streaming/model/validated-artifacts.json",
+  "licenses": {
+    "offline": "OpenMDW-1.1",
+    "streaming": "NSCLv1; noncommercial research and education only"
+  },
+  "physicalAndroidLatencyBenchmarked": false,
+  "publicArtifacts": [
+    {
+      "bytes": 67213,
+      "name": "reuse-audio-android-0.1.2-javadoc.jar",
+      "sha256": "bcdf7d900fd65b68243aa755f555b10a4ef90fb5ed4e62be9af2cae500d70996",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-audio-android/0.1.2/reuse-audio-android-0.1.2-javadoc.jar"
+    },
+    {
+      "bytes": 90397,
+      "name": "reuse-audio-android-0.1.2-sources.jar",
+      "sha256": "72baf55d180a5f6f90bc8ff2b3393bb3ba76a472d562e93aff437120e35e6377",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-audio-android/0.1.2/reuse-audio-android-0.1.2-sources.jar"
+    },
+    {
+      "bytes": 875977,
+      "name": "reuse-audio-android-0.1.2.aar",
+      "sha256": "7c72f4eefe26ceb081671582689c03ac9c9cd51149820948ecafc755d4c3fa33",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-audio-android/0.1.2/reuse-audio-android-0.1.2.aar"
+    },
+    {
+      "bytes": 2497,
+      "name": "reuse-audio-android-0.1.2.module",
+      "sha256": "72da2720442840c5618beba7efae63cdc10afee4c8cdce6e62027f5a9d9dafb3",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-audio-android/0.1.2/reuse-audio-android-0.1.2.module"
+    },
+    {
+      "bytes": 2749,
+      "name": "reuse-audio-android-0.1.2.pom",
+      "sha256": "115ea83ae03981fcee19ca5eaa1442699f8371acff324279cfb47b8105b306c4",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-audio-android/0.1.2/reuse-audio-android-0.1.2.pom"
+    },
+    {
+      "bytes": 55302,
+      "name": "reuse-streaming-android-0.1.2-javadoc.jar",
+      "sha256": "974a3d746fc14d030560d04d823970273229d310966817081d6a32aa75d6e87a",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-streaming-android/0.1.2/reuse-streaming-android-0.1.2-javadoc.jar"
+    },
+    {
+      "bytes": 79377,
+      "name": "reuse-streaming-android-0.1.2-sources.jar",
+      "sha256": "e80654c31f4cd10c7a9610149963459ecbb13eabeb5ddaa3ec1532bbf2d936a1",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-streaming-android/0.1.2/reuse-streaming-android-0.1.2-sources.jar"
+    },
+    {
+      "bytes": 857355,
+      "name": "reuse-streaming-android-0.1.2.aar",
+      "sha256": "01a16b3598c53d8d42e4fe5fa232fb9b80b734bebd0174e84f36b4d5ac8d4fd9",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-streaming-android/0.1.2/reuse-streaming-android-0.1.2.aar"
+    },
+    {
+      "bytes": 2517,
+      "name": "reuse-streaming-android-0.1.2.module",
+      "sha256": "a3fec35cbf9de307ae635b5c1a03c7f119b312b201441c7329d05f9310ff82d9",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-streaming-android/0.1.2/reuse-streaming-android-0.1.2.module"
+    },
+    {
+      "bytes": 2745,
+      "name": "reuse-streaming-android-0.1.2.pom",
+      "sha256": "8958fcf798e737bf3496c0cc6920712b82829ff02d492eaab08a7f6d33dce6d7",
+      "url": "https://repo.maven.apache.org/maven2/io/github/quangng2000/reuse-streaming-android/0.1.2/reuse-streaming-android-0.1.2.pom"
+    }
+  ],
+  "independentPublicHashReadback": true
+}
