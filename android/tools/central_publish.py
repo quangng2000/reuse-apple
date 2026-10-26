@@ -198,7 +198,10 @@ def checked_status(status, deployment_id, version):
     expected = "pkg:maven/" + GROUP + "/" + ARTIFACT + "@" + version
     purls = status.get("purls", [])
     require(isinstance(purls, list), "invalid_deployment_coordinates")
-    if state in {"VALIDATED", "PUBLISHING", "PUBLISHED"}:
+    # Central has returned PUBLISHED with an empty purls list. That read-only
+    # state still requires exact receipt ID/name and every public artifact hash
+    # before success. Keep coordinates mandatory before any publish mutation.
+    if state in {"VALIDATED", "PUBLISHING"}:
         require(purls, "missing_deployment_coordinates")
     for purl in purls:
         require(isinstance(purl, str) and purl in {expected, expected + "?type=aar"},

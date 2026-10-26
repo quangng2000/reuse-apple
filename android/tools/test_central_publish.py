@@ -250,6 +250,52 @@ class CentralPublicationTests(unittest.TestCase):
             self.run_publication(client)
         self.assertFalse(json.loads(self.report.read_text())["published"])
 
+    def test_published_empty_purls_requires_all_public_hashes_before_success(self):
+        client = FakeClient(self.bundle, ["PUBLISHED"])
+        client.status_override["purls"] = []
+        result = self.run_publication(client)
+        self.assertTrue(result["published"])
+        self.assertEqual({item["name"] for item in result["artifacts"]}, set(self.bundle["primary"]))
+        self.assertEqual(self.call_count(client, "public"), len(self.bundle["primary"]) + 1)
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_published_empty_purls_cannot_hide_public_hash_mismatch(self):
+        client = FakeClient(self.bundle, ["PUBLISHED"])
+        client.status_override["purls"] = []
+        client.mismatch = True
+        with self.assertRaisesRegex(publisher.PublishError, "public_artifact_hash_mismatch"):
+            self.run_publication(client)
+        result = json.loads(self.report.read_text())
+        self.assertFalse(result["published"])
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_published_wrong_present_purl_is_still_rejected(self):
+        client = FakeClient(self.bundle, ["PUBLISHED"])
+        client.status_override["purls"] = ["pkg:maven/other/project@1.0.0"]
+        with self.assertRaisesRegex(publisher.PublishError, "deployment_coordinate_mismatch"):
+            self.run_publication(client)
+        self.assertFalse(json.loads(self.report.read_text())["published"])
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_validated_and_publishing_still_require_nonempty_purls(self):
+        for state in ("VALIDATED", "PUBLISHING"):
+            with self.subTest(state=state):
+                self.report.unlink(missing_ok=True)
+                client = FakeClient(self.bundle, [state])
+                client.status_override["purls"] = []
+                with self.assertRaisesRegex(publisher.PublishError, "missing_deployment_coordinates"):
+                    self.run_publication(client)
+                self.assertFalse(json.loads(self.report.read_text())["published"])
+                self.assertEqual(self.call_count(client, "publish"), 0)
+
+    def test_published_empty_purls_still_requires_exact_deployment_identity(self):
+        client = FakeClient(self.bundle, ["PUBLISHED"])
+        client.status_override.update(purls=[], deploymentId=OTHER_DEPLOYMENT)
+        with self.assertRaisesRegex(publisher.PublishError, "deployment_identity_mismatch"):
+            self.run_publication(client)
+        self.assertFalse(json.loads(self.report.read_text())["published"])
+        self.assertEqual(self.call_count(client, "publish"), 0)
+
     def test_bundle_checksums_and_paths_are_verified_before_upload(self):
         for option, expected in [("corrupt_checksum", "bundle_checksum_mismatch"),
                                   ("extra_file", "incomplete_or_unexpected_bundle_files")]:

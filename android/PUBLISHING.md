@@ -137,3 +137,15 @@ never retries an upload or publish POST. Existing public versions cannot be
 overwritten. A successful report requires both Central's `PUBLISHED` state and
 public artifact hash verification. Public signed bundles and safe deployment
 reports are retained as workflow artifacts for 30 days.
+
+The publishing credentials are configured for this repository. The dedicated
+Central token was supplied by the maintainer and verified with a read-only
+request against the existing published deployment. No new token was generated
+by the setup script. The four secrets' values are never committed or logged.
+
+[Publisher protocol checks](../.github/workflows/android-publisher-checks.yml)
+run separately when the publishing helpers change, using mocked requests and no
+credentials. Completed Central deployments may return an empty package list;
+this is accepted only for `PUBLISHED`, with exact deployment identity and all
+public artifact hashes still required. Pre-publication identity checks remain
+strict.

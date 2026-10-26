@@ -17,7 +17,12 @@
   "unsignedPublicationArtifactCount": 5,
   "signingJobInManualRun": "intentionally skipped",
   "inferenceMathOrTestToleranceChanged": false,
-  "credentialsConfigured": false,
+  "credentialsConfigured": true,
   "firstMavenRelease": "io.github.quangng2000:reuse-audio-android:0.1.1",
-  "firstMavenReleasePubliclyVerified": true
+  "firstMavenReleasePubliclyVerified": true,
+  "credentialsConfiguredAt": "2026-10-26T22:04:55.814205+00:00",
+  "centralTokenReadOnlyAccessVerified": true,
+  "publisherCompatibilityLocalTests": 25,
+  "completedDeploymentFormat": "PUBLISHED may omit package URLs; exact deployment identity and public artifact hashes remain required",
+  "signingKeyFingerprint": "93C571756E6EF6906F88DFD2A37754DCEBAECBBE"
 }
