@@ -57,6 +57,7 @@
 		9D7BDF22C985ABB2B125D577 /* ReuseStreamingDiagnosticMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8748D76BE32A044A087DB492 /* ReuseStreamingDiagnosticMac.framework */; };
 		A19AFBC1675CF8E5C785E534 /* MambaInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1599BED819CEEE22A903DA /* MambaInputFilter.swift */; };
 		A69A53782BD6F7D937A9C4D8 /* StreamingReuseCheckpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA391016ABF8BFEE4E47F76 /* StreamingReuseCheckpoint.swift */; };
+		AAB3D4D1C773314CCB6AD09B /* BenchmarkRuntimeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E06B7AF69D96175CB635F9B /* BenchmarkRuntimeOptions.swift */; };
 		AB7B5E547AC360149BF0DCF2 /* MambaProjectionScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4704EAF7E0FBBE804F316E /* MambaProjectionScan.swift */; };
 		B178548661AC339199DC8E59 /* StreamingReuseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E12330060C3E1896773541 /* StreamingReuseModel.swift */; };
 		B2E115802CD28268B87E67C1 /* StreamingTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982C657FADF73DA76D748A3F /* StreamingTransform.swift */; };
@@ -123,6 +124,7 @@
 		4A7D3EF9EDB88AB52160F578 /* BenchmarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkApp.swift; sourceTree = "<group>"; };
 		56FC5B8D3504F8E11F0D3C36 /* ReuseStreamingReference.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReuseStreamingReference.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CB87B413BEDE1A753AB8182 /* StreamingReuseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseLayers.swift; sourceTree = "<group>"; };
+		5E06B7AF69D96175CB635F9B /* BenchmarkRuntimeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkRuntimeOptions.swift; sourceTree = "<group>"; };
 		5E2AD02205C669EE8CC5982F /* StreamingFrames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingFrames.swift; sourceTree = "<group>"; };
 		611B1E8E8897F7C9AC5192BC /* StreamingEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingEnhancer.swift; sourceTree = "<group>"; };
 		63F6C85F7BF55CBA6CC7A608 /* MambaProjectionFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaProjectionFrequency.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				4A7D3EF9EDB88AB52160F578 /* BenchmarkApp.swift */,
+				5E06B7AF69D96175CB635F9B /* BenchmarkRuntimeOptions.swift */,
 				0B0994056D9C65F014D3B17C /* EightLayerBenchmark.swift */,
 				9E891CA40026B05F63BE11E4 /* EightLayerStageProfile.swift */,
 			);
@@ -606,6 +609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B522D921E67F14F5FC6B84A /* BenchmarkApp.swift in Sources */,
+				AAB3D4D1C773314CCB6AD09B /* BenchmarkRuntimeOptions.swift in Sources */,
 				4344FE3E90BEBC3CF2DA13A4 /* EightLayerBenchmark.swift in Sources */,
 				37FA72EE91117ED931E8ED13 /* EightLayerStageProfile.swift in Sources */,
 			);

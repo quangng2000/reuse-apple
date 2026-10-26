@@ -1,8 +1,8 @@
 # Eight-layer stage diagnostic
 
-## Current candidate and validation
+## Selected optimization and validation
 
-The next candidate pools the two independent frequency filters/scans while
+The selected path pools the two independent frequency filters/scans while
 keeping their six original GEMMs, then reuses a compiled encoder/TF/decoder-feature
 graph. The final phase-head convolutions and atan2 remain eager: compiling those
 heads changed output bits and was rejected. All model caches are explicit graph
@@ -15,9 +15,11 @@ On an M4 Pro Mac, an uncontended Release build without coverage counters measure
 reduction). P95 was 6.610 ms versus 5.365 ms. Both variants processed two 32-second
 trials in ABBA order, retaining all 3,202 frame timings per variant. Every output
 sample was bitwise equal, all thermal samples were nominal, and low power mode
-was off. These are Mac results; the candidate has **not yet been benchmarked on
-the iPhone**, and no sub-20 ms phone result is established. Public initializer
-defaults remain unchanged until device validation.
+was off. On the iPhone 13 Pro Max the completed full comparison measured
+28.610 → 27.229 ms mean (4.82%), with all output bits identical. Three further
+short option screens did not establish a better path. The public initializer now
+selects this combination only for optimized eight-layer models. The iPhone's
+20 ms target was not reached.
 
 The complete correctness suite passed 26 tests. Three optional benchmark entry
 points were skipped in that suite and exercised separately. Kernel rewrites that
@@ -35,6 +37,13 @@ Evidence:
 The stage diagnostic attributed about 70% of instrumented wall time to TF0–TF7
 combined, with decoding the largest individual stage. Its added fences increased
 mean time from 5.468 ms to 9.013 ms; use it for attribution, not throughput claims.
+On the iPhone, TF0–TF7 accounted for about 79.4% of instrumented stage wall time.
+The fences inflated mean frame time from 29.453 to 78.610 ms. Normal and
+instrumented baseline outputs and all 35 state digests matched exactly. These
+numbers include host encoding and waits, and do not isolate GPU execution time.
+See the [iPhone stage evidence](Reports/2026-10-25-iphone13promax-stage-profile.json)
+and [completed phone comparison](../StreamingEight/README.md) for the authoritative
+un-instrumented timings, option screens and measured source provenance.
 
 ## Diagnostic implementation
 

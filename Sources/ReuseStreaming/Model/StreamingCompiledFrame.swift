@@ -8,7 +8,7 @@ package enum StreamingFrameCompilation: String, Equatable {
     case decoderFeatures = "decoder_features"
 }
 
-/// Experimental fixed-shape graph. Every cache is an explicit input and output,
+/// Fixed-shape streaming graph. Every cache is an explicit input and output,
 /// so replay never captures a previous recording's recurrent state.
 final class StreamingCompiledFrame {
     private unowned let model: StreamingReuseModel

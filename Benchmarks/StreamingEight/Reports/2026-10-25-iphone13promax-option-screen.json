@@ -1,0 +1,269 @@
+{
+  "all20_output_files_host_verified": true,
+  "baseline_revision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
+  "measured_engine_commit": "83a2a632d84215ce344cd74224836901efc8c285",
+  "measured_engine_sha256": "10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
+  "schema_version": 1,
+  "selection": "Retain decoderFeatures plus pooling: best normalized short mean ratio and validated full32s result. Body+pool is essentially tied in short absolute means. No sub20ms result.",
+  "status": "completed",
+  "variants": [
+    {
+      "all_output_bits_equal": true,
+      "mean_latency_savings_percent": 5.41461654092612,
+      "name": "compiled-only",
+      "options": {
+        "compilation": "decoderFeatures",
+        "pooled_frequency": false
+      },
+      "run_id": "922A6AF9-3946-4785-8992-9076C51D0347",
+      "scope": "4s ABBA screening;2 trials per variant",
+      "source_results": "2026-10-25-iphone13promax-compiled-only-results.json",
+      "thermal": [
+        {
+          "id": "short-4s-0-baseline",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-1-candidate",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-2-candidate",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-3-baseline",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        }
+      ],
+      "variants": {
+        "baseline": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 47.415625012945384,
+            "mean_ms": 29.582681488512147,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 29.112166666891426,
+            "p95_ms": 31.40304167754948,
+            "p99_ms": 42.15758334612474
+          },
+          "real_time_factor": 1.4882331718750001,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 11.905865375000001,
+          "trial_count": 2
+        },
+        "candidate": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 130.80008327960968,
+            "mean_ms": 27.98089272338568,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 27.132333314511925,
+            "p95_ms": 28.274208307266235,
+            "p99_ms": 49.53045834554359
+          },
+          "real_time_factor": 1.4077939635,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 11.262351708,
+          "trial_count": 2
+        }
+      }
+    },
+    {
+      "all_output_bits_equal": true,
+      "mean_latency_savings_percent": 2.6120702107555682,
+      "name": "pool-only",
+      "options": {
+        "compilation": "disabled",
+        "pooled_frequency": true
+      },
+      "run_id": "A6494F4A-9151-47E5-BB46-CE46E42E2E43",
+      "scope": "4s ABBA screening;2 trials per variant",
+      "source_results": "2026-10-25-iphone13promax-pool-only-results.json",
+      "thermal": [
+        {
+          "id": "short-4s-0-baseline",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-1-candidate",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-2-candidate",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-3-baseline",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        }
+      ],
+      "variants": {
+        "baseline": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 37.948250013869256,
+            "mean_ms": 29.09679881868124,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 28.95970831741579,
+            "p95_ms": 29.82150000752881,
+            "p99_ms": 32.5605416437611
+          },
+          "real_time_factor": 1.4636644321249999,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 11.709315456999999,
+          "trial_count": 2
+        },
+        "candidate": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 29.952291632071137,
+            "mean_ms": 28.33677000445499,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 28.310687514021993,
+            "p95_ms": 28.760208340827376,
+            "p99_ms": 29.374249977990985
+          },
+          "real_time_factor": 1.42542209375,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 11.40337675,
+          "trial_count": 2
+        }
+      }
+    },
+    {
+      "all_output_bits_equal": true,
+      "mean_latency_savings_percent": 5.880805151234614,
+      "name": "body-plus-pool",
+      "options": {
+        "compilation": "body",
+        "pooled_frequency": true
+      },
+      "run_id": "C6953233-648E-432C-A068-ABF86F4A006E",
+      "scope": "4s ABBA screening;2 trials per variant",
+      "source_results": "2026-10-25-iphone13promax-body-plus-pool-results.json",
+      "thermal": [
+        {
+          "id": "short-4s-0-baseline",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-1-candidate",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-2-candidate",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        },
+        {
+          "id": "short-4s-3-baseline",
+          "thermal_after": "nominal",
+          "thermal_before": "nominal",
+          "thermal_push_counts": {
+            "nominal": 200
+          }
+        }
+      ],
+      "variants": {
+        "baseline": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 35.72024998720735,
+            "mean_ms": 28.97010053813791,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 28.748145821737126,
+            "p95_ms": 30.835041659884155,
+            "p99_ms": 33.04524999111891
+          },
+          "real_time_factor": 1.4574078853749999,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 11.659263082999999,
+          "trial_count": 2
+        },
+        "candidate": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 29.057541687507182,
+            "mean_ms": 27.26642537337325,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 27.1403958031442,
+            "p95_ms": 28.066791710443795,
+            "p99_ms": 28.27745833201334
+          },
+          "real_time_factor": 1.371935406125,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 10.975483249,
+          "trial_count": 2
+        }
+      }
+    }
+  ]
+}

@@ -1,7 +1,10 @@
 {
   "base_revision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
-  "source_sha256": "10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
+  "source_sha256": "67c502f124d274911d23cbad777886c811fec9eeae5bfb231cd94a161f36a3a1",
   "fingerprint_method": "SHA256 of compact JSON (sort_keys=True,separators=comma:colon) of path/sha256 records sorted by path",
+  "measured_pre_adoption_engine_sha256": "10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
+  "measured_pre_adoption_engine_commit": "83a2a632d84215ce344cd74224836901efc8c285",
+  "adoption_change": "Public optimized-eight initializer selects the same phone-tested package flags; remaining production changes are comments. GPU math unchanged.",
   "files": [
     {
       "path": "Sources/ReuseStreaming/LICENSE",
@@ -37,7 +40,7 @@
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingCompiledFrame.swift",
-      "sha256": "d684b8445bcbe62248530d88c04deaf86e487a5e6e771dcd1e53f95fe16c6215"
+      "sha256": "e62f1a02a138b63645562ea0824ce5121f928d3de7e08137f0999bdd2d7d2ded"
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseCheckpoint.swift",
@@ -57,7 +60,7 @@
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseModel.swift",
-      "sha256": "f8d00694218ec50fbf28113e4eff393cab09ef5d1540948b4a0a4b1fe9a5dce5"
+      "sha256": "8a1809a52840b8b3c40e94478552a7e90163a5e6fc4089ffdbe51879288d3a11"
     },
     {
       "path": "Sources/ReuseStreaming/Model/StreamingReuseScan.swift",
@@ -77,7 +80,7 @@
     },
     {
       "path": "Sources/ReuseStreaming/StreamingEnhancer.swift",
-      "sha256": "e43a37bc8cf179b94e09e9fe76132243366731fb3645247b4275cec8b4a1e49d"
+      "sha256": "b82e17195063f7db3790011f54bf79892a84ea5aae23bdf44149ebd557f94d8a"
     },
     {
       "path": "Sources/ReuseStreaming/StreamingError.swift",

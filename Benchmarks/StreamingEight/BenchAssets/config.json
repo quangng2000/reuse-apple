@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baselineRevision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
-  "candidateRevision": "source-sha256:10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
+  "candidateRevision": "source-sha256:67c502f124d274911d23cbad777886c811fec9eeae5bfb231cd94a161f36a3a1",
   "checkpointFile": "realtime-reuse.safetensors",
   "checkpointSHA256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
   "inputFile": "input.f32",

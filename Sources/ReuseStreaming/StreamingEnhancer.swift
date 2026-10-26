@@ -22,13 +22,17 @@ public final class StreamingEnhancer {
     private var transform: StreamingTransform
     private var session = StreamingSession()
 
-    /// Loads the pinned checkpoint. Exit 4 is the measured iPhone configuration.
+    /// Loads the pinned checkpoint. Optimized exit 8 uses the validated compiled
+    /// decoder-feature graph and pooled frequency branches.
     /// Other exits trade speed for quality; optimized=false retains the baseline kernels.
     public convenience init(modelURL: URL, layers: Int = 4, optimized: Bool = true) throws {
-        try self.init(modelURL: modelURL, layers: layers, optimized: optimized, compilation: .disabled)
+        let useEightLayerPath = optimized && layers == 8
+        try self.init(modelURL: modelURL, layers: layers, optimized: optimized,
+                      compilation: useEightLayerPath ? .decoderFeatures : .disabled,
+                      pooledFrequency: useEightLayerPath)
     }
 
-    /// Benchmark-only opt-in until fixed-graph timing and exact parity are validated.
+    /// Explicit package configuration for benchmark and regression comparisons.
     package init(modelURL: URL, layers: Int, optimized: Bool, compilation: StreamingFrameCompilation,
                  pooledFrequency: Bool = false) throws {
         guard (3...12).contains(layers) else { throw StreamingError.invalidLayers(layers) }
@@ -70,7 +74,8 @@ public final class StreamingEnhancer {
         lastFrameMilliseconds.removeAll(keepingCapacity: true)
     }
 
-    /// Prepares GPU kernels before recording. Valid only on a fresh/reset stream.
+    /// Prepares GPU kernels and the eight-layer graph before recording.
+    /// Valid only on a fresh/reset stream.
     /// Three dummy frames are excluded from later timing and audio output.
     public func warmUp() throws {
         guard session.isFresh else { throw StreamingError.warmupRequiresReset }

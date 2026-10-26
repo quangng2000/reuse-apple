@@ -1,6 +1,50 @@
 # Eight-layer FP32 device comparison
 
-## iPhone 13 Pro Max result, October 25, 2026
+## Latest iPhone result and selected option, October 25, 2026
+
+The selected path is **compiled decoder features plus pooled frequency
+filters/scans**, retaining the original per-branch GEMMs and eager final phase
+heads. It is enabled automatically for `StreamingEnhancer(modelURL: url, layers: 8,
+optimized: true)`. Other exits and `optimized: false` keep their prior selection.
+
+On the physical iPhone 13 Pro Max (A15, iOS 26.2.1), the full continuous ABBA
+comparison against the previous optimized revision `2446c83` measured mean frame
+time **28.610 → 27.229 ms (4.82% reduction)** and P95 **29.240 → 27.910 ms**.
+There were two 32-second trials and 3,202 completed frames per variant. Candidate
+wall RTF was 1.365: 32 seconds of audio took about 43.67 seconds to process.
+Every frame exceeded the 20 ms hop, so **the sub-20 ms target was not reached**.
+
+Three additional short ABBA screens tested compiled-only, pooling-only, and
+body-only compilation plus pooling. The combined path had the best paired
+candidate/baseline mean ratio. Body-plus-pooling was essentially tied in absolute
+short mean (27.266 versus 27.281 ms); these short screens do not prove a global
+optimum. No alternative met the predeclared threshold for a further full run.
+Compiled-only had a retained 130.800 ms outlier. No samples or outliers were
+removed from any comparison.
+
+All **20 iPhone comparison trials** produced bit-for-bit identical FP32 output
+to their phase baseline, with matching lengths and host-verified output SHA256s.
+All thermal observations were nominal and low power mode was off. The input is
+the same four-second diagnostic repeated continuously for the longer trials.
+This measures completed frame processing in file replay, not end-to-end calls.
+
+Evidence:
+
+- [Full eight-trial results](Reports/2026-10-25-iphone13promax-iteration2-results.json)
+  and [validated summary](Reports/2026-10-25-iphone13promax-iteration2-summary.json).
+- [Individual-option screens](Reports/2026-10-25-iphone13promax-option-screen.json).
+- [Measured engine source hashes](Reports/2026-10-25-measured-engine-10c9-source.json),
+  matching engine commit `83a2a632d84215ce344cd74224836901efc8c285`.
+- [iPhone stage profile](../Profiling/Reports/2026-10-25-iphone13promax-stage-profile.json).
+
+The measured engine used explicit package selection of the same validated path.
+Final public adoption changes only constructor selection and comments; per-frame
+GPU math is unchanged. Public-path, legacy fallback, state, finish and reset tests
+were rerun after adoption. `BenchAssets/candidate-source.json` describes the
+current source for future runs; the archived measured hashes above preserve the
+device measurements' original provenance.
+
+## First iteration: projection sharing and frame completion
 
 On a physical iPhone 13 Pro Max (A15, iOS 26.2.1), the two changes reduced
 eight-layer mean frame processing time from **28.962 ms to 28.388 ms (1.99%)**
@@ -73,6 +117,21 @@ Before a final build, replace `source-sha256:PENDING_SOURCE_FREEZE` in the stage
 configuration with the independently verified frozen candidate source SHA256.
 The app rejects the placeholder rather than labeling a new binary with an old hash.
 
+The default remains the full four-second and 32-second ABBA plan. For bounded
+ablation, append validated arguments when launching:
+
+```text
+--autorun --candidate-compilation body --candidate-pooling false --short-only
+```
+
+`--candidate-compilation` accepts `disabled`, `body`, or `decoderFeatures`;
+`--candidate-pooling` accepts exactly `true` or `false`. Each option may appear
+once. `--short-only` is a flag and runs only the four-second ABBA phase. Overrides
+change neither the fixed eight-layer FP32 reference nor the model, input, or
+candidate source hashes. Results and console events record actual effective
+options, scope, planned phases, and the run UUID. A short ablation is a screening
+measurement, not a replacement for sustained 32-second trials.
+
 `paced: false` measures file replay as fast as possible. Optional `paced: true`
 waits for synthetic 20 ms input arrivals and reports their processing lateness.
 Neither mode measures microphone, acoustic echo cancellation, transport, codec,
@@ -135,6 +194,8 @@ Historical `bdf56d19f4dbc16fb9ee949d42b70b4b6b5fe43e` reports remain supported w
 `--run-id`; they are labeled as legacy reports without a UUID. Current `2446c83`
 comparisons additionally require a valid UUID, recorded engine options, matched
 whole-module settings, and bitwise equality for all completed trials.
+An explicitly declared current short-only ablation is also accepted with exactly
+four ABBA trials and matching metadata; its summary identifies the limited scope.
 
 For a separate pinned stage diagnostic, launch with `--profile-only`; see
 [`../Profiling/README.md`](../Profiling/README.md). Its forced completion boundaries

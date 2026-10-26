@@ -1,0 +1,459 @@
+{
+  "baseline_options": {
+    "compilation": "disabled",
+    "pooled_frequency": false
+  },
+  "baseline_revision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
+  "benchmark_scope": "full_abba",
+  "candidate_options": {
+    "compilation": "decoderFeatures",
+    "pooled_frequency": true
+  },
+  "candidate_revision": "source-sha256:10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
+  "checkpoint_sha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "device": {
+    "battery_level_before": 1,
+    "hardware_model": "iPhone14,3",
+    "low_power_mode": false,
+    "os_version": "Version 26.2.1 (Build 23C71)",
+    "physical_device": true
+  },
+  "input_sha256": "f450f49830be940326cd5b5a8bc3ffed6ba0e8e0e39012b6d3a08dd05812777b",
+  "layers": 8,
+  "legacy_report_without_run_id": false,
+  "measured_engine_commit": "83a2a632d84215ce344cd74224836901efc8c285",
+  "method": {
+    "caveats": [
+      "Unpaced file replay is not live-call latency; over20ms is a slow-frame fraction.",
+      "The continuous phase, when present, repeats 4s input with continuous recurrent state.",
+      "Short-only ablations are bounded screening runs, not sustained throughput measurements.",
+      "ABBA balances order, but two trials per variant do not make frames independent repetitions.",
+      "Inspect per-trial thermal conditions and first/last baseline drift before attributing changes to code.",
+      "For paced replay, wall RTF includes synthetic arrival waits and is not compute throughput."
+    ],
+    "p50": "Median, averaging the middle pair for even counts.",
+    "p95_p99": "Nearest-rank ceil(P*N).",
+    "pooling": "All raw frames; phases and variants kept separate; no dropped frames or outliers.",
+    "rtf": "Sum of replay wall time divided by sum of audio duration; includes outer loop overhead.",
+    "savings": "100*(1-candidate/baseline); positive means faster candidate."
+  },
+  "output_files_verified_on_host": true,
+  "paced_input": false,
+  "phases": {
+    "continuous-32s": {
+      "mean_frame_latency_savings_percent": 4.82433093282586,
+      "mean_frame_speedup": 1.05068869995987,
+      "variants": {
+        "baseline": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 3202,
+            "max_ms": 33.505791681818664,
+            "mean_ms": 28.609590138921902,
+            "over_20ms_count": 3202,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 28.54512500925921,
+            "p95_ms": 29.24045833060518,
+            "p99_ms": 29.796583316056058
+          },
+          "real_time_factor": 1.433061537765625,
+          "total_audio_seconds": 64,
+          "total_wall_seconds": 91.715938417,
+          "trial_count": 2
+        },
+        "candidate": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 3202,
+            "max_ms": 32.05641667591408,
+            "mean_ms": 27.229368832095197,
+            "over_20ms_count": 3202,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 27.261312498012558,
+            "p95_ms": 27.910041681025177,
+            "p99_ms": 28.509249998023733
+          },
+          "real_time_factor": 1.364584326828125,
+          "total_audio_seconds": 64,
+          "total_wall_seconds": 87.333396917,
+          "trial_count": 2
+        }
+      },
+      "wall_time_savings_percent": 4.778385933395935,
+      "wall_time_speedup": 1.0501817363655863
+    },
+    "short-4s": {
+      "mean_frame_latency_savings_percent": 6.4488866824931375,
+      "mean_frame_speedup": 1.0689343659717443,
+      "variants": {
+        "baseline": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 40.03245834610425,
+            "mean_ms": 29.16157638877966,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 28.865020838566124,
+            "p95_ms": 30.937875009840354,
+            "p99_ms": 32.96879166737199
+          },
+          "real_time_factor": 1.467078833375,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 11.736630667,
+          "trial_count": 2
+        },
+        "candidate": {
+          "all_outputs_bitwise_equal": true,
+          "maximum_output_absolute_difference": 0,
+          "pooled_latency": {
+            "frames": 402,
+            "max_ms": 29.380458348896354,
+            "mean_ms": 27.280979372638587,
+            "over_20ms_count": 402,
+            "over_20ms_fraction": 1.0,
+            "over_20ms_percent": 100.0,
+            "p50_ms": 27.26035416708328,
+            "p95_ms": 28.1678750179708,
+            "p99_ms": 28.780666674720123
+          },
+          "real_time_factor": 1.372932463625,
+          "total_audio_seconds": 8,
+          "total_wall_seconds": 10.983459709,
+          "trial_count": 2
+        }
+      },
+      "wall_time_savings_percent": 6.417267266641513,
+      "wall_time_speedup": 1.0685731980591544
+    }
+  },
+  "precision": "float32",
+  "primary_phase": "continuous-32s",
+  "run_id": "6D99813F-A95A-4FA4-A3EC-09A0F3FA853D",
+  "schema_version": 1,
+  "short_only": false,
+  "source_results": "2026-10-25-iphone13promax-iteration2-results.json",
+  "source_results_sha256": "2b3ec78bd355500020f38f5be0e63739c18616fe97e19d266ac33ff9d6dcaa3c",
+  "status": "validated",
+  "swift_compilation_mode": "wholemodule",
+  "trials": [
+    {
+      "audio_seconds": 4,
+      "id": "short-4s-0-baseline",
+      "latency": {
+        "frames": 201,
+        "max_ms": 40.03245834610425,
+        "mean_ms": 29.79380845695164,
+        "over_20ms_count": 201,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 29.52154166996479,
+        "p95_ms": 32.51862499746494,
+        "p99_ms": 34.619041689438745
+      },
+      "order_index": 0,
+      "output_samples": 64000,
+      "output_sha256": "18f2f27e56cf1f67272d42c4658dc8ea14e1978bd682934aed42c62c3ced484e",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "short-4s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "short-4s",
+      "real_time_factor": 1.498940646,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 200
+      },
+      "variant": "baseline",
+      "wall_seconds": 5.995762584
+    },
+    {
+      "audio_seconds": 4,
+      "id": "short-4s-1-candidate",
+      "latency": {
+        "frames": 201,
+        "max_ms": 29.089291638229042,
+        "mean_ms": 27.152027775514963,
+        "over_20ms_count": 201,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 27.118916652398184,
+        "p95_ms": 28.063458332326263,
+        "p99_ms": 28.780666674720123
+      },
+      "order_index": 1,
+      "output_samples": 64000,
+      "output_sha256": "18f2f27e56cf1f67272d42c4658dc8ea14e1978bd682934aed42c62c3ced484e",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "short-4s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "short-4s",
+      "real_time_factor": 1.36641310425,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 200
+      },
+      "variant": "candidate",
+      "wall_seconds": 5.465652417
+    },
+    {
+      "audio_seconds": 4,
+      "id": "short-4s-2-candidate",
+      "latency": {
+        "frames": 201,
+        "max_ms": 29.380458348896354,
+        "mean_ms": 27.40993096976221,
+        "over_20ms_count": 201,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 27.45345831499435,
+        "p95_ms": 28.240833315066993,
+        "p99_ms": 28.747000003932044
+      },
+      "order_index": 2,
+      "output_samples": 64000,
+      "output_sha256": "18f2f27e56cf1f67272d42c4658dc8ea14e1978bd682934aed42c62c3ced484e",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "short-4s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "short-4s",
+      "real_time_factor": 1.379451823,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 200
+      },
+      "variant": "candidate",
+      "wall_seconds": 5.517807292
+    },
+    {
+      "audio_seconds": 4,
+      "id": "short-4s-3-baseline",
+      "latency": {
+        "frames": 201,
+        "max_ms": 30.1057500182651,
+        "mean_ms": 28.52934432060768,
+        "over_20ms_count": 201,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 28.4467916644644,
+        "p95_ms": 29.285791679285467,
+        "p99_ms": 29.79970833985135
+      },
+      "order_index": 3,
+      "output_samples": 64000,
+      "output_sha256": "18f2f27e56cf1f67272d42c4658dc8ea14e1978bd682934aed42c62c3ced484e",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "short-4s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "short-4s",
+      "real_time_factor": 1.43521702075,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 200
+      },
+      "variant": "baseline",
+      "wall_seconds": 5.740868083
+    },
+    {
+      "audio_seconds": 32,
+      "id": "continuous-32s-0-baseline",
+      "latency": {
+        "frames": 1601,
+        "max_ms": 31.977791659301147,
+        "mean_ms": 28.617031152548034,
+        "over_20ms_count": 1601,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 28.571333328727633,
+        "p95_ms": 29.191166657255962,
+        "p99_ms": 29.581999988295138
+      },
+      "order_index": 0,
+      "output_samples": 512000,
+      "output_sha256": "6fb5e71aec8148baa44a1db2cba8954a7e0c7f814908d985726fd9b619bea7d0",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "continuous-32s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "continuous-32s",
+      "real_time_factor": 1.433465846375,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 1600
+      },
+      "variant": "baseline",
+      "wall_seconds": 45.870907084
+    },
+    {
+      "audio_seconds": 32,
+      "id": "continuous-32s-1-candidate",
+      "latency": {
+        "frames": 1601,
+        "max_ms": 32.05641667591408,
+        "mean_ms": 27.241253123099774,
+        "over_20ms_count": 1601,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 27.26483333390206,
+        "p95_ms": 27.916958351852372,
+        "p99_ms": 28.57483335537836
+      },
+      "order_index": 1,
+      "output_samples": 512000,
+      "output_sha256": "6fb5e71aec8148baa44a1db2cba8954a7e0c7f814908d985726fd9b619bea7d0",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "continuous-32s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "continuous-32s",
+      "real_time_factor": 1.36523159896875,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 1600
+      },
+      "variant": "candidate",
+      "wall_seconds": 43.687411167
+    },
+    {
+      "audio_seconds": 32,
+      "id": "continuous-32s-2-candidate",
+      "latency": {
+        "frames": 1601,
+        "max_ms": 30.13570833718404,
+        "mean_ms": 27.217484541090617,
+        "over_20ms_count": 1601,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 27.254666667431593,
+        "p95_ms": 27.90170835214667,
+        "p99_ms": 28.409208316588774
+      },
+      "order_index": 2,
+      "output_samples": 512000,
+      "output_sha256": "6fb5e71aec8148baa44a1db2cba8954a7e0c7f814908d985726fd9b619bea7d0",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "continuous-32s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "continuous-32s",
+      "real_time_factor": 1.3639370546875,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 1600
+      },
+      "variant": "candidate",
+      "wall_seconds": 43.64598575
+    },
+    {
+      "audio_seconds": 32,
+      "id": "continuous-32s-3-baseline",
+      "latency": {
+        "frames": 1601,
+        "max_ms": 33.505791681818664,
+        "mean_ms": 28.60214912529577,
+        "over_20ms_count": 1601,
+        "over_20ms_fraction": 1.0,
+        "over_20ms_percent": 100.0,
+        "p50_ms": 28.522458334919065,
+        "p95_ms": 29.253083339426666,
+        "p99_ms": 29.897875007009134
+      },
+      "order_index": 3,
+      "output_samples": 512000,
+      "output_sha256": "6fb5e71aec8148baa44a1db2cba8954a7e0c7f814908d985726fd9b619bea7d0",
+      "parity": {
+        "absolute_tolerance_passed": true,
+        "bitwise_equal": true,
+        "different_float_bit_patterns": 0,
+        "gate": "bitwise_equal",
+        "max_abs_difference": 0,
+        "maximum_absolute_tolerance": 1e-05,
+        "passed": true,
+        "reference_trial": "continuous-32s-0-baseline",
+        "relative_rmse": 0,
+        "rmse": 0
+      },
+      "phase": "continuous-32s",
+      "real_time_factor": 1.43265722915625,
+      "thermal_after": "nominal",
+      "thermal_before": "nominal",
+      "thermal_push_counts": {
+        "nominal": 1600
+      },
+      "variant": "baseline",
+      "wall_seconds": 45.845031333
+    }
+  ]
+}

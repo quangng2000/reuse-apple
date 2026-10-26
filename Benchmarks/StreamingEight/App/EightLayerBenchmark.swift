@@ -85,12 +85,16 @@ final class EightLayerBenchmark {
     private let resources: URL
     private let documents: URL
     private let configuration: Configuration
+    private let candidateOptions: Configuration.EngineOptions
+    private let runtimeOptions: BenchmarkRuntimeOptions
+    private let phases: [Configuration.Phase]
     private let input: [Float]
     private let progress: (String) -> Void
     private var trials = [[String: Any]]()
     private var baseReport = [String: Any]()
 
-    init(progress: @escaping (String) -> Void, runID: String = UUID().uuidString) throws {
+    init(progress: @escaping (String) -> Void, runID: String = UUID().uuidString,
+         arguments: [String] = ProcessInfo.processInfo.arguments) throws {
         self.progress = progress
         self.runID = runID
         guard let url = Bundle.main.resourceURL?.appendingPathComponent("BenchAssets") else {
@@ -100,6 +104,11 @@ final class EightLayerBenchmark {
         documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         configuration = try JSONDecoder().decode(Configuration.self,
             from: Data(contentsOf: url.appendingPathComponent("config.json")))
+        runtimeOptions = try BenchmarkRuntimeOptions(arguments: arguments)
+        candidateOptions = Configuration.EngineOptions(
+            compilation: runtimeOptions.candidateCompilation ?? configuration.candidateOptions.compilation,
+            pooledFrequency: runtimeOptions.candidatePooling ?? configuration.candidateOptions.pooledFrequency)
+        phases = runtimeOptions.shortOnly ? configuration.phases.filter { $0.id == "short-4s" } : configuration.phases
         guard configuration.schemaVersion == 1, configuration.layers == 8,
               !configuration.phases.isEmpty, configuration.maximumAbsoluteOutputDifference > 0,
               configuration.cooldownSeconds >= 0, UUID(uuidString: runID) != nil,
@@ -107,6 +116,8 @@ final class EightLayerBenchmark {
               configuration.baselineRevision == "2446c8383ac65da5376d9159fa1d079535c4e36b",
               configuration.baselineOptions.compilation == "disabled", !configuration.baselineOptions.pooledFrequency,
               configuration.candidateOptions.compilation == "decoderFeatures", configuration.candidateOptions.pooledFrequency,
+              ["disabled", "body", "decoderFeatures"].contains(candidateOptions.compilation),
+              !phases.isEmpty, !runtimeOptions.shortOnly || (phases.count == 1 && phases[0].repetitions == 1),
               configuration.candidateRevision.range(of: "^source-sha256:[0-9a-f]{64}$", options: .regularExpression) != nil
         else { throw BenchmarkError.invalid("Invalid eight-layer benchmark configuration or unfrozen candidate source") }
         let bytes = try Data(contentsOf: url.appendingPathComponent(configuration.inputFile))
@@ -154,7 +165,11 @@ final class EightLayerBenchmark {
                        "physical_device": !hardware.hasPrefix("arm64") && !hardware.hasPrefix("x86"),
                        "battery_level_before": battery(), "low_power_mode": ProcessInfo.processInfo.isLowPowerModeEnabled],
             "baseline_revision": configuration.baselineRevision, "candidate_revision": configuration.candidateRevision,
-            "baseline_options": configuration.baselineOptions.report, "candidate_options": configuration.candidateOptions.report,
+            "baseline_options": configuration.baselineOptions.report, "candidate_options": candidateOptions.report,
+            "configured_candidate_options": configuration.candidateOptions.report,
+            "short_only": runtimeOptions.shortOnly,
+            "benchmark_scope": runtimeOptions.shortOnly ? "short_only_ablation" : "full_abba",
+            "planned_phases": phases.map(\.id), "runtime_override_arguments": runtimeOptions.recognizedArguments,
             "swift_compilation_mode": "wholemodule", "require_bitwise_output_equality": true,
             "output_parity_requirement": "bitwise_equal", "absolute_tolerance_is_acceptance_gate": false,
             "layers": configuration.layers, "precision": "float32", "lookahead_frames": 0,
@@ -169,19 +184,28 @@ final class EightLayerBenchmark {
             "output_max_absolute_tolerance": configuration.maximumAbsoluteOutputDifference]
         emit(["event": "run_started", "run_id": runID, "hardware": hardware, "layers": configuration.layers,
               "baseline_revision": configuration.baselineRevision, "candidate_revision": configuration.candidateRevision,
-              "baseline_options": configuration.baselineOptions.report, "candidate_options": configuration.candidateOptions.report])
+              "baseline_options": configuration.baselineOptions.report, "candidate_options": candidateOptions.report,
+              "short_only": runtimeOptions.shortOnly, "planned_phases": phases.map(\.id)])
         var engines = [String: EightLayerEngine]()
         var loadTimes = [String: Double]()
         var started = now()
         engines["baseline"] = try ReuseStreamingReference.StreamingEnhancer(modelURL: modelURL, layers: 8, optimized: true)
         loadTimes["baseline_ms"] = elapsed(started) * 1000
         started = now()
+        let compilation: ReuseStreaming.StreamingFrameCompilation
+        switch candidateOptions.compilation {
+        case "disabled": compilation = .disabled
+        case "body": compilation = .body
+        case "decoderFeatures": compilation = .decoderFeatures
+        default: throw BenchmarkError.invalid("Unsupported effective compilation mode")
+        }
         engines["candidate"] = try ReuseStreaming.StreamingEnhancer(modelURL: modelURL, layers: 8, optimized: true,
-                                                                  compilation: .decoderFeatures, pooledFrequency: true)
+                                                                  compilation: compilation,
+                                                                  pooledFrequency: candidateOptions.pooledFrequency)
         loadTimes["candidate_ms"] = elapsed(started) * 1000
         baseReport["load_times_ms_excluded"] = loadTimes
         try persist("latest-progress.json", status: "running")
-        for phase in configuration.phases {
+        for phase in phases {
             guard phase.repetitions > 0, !phase.trialOrder.isEmpty,
                   phase.trialOrder.first == "baseline",
                   phase.trialOrder.allSatisfy({ engines[$0] != nil }) else {
@@ -236,7 +260,7 @@ final class EightLayerBenchmark {
                 let outputFile = "output-" + runID + "-" + identifier + ".f32"
                 try outputBytes.write(to: documents.appendingPathComponent(outputFile), options: .atomic)
                 let passed = different == 0
-                let options = variant == "baseline" ? configuration.baselineOptions : configuration.candidateOptions
+                let options = variant == "baseline" ? configuration.baselineOptions : candidateOptions
                 var record: [String: Any] = ["id": identifier, "run_id": runID, "phase": phase.id, "variant": variant,
                     "engine_options": options.report,
                     "order_index": index, "input_repetitions": phase.repetitions,

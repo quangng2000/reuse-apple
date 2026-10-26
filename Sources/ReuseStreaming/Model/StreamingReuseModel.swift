@@ -20,8 +20,8 @@ final class StreamingReuseModel {
     let frequencyScan = MambaFrequencyScan()
     let inputFilter = MambaInputFilter()
     let projectionScan = MambaProjectionScan()
-    // Experimental batching stays internal and off until exactness and target
-    // device latency pass. Constants are retained across stream resets.
+    // Direct model calls default to separate frequency branches. StreamingEnhancer
+    // selects pooling for optimized exit 8; constants survive stream resets.
     var useBatchedFrequency = false
     var bidirectionalFrequency: [String: MambaBidirectionalFrequency] = [:]
     let useParallelFrequencyScan: Bool

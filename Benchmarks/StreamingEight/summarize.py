@@ -64,6 +64,15 @@ def validate(report):
     require(report.get("layers") == 8 and report.get("precision") == "float32", "Expected eight layers and FP32")
     require(report.get("baseline_revision") in TRUSTED_BASELINE_REVISIONS, "Baseline revision is not a trusted pinned reference")
     strict = report.get("baseline_revision") == CURRENT_BASELINE_REVISION
+    short_only = report.get("short_only", False)
+    require(isinstance(short_only, bool), "Invalid short-only metadata")
+    phase_plan = {"short-4s": 4} if short_only else PHASES
+    if short_only:
+        require(strict and report.get("benchmark_scope") == "short_only_ablation"
+                and report.get("planned_phases") == ["short-4s"], "Short-only run must be an explicit current ablation")
+    elif "benchmark_scope" in report:
+        require(report["benchmark_scope"] == "full_abba" and report.get("planned_phases") == list(PHASES),
+                "Full-run phase metadata mismatch")
     if strict:
         require(valid_run_id(report.get("run_id")), "Missing valid run UUID")
         require(report.get("require_bitwise_output_equality") is True
@@ -73,8 +82,10 @@ def validate(report):
         require(report.get("swift_compilation_mode") == "wholemodule", "Expected matched whole-module compilation")
         require(report.get("baseline_options") == {"compilation": "disabled", "pooled_frequency": False},
                 "Unexpected baseline engine options")
-        require(report.get("candidate_options") == {"compilation": "decoderFeatures", "pooled_frequency": True},
-                "Unexpected candidate engine options")
+        options = report.get("candidate_options")
+        require(isinstance(options, dict) and set(options) == {"compilation", "pooled_frequency"}
+                and options["compilation"] in {"disabled", "body", "decoderFeatures"}
+                and isinstance(options["pooled_frequency"], bool), "Unexpected candidate engine options")
     require(report.get("checkpoint_sha256") == CHECKPOINT_SHA256, "Checkpoint differs from the pinned model")
     candidate = report.get("candidate_revision", "")
     require(isinstance(candidate, str) and candidate.startswith("source-sha256:")
@@ -87,11 +98,13 @@ def validate(report):
     tolerance = report.get("output_max_absolute_tolerance")
     require(finite_number(tolerance) and tolerance > 0, "Invalid output tolerance")
     trials = report.get("trials")
-    require(isinstance(trials, list) and len(trials) == 8, "Expected exactly eight completed trials")
-    expected_sequence = [(phase, index, variant) for phase in PHASES for index, variant in enumerate(ORDER)]
+    expected_count = 4 * len(phase_plan)
+    require(isinstance(trials, list) and len(trials) == expected_count,
+            f"Expected exactly {expected_count} completed trials for the declared run scope")
+    expected_sequence = [(phase, index, variant) for phase in phase_plan for index, variant in enumerate(ORDER)]
     observed = [(t.get("phase"), t.get("order_index"), t.get("variant"))
                 for t in trials if isinstance(t, dict)]
-    require(observed == expected_sequence, "Expected four-second ABBA followed by 32-second ABBA")
+    require(observed == expected_sequence, "Trial sequence differs from the declared ABBA phase plan")
     for trial in trials:
         label = trial.get("id", "unnamed trial")
         if strict:
@@ -131,7 +144,7 @@ def validate(report):
         require(parity.get("reference_trial") == trial["phase"] + "-0-baseline", f"{label}: unexpected parity reference")
         require(isinstance(trial.get("thermal_before"), str) and isinstance(trial.get("thermal_after"), str)
                 and isinstance(trial.get("thermal_push_counts"), dict), f"{label}: missing thermal observations")
-    for phase in PHASES:
+    for phase in phase_plan:
         selected = [trial for trial in trials if trial["phase"] == phase]
         baseline_hash = selected[0]["output_sha256"]
         require(all(not trial["parity"]["bitwise_equal"] or trial["output_sha256"] == baseline_hash
@@ -141,6 +154,8 @@ def validate(report):
 
 def summarize(report):
     trials = validate(report)
+    short_only = report.get("short_only", False)
+    phase_plan = {"short-4s": 4} if short_only else PHASES
     phases = {}
     trial_summaries = []
     for trial in trials:
@@ -154,7 +169,7 @@ def summarize(report):
             "thermal_push_counts": trial["thermal_push_counts"], "parity": trial["parity"],
             "output_sha256": trial["output_sha256"], "output_samples": trial["output_samples"],
         })
-    for phase in PHASES:
+    for phase in phase_plan:
         variants = {}
         for variant in ("baseline", "candidate"):
             selected = [trial for trial in trials if trial["phase"] == phase and trial["variant"] == variant]
@@ -180,7 +195,9 @@ def summarize(report):
             "wall_time_savings_percent": 100 * (1 - candidate["real_time_factor"] / baseline["real_time_factor"]),
         }
     return {
-        "schema_version": 1, "status": "validated", "primary_phase": "continuous-32s",
+        "schema_version": 1, "status": "validated",
+        "primary_phase": "short-4s" if short_only else "continuous-32s",
+        "short_only": short_only, "benchmark_scope": "short_only_ablation" if short_only else "full_abba",
         "run_id": report.get("run_id"), "legacy_report_without_run_id": "run_id" not in report,
         "baseline_revision": report["baseline_revision"], "candidate_revision": report["candidate_revision"],
         "baseline_options": report.get("baseline_options"), "candidate_options": report.get("candidate_options"),
@@ -196,7 +213,8 @@ def summarize(report):
             "savings": "100*(1-candidate/baseline); positive means faster candidate.",
             "caveats": [
                 "Unpaced file replay is not live-call latency; over20ms is a slow-frame fraction.",
-                "32s uses continuous recurrent state across repeated 4s input, not 32s of unique speech.",
+                "The continuous phase, when present, repeats 4s input with continuous recurrent state.",
+                "Short-only ablations are bounded screening runs, not sustained throughput measurements.",
                 "ABBA balances order, but two trials per variant do not make frames independent repetitions.",
                 "Inspect per-trial thermal conditions and first/last baseline drift before attributing changes to code.",
                 "For paced replay, wall RTF includes synthetic arrival waits and is not compute throughput.",

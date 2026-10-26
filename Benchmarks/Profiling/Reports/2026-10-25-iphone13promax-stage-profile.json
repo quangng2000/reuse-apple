@@ -1,0 +1,4939 @@
+{
+  "checkpoint_sha256" : "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "created_at" : "2026-10-26T02:14:14Z",
+  "dummy_warmup_frames_excluded" : 3,
+  "hardware_model" : "iPhone14,3",
+  "input_samples" : 15040,
+  "input_sha256" : "5ebebe555bafd5e278a5f81dc27cd11e9880f735cf69b037a3075ccf652c2dda",
+  "layers" : 8,
+  "low_power_mode" : false,
+  "measured_frames" : 40,
+  "measurement_notes" : [
+    "Diagnostic only: stage eval+synchronize boundaries inhibit normal fusion\/overlap and add dispatch overhead.",
+    "graph_construction_ms is host lazy graph creation; evaluation_wait_ms includes MLX traversal\/encoding, GPU execution and completion wait. It is not isolated GPU time.",
+    "Each model boundary evaluates its output and every updated convolution\/recurrent cache. Synthesis includes CPU readback and overlap-add as cpu_postprocessing_ms.",
+    "Three dummy frames warm kernels and reset; eight real stream frames warm recurrent state before the forty measured frames, including EOF.",
+    "Normal replay uses the same pinned generated module with hooks disabled. Uninstrumented balanced ABBA remains authoritative for optimization speedup.",
+    "Output and all model caches plus transform overlap\/envelope are compared byte-for-byte via sample bits and full-state SHA256 after replay; state hashing is untimed."
+  ],
+  "normal_frame_timing" : {
+    "count" : 40,
+    "maximum_ms" : 34.514833329012617,
+    "mean_ms" : 29.452569790737471,
+    "minimum_ms" : 28.635083319386467,
+    "p50_ms" : 29.323083348572254,
+    "p95_ms" : 29.964041663333774
+  },
+  "normal_full_replay_wall_seconds" : 1.4273019579999999,
+  "normal_raw_frame_ms" : [
+    34.514833329012617,
+    29.724791675107554,
+    29.269583319546655,
+    29.094500001519918,
+    29.260874987812713,
+    29.36379166203551,
+    29.83745833626017,
+    29.369333351496607,
+    28.755833336617798,
+    28.919749980559573,
+    29.059333319310099,
+    29.319833352928981,
+    29.591291677206755,
+    28.996666660532355,
+    28.944000019691885,
+    28.795916645321995,
+    28.812458331231028,
+    28.946583333890885,
+    28.635083319386467,
+    29.097583348629996,
+    28.962458338355646,
+    29.34266664669849,
+    29.149083333322778,
+    29.418416670523584,
+    29.071916651446372,
+    29.631499986862764,
+    29.454874980729073,
+    29.215916671091691,
+    29.868791665649042,
+    30.259249993832782,
+    29.33858335018158,
+    29.570958344265819,
+    29.304249997949228,
+    29.964041663333774,
+    29.643000016221777,
+    29.830375016899779,
+    29.856416658731177,
+    29.242333315778524,
+    29.326333344215527,
+    29.34212499530986
+  ],
+  "normal_state_digests" : [
+    {
+      "name" : "model\/convolution\/TSMamba.0.time_mamba.forward_blocks.conv1d",
+      "sha256" : "3314b71761b704703bebfa3e684b7dcf0f56d9d0ea54aa424a41bfe00294967f",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.1.time_mamba.forward_blocks.conv1d",
+      "sha256" : "20d0cc5ba20658f629b77596feaeacb51e0077977d979f169e2752e6ff0fd901",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.2.time_mamba.forward_blocks.conv1d",
+      "sha256" : "c2612cf47e584877ce59a756fc570b040d415d94a3c72ee371602ff5f1654ee1",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.3.time_mamba.forward_blocks.conv1d",
+      "sha256" : "72f14533f3fa901d2bcbe28e489a03537619b30554f071b4ac0f8650b01af548",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.4.time_mamba.forward_blocks.conv1d",
+      "sha256" : "98653d4c19e11a87f9f6f87ca75e1cf6d5879433f75cd056e4739ac0284b3fc0",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.5.time_mamba.forward_blocks.conv1d",
+      "sha256" : "692dfe7a0408d403407e8865c6c1411de295f7db08abf5726398a496b7bc875d",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.6.time_mamba.forward_blocks.conv1d",
+      "sha256" : "de4c5f285b971602868ee9bfba71c72ffed4ccf8c997e95f709b3102067d44e2",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.7.time_mamba.forward_blocks.conv1d",
+      "sha256" : "ad65b8647aa33320cf2699ad59105d2051519e6fb0a7242172fc370cf582a6d7",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.0.1",
+      "sha256" : "3db02af1d0f04359b8ccb64726c4d02928cee1a00cace0e9197f20fd308ab3fb",
+      "shape" : [
+        1,
+        2,
+        323,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.1.1",
+      "sha256" : "21e67d90d14beeb485c359b89fa796fd7db9fafc9b4cfc31a6fc03a9cb738de3",
+      "shape" : [
+        1,
+        4,
+        323,
+        128
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.2.1",
+      "sha256" : "38bc42d91a9612ac4f1f71e24c5a3550fa6a60592ea7e19aa733cc2ae27b7c14",
+      "shape" : [
+        1,
+        8,
+        323,
+        192
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.3.1",
+      "sha256" : "0ceb34b5531b3311780866507b0bec65374c81ef3d7c7d9c1aec908e827d77e4",
+      "shape" : [
+        1,
+        16,
+        323,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_conv_1_1.0",
+      "sha256" : "0bbfdde20aad6aca6da039e5ad5b7376911463cf746ed5b487c7d95b3ee4f0df",
+      "shape" : [
+        1,
+        2,
+        323,
+        2
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.0.1",
+      "sha256" : "c4d0acd4a308562605ac0942f0cab8373022da6150949814b208d20c52e6c766",
+      "shape" : [
+        1,
+        2,
+        161,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.1.1",
+      "sha256" : "17966f80d3bd08ba7a404635cbfb58d2caa061ded870e42306690a1537fa5f59",
+      "shape" : [
+        1,
+        4,
+        161,
+        128
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.2.1",
+      "sha256" : "654d4e4ff60911a64cb20dd98034312d604318d134621d9ecf48be53b21fba65",
+      "shape" : [
+        1,
+        8,
+        161,
+        192
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.3.1",
+      "sha256" : "294f40e15e5ffed1f6460958bf84350a8e874eca35edae753e8a7ec403e6a081",
+      "shape" : [
+        1,
+        16,
+        161,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.up_conv2.0.conv",
+      "sha256" : "5541bece58dc43caf8d78449d29560606c40537c0ed810a260bf8069145be97b",
+      "shape" : [
+        1,
+        2,
+        322,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.0.1",
+      "sha256" : "c4d0acd4a308562605ac0942f0cab8373022da6150949814b208d20c52e6c766",
+      "shape" : [
+        1,
+        2,
+        161,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.1.1",
+      "sha256" : "b0c00465dd9667a2f3c083f9fdf5c3d0684edc4577a1ac4b2450748fc33a2c49",
+      "shape" : [
+        1,
+        4,
+        161,
+        128
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.2.1",
+      "sha256" : "7617a86d19f6d4e46723b62d224c1eb421a7601ce195cd25cef6eeecbc27c6cc",
+      "shape" : [
+        1,
+        8,
+        161,
+        192
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.3.1",
+      "sha256" : "2a6c3b369b862bff706788d6dfdeb8c36fa74b97d570aba79d87410a7d64dba9",
+      "shape" : [
+        1,
+        16,
+        161,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.up_conv2.0.conv",
+      "sha256" : "4e3dfd1c7b7c6359f87ee017e757d4e7b0fdf2c7388246822231af9f1f426845",
+      "shape" : [
+        1,
+        2,
+        322,
+        64
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.0.time_mamba.forward_blocks",
+      "sha256" : "b13b5ce6609ff1766a33bfcc91865bd8987efba883b16ab9d24ac65bc0ed7ca5",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.1.time_mamba.forward_blocks",
+      "sha256" : "1c6a3b988f5ced164cd48788156df1d9b94f84af515428f089e39cac365c894a",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.2.time_mamba.forward_blocks",
+      "sha256" : "14d4499e301c7e8519fbfe5b7268c25c2371f4db69f836a98319fd8287cafffa",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.3.time_mamba.forward_blocks",
+      "sha256" : "13ec7fb9fe9648ecae63637916fb90d75c04364c89bd2feeae32dc7cf277300c",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.4.time_mamba.forward_blocks",
+      "sha256" : "70da592329b75817774bb53df02937f5b957626bcbc36f27205a939ebe56dd77",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.5.time_mamba.forward_blocks",
+      "sha256" : "6a68182b3d4104d4b852ecd1b507eb608a27c9bea36f92a739b99df5583a5c58",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.6.time_mamba.forward_blocks",
+      "sha256" : "6d8bdab65e6af5b95c5cd08b90835ce8207ce9d5d07da46e5d557bc020cb783c",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.7.time_mamba.forward_blocks",
+      "sha256" : "4f9cddc6feee82c0c1f9a63d9868a10c856d7632070ae6b129b91e902d01f925",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/first",
+      "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "shape" : [
+        1
+      ]
+    },
+    {
+      "name" : "transform\/overlap",
+      "sha256" : "0c11dcc0572de61409f2f4abe68ad18c46a9e881bcd9d6b4e13f036c1ce8d03e",
+      "shape" : [
+        640
+      ]
+    },
+    {
+      "name" : "transform\/envelope",
+      "sha256" : "a4c0cab8d812c8d6f84e7993ffa3ed9d3e0e9d0c917b52c0ead83b16989be7a5",
+      "shape" : [
+        640
+      ]
+    },
+    {
+      "name" : "transform\/first",
+      "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "shape" : [
+        1
+      ]
+    }
+  ],
+  "os_version" : "Version 26.2.1 (Build 23C71)",
+  "parity" : {
+    "bitwise_equal" : true,
+    "different_float_bit_patterns" : 0,
+    "different_state_names" : [
+
+    ],
+    "max_abs_difference" : 0,
+    "normal_output_sha256" : "9f0da751a316bd8d31392df264129ec9fa0fe339879897b6f74307736ae81b22",
+    "output_samples_each" : 15040,
+    "profiled_output_sha256" : "9f0da751a316bd8d31392df264129ec9fa0fe339879897b6f74307736ae81b22",
+    "state_arrays_each" : 35,
+    "state_sha256_equal" : true
+  },
+  "precision" : "float32",
+  "profiled_frame_timing" : {
+    "count" : 40,
+    "maximum_ms" : 98.677125002723187,
+    "mean_ms" : 78.609795836382546,
+    "minimum_ms" : 43.646083329804242,
+    "p50_ms" : 80.500333322561346,
+    "p95_ms" : 94.463916670065373
+  },
+  "profiled_full_replay_wall_seconds" : 3.375898625,
+  "profiled_state_digests" : [
+    {
+      "name" : "model\/convolution\/TSMamba.0.time_mamba.forward_blocks.conv1d",
+      "sha256" : "3314b71761b704703bebfa3e684b7dcf0f56d9d0ea54aa424a41bfe00294967f",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.1.time_mamba.forward_blocks.conv1d",
+      "sha256" : "20d0cc5ba20658f629b77596feaeacb51e0077977d979f169e2752e6ff0fd901",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.2.time_mamba.forward_blocks.conv1d",
+      "sha256" : "c2612cf47e584877ce59a756fc570b040d415d94a3c72ee371602ff5f1654ee1",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.3.time_mamba.forward_blocks.conv1d",
+      "sha256" : "72f14533f3fa901d2bcbe28e489a03537619b30554f071b4ac0f8650b01af548",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.4.time_mamba.forward_blocks.conv1d",
+      "sha256" : "98653d4c19e11a87f9f6f87ca75e1cf6d5879433f75cd056e4739ac0284b3fc0",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.5.time_mamba.forward_blocks.conv1d",
+      "sha256" : "692dfe7a0408d403407e8865c6c1411de295f7db08abf5726398a496b7bc875d",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.6.time_mamba.forward_blocks.conv1d",
+      "sha256" : "de4c5f285b971602868ee9bfba71c72ffed4ccf8c997e95f709b3102067d44e2",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/TSMamba.7.time_mamba.forward_blocks.conv1d",
+      "sha256" : "ad65b8647aa33320cf2699ad59105d2051519e6fb0a7242172fc370cf582a6d7",
+      "shape" : [
+        161,
+        3,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.0.1",
+      "sha256" : "3db02af1d0f04359b8ccb64726c4d02928cee1a00cace0e9197f20fd308ab3fb",
+      "shape" : [
+        1,
+        2,
+        323,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.1.1",
+      "sha256" : "21e67d90d14beeb485c359b89fa796fd7db9fafc9b4cfc31a6fc03a9cb738de3",
+      "shape" : [
+        1,
+        4,
+        323,
+        128
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.2.1",
+      "sha256" : "38bc42d91a9612ac4f1f71e24c5a3550fa6a60592ea7e19aa733cc2ae27b7c14",
+      "shape" : [
+        1,
+        8,
+        323,
+        192
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_block.dense_block.3.1",
+      "sha256" : "0ceb34b5531b3311780866507b0bec65374c81ef3d7c7d9c1aec908e827d77e4",
+      "shape" : [
+        1,
+        16,
+        323,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/dense_encoder.dense_conv_1_1.0",
+      "sha256" : "0bbfdde20aad6aca6da039e5ad5b7376911463cf746ed5b487c7d95b3ee4f0df",
+      "shape" : [
+        1,
+        2,
+        323,
+        2
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.0.1",
+      "sha256" : "c4d0acd4a308562605ac0942f0cab8373022da6150949814b208d20c52e6c766",
+      "shape" : [
+        1,
+        2,
+        161,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.1.1",
+      "sha256" : "17966f80d3bd08ba7a404635cbfb58d2caa061ded870e42306690a1537fa5f59",
+      "shape" : [
+        1,
+        4,
+        161,
+        128
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.2.1",
+      "sha256" : "654d4e4ff60911a64cb20dd98034312d604318d134621d9ecf48be53b21fba65",
+      "shape" : [
+        1,
+        8,
+        161,
+        192
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.dense_block.dense_block.3.1",
+      "sha256" : "294f40e15e5ffed1f6460958bf84350a8e874eca35edae753e8a7ec403e6a081",
+      "shape" : [
+        1,
+        16,
+        161,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/mask_decoder_list.7.up_conv2.0.conv",
+      "sha256" : "5541bece58dc43caf8d78449d29560606c40537c0ed810a260bf8069145be97b",
+      "shape" : [
+        1,
+        2,
+        322,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.0.1",
+      "sha256" : "c4d0acd4a308562605ac0942f0cab8373022da6150949814b208d20c52e6c766",
+      "shape" : [
+        1,
+        2,
+        161,
+        64
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.1.1",
+      "sha256" : "b0c00465dd9667a2f3c083f9fdf5c3d0684edc4577a1ac4b2450748fc33a2c49",
+      "shape" : [
+        1,
+        4,
+        161,
+        128
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.2.1",
+      "sha256" : "7617a86d19f6d4e46723b62d224c1eb421a7601ce195cd25cef6eeecbc27c6cc",
+      "shape" : [
+        1,
+        8,
+        161,
+        192
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.dense_block.dense_block.3.1",
+      "sha256" : "2a6c3b369b862bff706788d6dfdeb8c36fa74b97d570aba79d87410a7d64dba9",
+      "shape" : [
+        1,
+        16,
+        161,
+        256
+      ]
+    },
+    {
+      "name" : "model\/convolution\/phase_decoder_list.7.up_conv2.0.conv",
+      "sha256" : "4e3dfd1c7b7c6359f87ee017e757d4e7b0fdf2c7388246822231af9f1f426845",
+      "shape" : [
+        1,
+        2,
+        322,
+        64
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.0.time_mamba.forward_blocks",
+      "sha256" : "b13b5ce6609ff1766a33bfcc91865bd8987efba883b16ab9d24ac65bc0ed7ca5",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.1.time_mamba.forward_blocks",
+      "sha256" : "1c6a3b988f5ced164cd48788156df1d9b94f84af515428f089e39cac365c894a",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.2.time_mamba.forward_blocks",
+      "sha256" : "14d4499e301c7e8519fbfe5b7268c25c2371f4db69f836a98319fd8287cafffa",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.3.time_mamba.forward_blocks",
+      "sha256" : "13ec7fb9fe9648ecae63637916fb90d75c04364c89bd2feeae32dc7cf277300c",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.4.time_mamba.forward_blocks",
+      "sha256" : "70da592329b75817774bb53df02937f5b957626bcbc36f27205a939ebe56dd77",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.5.time_mamba.forward_blocks",
+      "sha256" : "6a68182b3d4104d4b852ecd1b507eb608a27c9bea36f92a739b99df5583a5c58",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.6.time_mamba.forward_blocks",
+      "sha256" : "6d8bdab65e6af5b95c5cd08b90835ce8207ce9d5d07da46e5d557bc020cb783c",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/recurrent\/TSMamba.7.time_mamba.forward_blocks",
+      "sha256" : "4f9cddc6feee82c0c1f9a63d9868a10c856d7632070ae6b129b91e902d01f925",
+      "shape" : [
+        161,
+        256,
+        16
+      ]
+    },
+    {
+      "name" : "model\/first",
+      "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "shape" : [
+        1
+      ]
+    },
+    {
+      "name" : "transform\/overlap",
+      "sha256" : "0c11dcc0572de61409f2f4abe68ad18c46a9e881bcd9d6b4e13f036c1ce8d03e",
+      "shape" : [
+        640
+      ]
+    },
+    {
+      "name" : "transform\/envelope",
+      "sha256" : "a4c0cab8d812c8d6f84e7993ffa3ed9d3e0e9d0c917b52c0ead83b16989be7a5",
+      "shape" : [
+        640
+      ]
+    },
+    {
+      "name" : "transform\/first",
+      "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "shape" : [
+        1
+      ]
+    }
+  ],
+  "raw_frames" : [
+    {
+      "frame_index_after_warmup" : 0,
+      "frame_wall_ms" : 43.646083329804242,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.0125,
+          "graph_construction_ms" : 0.050791000000000003,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.063291
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 2.8757079999999999,
+          "graph_construction_ms" : 0.26541700000000001,
+          "name" : "encode",
+          "total_completed_wall_ms" : 3.1411249999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.969166,
+          "graph_construction_ms" : 0.2475,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 4.216666
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.776125,
+          "graph_construction_ms" : 0.237041,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 4.013166
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.913958,
+          "graph_construction_ms" : 0.19679199999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 4.1107500000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.913125,
+          "graph_construction_ms" : 0.27895799999999998,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 4.1920830000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.9392499999999999,
+          "graph_construction_ms" : 0.275084,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 4.214334
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.0084590000000002,
+          "graph_construction_ms" : 0.28687499999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 4.2953340000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.936334,
+          "graph_construction_ms" : 0.28016600000000003,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 4.2164999999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.9457089999999999,
+          "graph_construction_ms" : 0.27604099999999998,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 4.2217500000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.7558340000000001,
+          "graph_construction_ms" : 0.77212499999999995,
+          "name" : "decode",
+          "total_completed_wall_ms" : 4.5279590000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0.043333999999999998,
+          "evaluation_wait_ms" : 1.2461249999999999,
+          "graph_construction_ms" : 0.090166999999999997,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.3796259999999998
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 1,
+      "frame_wall_ms" : 48.187291686190292,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.0127919999999999,
+          "graph_construction_ms" : 0.050375000000000003,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.063167
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 2.7712910000000002,
+          "graph_construction_ms" : 0.264125,
+          "name" : "encode",
+          "total_completed_wall_ms" : 3.0354160000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.008375,
+          "graph_construction_ms" : 0.29762499999999997,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 4.306
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2896669999999997,
+          "graph_construction_ms" : 0.40129199999999998,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 4.6909589999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2567919999999999,
+          "graph_construction_ms" : 0.38591599999999998,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 4.6427079999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2921670000000001,
+          "graph_construction_ms" : 0.37241600000000002,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 4.6645830000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.326041,
+          "graph_construction_ms" : 0.376834,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 4.7028749999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.1942919999999999,
+          "graph_construction_ms" : 0.36733300000000002,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 4.5616250000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2789580000000003,
+          "graph_construction_ms" : 0.41470899999999999,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 4.6936670000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.6053750000000004,
+          "graph_construction_ms" : 0.54716699999999996,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 5.1525420000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.965417,
+          "graph_construction_ms" : 1.017541,
+          "name" : "decode",
+          "total_completed_wall_ms" : 4.982958
+        },
+        {
+          "cpu_postprocessing_ms" : 0.049792000000000003,
+          "evaluation_wait_ms" : 1.453417,
+          "graph_construction_ms" : 0.112291,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.6154999999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 2,
+      "frame_wall_ms" : 51.118041679728776,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.1855420000000001,
+          "graph_construction_ms" : 0.079958000000000001,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.2655000000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.216542,
+          "graph_construction_ms" : 0.37733299999999997,
+          "name" : "encode",
+          "total_completed_wall_ms" : 3.5938750000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2399579999999997,
+          "graph_construction_ms" : 0.43416700000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 4.6741250000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.1628749999999997,
+          "graph_construction_ms" : 0.39041700000000001,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 4.5532919999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.5293330000000003,
+          "graph_construction_ms" : 0.56995799999999996,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 5.099291
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.5321249999999997,
+          "graph_construction_ms" : 0.47787499999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 5.0099999999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.434958,
+          "graph_construction_ms" : 0.54437500000000005,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 4.9793330000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.4828749999999999,
+          "graph_construction_ms" : 0.54954199999999997,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 5.0324169999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.4839580000000003,
+          "graph_construction_ms" : 0.53849999999999998,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 5.0224580000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.5796659999999996,
+          "graph_construction_ms" : 0.56137499999999996,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 5.1410409999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.9714170000000002,
+          "graph_construction_ms" : 1.045625,
+          "name" : "decode",
+          "total_completed_wall_ms" : 5.017042
+        },
+        {
+          "cpu_postprocessing_ms" : 0.10083300000000001,
+          "evaluation_wait_ms" : 1.4338329999999999,
+          "graph_construction_ms" : 0.106417,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.6410829999999998
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 3,
+      "frame_wall_ms" : 51.835999998729676,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.1286670000000001,
+          "graph_construction_ms" : 0.077290999999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.2059580000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.1557499999999998,
+          "graph_construction_ms" : 0.37137500000000001,
+          "name" : "encode",
+          "total_completed_wall_ms" : 3.5271249999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.4977499999999999,
+          "graph_construction_ms" : 0.53262500000000002,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 5.0303750000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2419169999999999,
+          "graph_construction_ms" : 0.36779099999999998,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 4.6097079999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.5270830000000002,
+          "graph_construction_ms" : 0.58379199999999998,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 5.1108750000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.6921249999999999,
+          "graph_construction_ms" : 0.53829199999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 5.2304170000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.4809999999999999,
+          "graph_construction_ms" : 0.483792,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 4.9647920000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.5477080000000001,
+          "graph_construction_ms" : 0.52912499999999996,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 5.0768329999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.7555839999999998,
+          "graph_construction_ms" : 0.54045799999999999,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 5.2960419999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.3975419999999996,
+          "graph_construction_ms" : 0.52345799999999998,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 4.9209999999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.237584,
+          "graph_construction_ms" : 0.98529100000000003,
+          "name" : "decode",
+          "total_completed_wall_ms" : 5.2228750000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0.056000000000000001,
+          "evaluation_wait_ms" : 1.373459,
+          "graph_construction_ms" : 0.12125,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.5507090000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 4,
+      "frame_wall_ms" : 55.698791664326563,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.2342500000000001,
+          "graph_construction_ms" : 0.076707999999999998,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.3109580000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.2290830000000001,
+          "graph_construction_ms" : 0.35191699999999998,
+          "name" : "encode",
+          "total_completed_wall_ms" : 3.581
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.4154580000000001,
+          "graph_construction_ms" : 0.40287499999999998,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 4.818333
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.7313749999999999,
+          "graph_construction_ms" : 0.407333,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 5.1387080000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.6826660000000002,
+          "graph_construction_ms" : 0.40529199999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 5.0879580000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.9664999999999999,
+          "graph_construction_ms" : 0.42954199999999998,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 5.3960419999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.5657079999999999,
+          "graph_construction_ms" : 0.53900000000000003,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.1047079999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.6312499999999996,
+          "graph_construction_ms" : 0.403416,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 5.0346659999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.3128330000000004,
+          "graph_construction_ms" : 0.411167,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 5.7240000000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.5427920000000004,
+          "graph_construction_ms" : 0.54516699999999996,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.0879590000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.6738749999999998,
+          "graph_construction_ms" : 1.0611250000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 5.7349999999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0.052749999999999998,
+          "evaluation_wait_ms" : 1.4213750000000001,
+          "graph_construction_ms" : 0.123125,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.5972500000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 5,
+      "frame_wall_ms" : 66.648083331529051,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.1146670000000001,
+          "graph_construction_ms" : 0.076874999999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.1915420000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.644584,
+          "graph_construction_ms" : 0.37620799999999999,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.0207920000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7364160000000002,
+          "graph_construction_ms" : 0.57879199999999997,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.3152080000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8661250000000003,
+          "graph_construction_ms" : 0.52237500000000003,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.3885000000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8893750000000002,
+          "graph_construction_ms" : 0.54333399999999998,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.432709
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2740410000000004,
+          "graph_construction_ms" : 0.54600000000000004,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.8200410000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2070420000000004,
+          "graph_construction_ms" : 0.54874999999999996,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.7557920000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7623340000000001,
+          "graph_construction_ms" : 0.53187499999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.2942090000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4018329999999999,
+          "graph_construction_ms" : 0.52287499999999998,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.9247079999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3640840000000001,
+          "graph_construction_ms" : 0.58108300000000002,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.9451669999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.3510410000000004,
+          "graph_construction_ms" : 1.1302920000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.4813330000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0.072708999999999996,
+          "evaluation_wait_ms" : 1.7257499999999999,
+          "graph_construction_ms" : 0.166875,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9653339999999997
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 6,
+      "frame_wall_ms" : 85.538916668156162,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.321,
+          "graph_construction_ms" : 0.10345799999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.424458
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.1350420000000003,
+          "graph_construction_ms" : 0.48429100000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 5.6193330000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.3928750000000001,
+          "graph_construction_ms" : 0.56541600000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 7.958291
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.3613749999999998,
+          "graph_construction_ms" : 0.574125,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.9354999999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0030419999999998,
+          "graph_construction_ms" : 0.58641600000000005,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 7.5894579999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0020829999999998,
+          "graph_construction_ms" : 0.52612499999999995,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 7.5282079999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.4184169999999998,
+          "graph_construction_ms" : 0.50404199999999999,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 7.9224589999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.7102920000000008,
+          "graph_construction_ms" : 0.551292,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 9.2615840000000009
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3783329999999996,
+          "graph_construction_ms" : 0.54133299999999995,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 8.9196659999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.4846249999999994,
+          "graph_construction_ms" : 0.580708,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 10.065332999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1783750000000008,
+          "graph_construction_ms" : 1.0891660000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.2675410000000014
+        },
+        {
+          "cpu_postprocessing_ms" : 0.082125000000000004,
+          "evaluation_wait_ms" : 1.683875,
+          "graph_construction_ms" : 0.16175,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9277500000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 7,
+      "frame_wall_ms" : 72.235583356814459,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.32175,
+          "graph_construction_ms" : 0.103334,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.425084
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3723330000000002,
+          "graph_construction_ms" : 0.534667,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.907
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9507919999999999,
+          "graph_construction_ms" : 0.61275000000000002,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.563542
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.6459590000000004,
+          "graph_construction_ms" : 0.61012500000000003,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.2560840000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9748749999999999,
+          "graph_construction_ms" : 0.58970800000000001,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.5645829999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.967625,
+          "graph_construction_ms" : 0.53545799999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.5030830000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.6372920000000004,
+          "graph_construction_ms" : 0.53304099999999999,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.1703330000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9234999999999998,
+          "graph_construction_ms" : 0.53120800000000001,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.4547080000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8634579999999996,
+          "graph_construction_ms" : 0.51154200000000005,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.375
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.219792,
+          "graph_construction_ms" : 0.53208299999999997,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.7518750000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.1901669999999998,
+          "graph_construction_ms" : 1.0862499999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.2764169999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0.070499999999999993,
+          "evaluation_wait_ms" : 1.6550830000000001,
+          "graph_construction_ms" : 0.14762500000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.873208
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 8,
+      "frame_wall_ms" : 77.54741664393805,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.334333,
+          "graph_construction_ms" : 0.105,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.439333
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2474590000000001,
+          "graph_construction_ms" : 0.49412499999999998,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.7415840000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.1018749999999997,
+          "graph_construction_ms" : 0.58079199999999997,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.6826669999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4866659999999996,
+          "graph_construction_ms" : 0.53704200000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.0237079999999992
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.5510409999999997,
+          "graph_construction_ms" : 0.56774999999999998,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 7.1187909999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4484589999999997,
+          "graph_construction_ms" : 0.50704099999999996,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.9554999999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.3047909999999998,
+          "graph_construction_ms" : 0.53791699999999998,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 7.842708
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.8575410000000003,
+          "graph_construction_ms" : 0.57133400000000001,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 8.4288749999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0850829999999991,
+          "graph_construction_ms" : 0.54549999999999998,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 8.6305829999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.900042,
+          "graph_construction_ms" : 0.50841599999999998,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.4084579999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.257333,
+          "graph_construction_ms" : 1.090625,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.3479580000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0.069875000000000007,
+          "evaluation_wait_ms" : 1.5991660000000001,
+          "graph_construction_ms" : 0.15179200000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.8208329999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 9,
+      "frame_wall_ms" : 92.231999995419756,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.261083,
+          "graph_construction_ms" : 0.085750000000000007,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.3468329999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2700420000000001,
+          "graph_construction_ms" : 0.52337500000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.7934169999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7626659999999994,
+          "graph_construction_ms" : 0.62758400000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.39025
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.6861670000000002,
+          "graph_construction_ms" : 0.58620799999999995,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.2723750000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0618750000000006,
+          "graph_construction_ms" : 0.53145900000000001,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 8.5933340000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0785830000000001,
+          "graph_construction_ms" : 0.51895899999999995,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.5975420000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3012910000000009,
+          "graph_construction_ms" : 0.56262500000000004,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 8.8639160000000015
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3644999999999996,
+          "graph_construction_ms" : 0.55145900000000003,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 8.9159589999999991
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5035419999999995,
+          "graph_construction_ms" : 0.59866699999999995,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 10.102209
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.4724590000000006,
+          "graph_construction_ms" : 0.57979099999999995,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 10.052250000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1203749999999992,
+          "graph_construction_ms" : 1.0596669999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.1800419999999985
+        },
+        {
+          "cpu_postprocessing_ms" : 0.082417000000000004,
+          "evaluation_wait_ms" : 1.7578339999999999,
+          "graph_construction_ms" : 0.15837499999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9986259999999998
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 10,
+      "frame_wall_ms" : 72.480291681131348,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.4052089999999999,
+          "graph_construction_ms" : 0.10391599999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.5091249999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4076659999999999,
+          "graph_construction_ms" : 0.53195899999999996,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.9396249999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5899169999999998,
+          "graph_construction_ms" : 0.62479200000000001,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.214708999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7235839999999998,
+          "graph_construction_ms" : 0.672041,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.3956249999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9614580000000004,
+          "graph_construction_ms" : 0.56841699999999995,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.5298750000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9998329999999997,
+          "graph_construction_ms" : 0.55820800000000004,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.5580409999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9535,
+          "graph_construction_ms" : 0.56283399999999995,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.5163339999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.787083,
+          "graph_construction_ms" : 0.50137500000000002,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.2884580000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9792500000000004,
+          "graph_construction_ms" : 0.55066700000000002,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.5299170000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.181667,
+          "graph_construction_ms" : 0.50337500000000002,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.6850420000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.2385409999999997,
+          "graph_construction_ms" : 1.0905,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.3290410000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0.079583000000000001,
+          "evaluation_wait_ms" : 1.6445419999999999,
+          "graph_construction_ms" : 0.15629100000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.8804159999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 11,
+      "frame_wall_ms" : 74.580125015927479,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3247089999999999,
+          "graph_construction_ms" : 0.086666000000000007,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4113749999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2886660000000001,
+          "graph_construction_ms" : 0.51220900000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.8008750000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2737499999999997,
+          "graph_construction_ms" : 0.66300000000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.93675
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4382080000000004,
+          "graph_construction_ms" : 0.59970900000000005,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.0379170000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.5273750000000001,
+          "graph_construction_ms" : 0.56374999999999997,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 7.0911249999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.1029580000000001,
+          "graph_construction_ms" : 0.55362500000000003,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 7.6565830000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2259169999999999,
+          "graph_construction_ms" : 0.30491600000000002,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.5308330000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.498958,
+          "graph_construction_ms" : 0.36508299999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 7.8640410000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0122920000000004,
+          "graph_construction_ms" : 0.280667,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.2929590000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3876249999999999,
+          "graph_construction_ms" : 0.31004100000000001,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.6976659999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.5824579999999999,
+          "graph_construction_ms" : 0.480458,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.0629159999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0.037333999999999999,
+          "evaluation_wait_ms" : 0.98854200000000003,
+          "graph_construction_ms" : 0.079250000000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.1051260000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 12,
+      "frame_wall_ms" : 80.388291651615873,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 0.75437500000000002,
+          "graph_construction_ms" : 0.049583000000000002,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 0.80395800000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.928083,
+          "graph_construction_ms" : 0.20937500000000001,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.1374579999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7322919999999993,
+          "graph_construction_ms" : 0.30325000000000002,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.035542
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7930840000000003,
+          "graph_construction_ms" : 0.28075,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.073834
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.3877500000000005,
+          "graph_construction_ms" : 0.25812499999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 9.6458750000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.7982500000000003,
+          "graph_construction_ms" : 0.23191700000000001,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.0301670000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.7243750000000002,
+          "graph_construction_ms" : 0.21729100000000001,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 7.9416660000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.8483749999999999,
+          "graph_construction_ms" : 0.21112500000000001,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 7.0594999999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.8875830000000002,
+          "graph_construction_ms" : 0.21612500000000001,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.1037080000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.7253749999999997,
+          "graph_construction_ms" : 0.22245899999999999,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.9478339999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.9929170000000003,
+          "graph_construction_ms" : 0.48025000000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 5.4731670000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0.041375000000000002,
+          "evaluation_wait_ms" : 0.98124999999999996,
+          "graph_construction_ms" : 0.053499999999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.076125
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 13,
+      "frame_wall_ms" : 65.85258332779631,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 0.80954199999999998,
+          "graph_construction_ms" : 0.035707999999999997,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 0.84524999999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.7381669999999998,
+          "graph_construction_ms" : 0.183416,
+          "name" : "encode",
+          "total_completed_wall_ms" : 3.9215829999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.6709170000000002,
+          "graph_construction_ms" : 0.21149999999999999,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.8824170000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.9586670000000002,
+          "graph_construction_ms" : 0.21675,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.1754170000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.8455000000000004,
+          "graph_construction_ms" : 0.24062500000000001,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 7.086125
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.0704580000000004,
+          "graph_construction_ms" : 0.23833299999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 5.3087910000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8145829999999998,
+          "graph_construction_ms" : 0.208125,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.0227079999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4708750000000004,
+          "graph_construction_ms" : 0.594167,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 7.065042
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3996659999999999,
+          "graph_construction_ms" : 0.50137500000000002,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.9010410000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.4053329999999997,
+          "graph_construction_ms" : 0.48099999999999998,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 5.8863329999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7890839999999999,
+          "graph_construction_ms" : 1.0623750000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.8514590000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0.068125000000000005,
+          "evaluation_wait_ms" : 1.588125,
+          "graph_construction_ms" : 0.15312500000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.809375
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 14,
+      "frame_wall_ms" : 76.867625000886619,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.2546250000000001,
+          "graph_construction_ms" : 0.097416000000000003,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.352041
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.5004590000000002,
+          "graph_construction_ms" : 0.19958300000000001,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.7000419999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.1314590000000004,
+          "graph_construction_ms" : 0.58004100000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 7.7115000000000009
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.9875420000000004,
+          "graph_construction_ms" : 0.52420800000000001,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.5117500000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.9584999999999999,
+          "graph_construction_ms" : 0.49908400000000003,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 7.4575839999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.9456660000000001,
+          "graph_construction_ms" : 0.48999999999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 7.4356660000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.3597089999999996,
+          "graph_construction_ms" : 0.19941600000000001,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 7.5591249999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0484159999999996,
+          "graph_construction_ms" : 0.51354200000000005,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 7.5619579999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.2355419999999997,
+          "graph_construction_ms" : 0.504417,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.7399589999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0662089999999997,
+          "graph_construction_ms" : 0.52900000000000003,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 7.5952089999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.3767500000000004,
+          "graph_construction_ms" : 0.95837499999999998,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.3351249999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0.070999999999999994,
+          "evaluation_wait_ms" : 1.5648340000000001,
+          "graph_construction_ms" : 0.156083,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.791917
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 15,
+      "frame_wall_ms" : 82.369625015417114,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.1617919999999999,
+          "graph_construction_ms" : 0.10054200000000001,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.2623339999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7301669999999998,
+          "graph_construction_ms" : 0.46304200000000001,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.1932089999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0644999999999998,
+          "graph_construction_ms" : 0.48670799999999997,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 7.5512079999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0033750000000001,
+          "graph_construction_ms" : 0.49483300000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.498208
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0627089999999999,
+          "graph_construction_ms" : 0.49220799999999998,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 7.5549169999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0711670000000009,
+          "graph_construction_ms" : 0.49037500000000001,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.5615420000000011
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.9865000000000004,
+          "graph_construction_ms" : 0.49195800000000001,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 7.4784580000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.7797499999999999,
+          "graph_construction_ms" : 0.54583300000000001,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 8.325583
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.7451249999999998,
+          "graph_construction_ms" : 0.76041700000000001,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 8.5055420000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1138750000000002,
+          "graph_construction_ms" : 0.54425000000000001,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.6581250000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.7701250000000002,
+          "graph_construction_ms" : 0.95574999999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.7258750000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0.077499999999999999,
+          "evaluation_wait_ms" : 1.7099580000000001,
+          "graph_construction_ms" : 0.15779199999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9452499999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 16,
+      "frame_wall_ms" : 82.487125007901341,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.29725,
+          "graph_construction_ms" : 0.126333,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.423583
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9190829999999997,
+          "graph_construction_ms" : 0.49604199999999998,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.4151249999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.3832920000000009,
+          "graph_construction_ms" : 0.58087500000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 9.9641670000000016
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7474170000000004,
+          "graph_construction_ms" : 0.57066700000000004,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.318084000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9648330000000005,
+          "graph_construction_ms" : 0.628,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 10.592833000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6713339999999999,
+          "graph_construction_ms" : 0.50324999999999998,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 10.174583999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.948709,
+          "graph_construction_ms" : 0.53666599999999998,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.4853750000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8772919999999997,
+          "graph_construction_ms" : 0.54349999999999998,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.4207919999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.502459,
+          "graph_construction_ms" : 0.32408300000000001,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 5.8265419999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8537080000000001,
+          "graph_construction_ms" : 0.629583,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.4832910000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.9077909999999996,
+          "graph_construction_ms" : 1.1499999999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.0577909999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0.089124999999999996,
+          "evaluation_wait_ms" : 1.9282919999999999,
+          "graph_construction_ms" : 0.16037499999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.1777920000000002
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 17,
+      "frame_wall_ms" : 71.816416690126061,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3345830000000001,
+          "graph_construction_ms" : 0.105583,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4401660000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.8874580000000001,
+          "graph_construction_ms" : 0.47704200000000002,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.3645000000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4356669999999996,
+          "graph_construction_ms" : 0.56212499999999999,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.9977919999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4192499999999999,
+          "graph_construction_ms" : 0.55916699999999997,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.9784170000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2626660000000003,
+          "graph_construction_ms" : 0.56283399999999995,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.8254999999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9995419999999999,
+          "graph_construction_ms" : 0.45337499999999997,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.4529170000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3923329999999998,
+          "graph_construction_ms" : 0.59445899999999996,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.9867919999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3206670000000003,
+          "graph_construction_ms" : 0.52266699999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.8433340000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.6667500000000004,
+          "graph_construction_ms" : 0.549709,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.2164590000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.1481250000000003,
+          "graph_construction_ms" : 0.531084,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 7.6792090000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.9393750000000001,
+          "graph_construction_ms" : 1.0563750000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 7.9957500000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0.069084000000000007,
+          "evaluation_wait_ms" : 1.711959,
+          "graph_construction_ms" : 0.15066599999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9317089999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 18,
+      "frame_wall_ms" : 93.670916685368866,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3200829999999999,
+          "graph_construction_ms" : 0.1075,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4275829999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.0575419999999998,
+          "graph_construction_ms" : 0.4985,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.5560419999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2562080000000009,
+          "graph_construction_ms" : 0.60395900000000002,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 8.8601670000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.4248340000000006,
+          "graph_construction_ms" : 0.576125,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.000959
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.4695830000000001,
+          "graph_construction_ms" : 0.55358300000000005,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 8.0231659999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3301250000000007,
+          "graph_construction_ms" : 0.53537500000000005,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.8655000000000008
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3789169999999995,
+          "graph_construction_ms" : 0.50845799999999997,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 8.8873749999999987
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.7802500000000006,
+          "graph_construction_ms" : 0.71750000000000003,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 9.4977499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.2518329999999995,
+          "graph_construction_ms" : 0.56454199999999999,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 9.816374999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5560840000000002,
+          "graph_construction_ms" : 0.63591600000000004,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 10.192
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2856670000000001,
+          "graph_construction_ms" : 1.106916,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.3925830000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0.084333000000000005,
+          "evaluation_wait_ms" : 1.7867500000000001,
+          "graph_construction_ms" : 0.17033300000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.0414160000000003
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 19,
+      "frame_wall_ms" : 71.739500010153279,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.4724999999999999,
+          "graph_construction_ms" : 0.100041,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.572541
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4505410000000003,
+          "graph_construction_ms" : 0.52579200000000004,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.9763330000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.902291,
+          "graph_construction_ms" : 0.59333400000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 9.4956250000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.6073750000000002,
+          "graph_construction_ms" : 0.57737499999999997,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.1847500000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8452080000000004,
+          "graph_construction_ms" : 0.52300000000000002,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.3682080000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9789159999999999,
+          "graph_construction_ms" : 0.546875,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.5257909999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.915,
+          "graph_construction_ms" : 0.50700000000000001,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.4219999999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8562089999999998,
+          "graph_construction_ms" : 0.45358300000000001,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.3097919999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.0935420000000002,
+          "graph_construction_ms" : 0.53487499999999999,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.6284170000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3013750000000002,
+          "graph_construction_ms" : 0.53116699999999994,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.8325420000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.290375,
+          "graph_construction_ms" : 1.0687089999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.3590840000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0.084417000000000006,
+          "evaluation_wait_ms" : 1.699084,
+          "graph_construction_ms" : 0.167875,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.951376
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 20,
+      "frame_wall_ms" : 79.816083336481825,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3523750000000001,
+          "graph_construction_ms" : 0.11545800000000001,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4678330000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.407667,
+          "graph_construction_ms" : 0.52354100000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.9312079999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.5045830000000002,
+          "graph_construction_ms" : 0.55479199999999995,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 7.0593750000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.376709,
+          "graph_construction_ms" : 0.57862499999999994,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.9553339999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2887919999999999,
+          "graph_construction_ms" : 0.54800000000000004,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.836792
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0159580000000004,
+          "graph_construction_ms" : 0.52741700000000002,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 7.5433750000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.8275420000000002,
+          "graph_construction_ms" : 0.54270799999999997,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 8.3702500000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0551670000000009,
+          "graph_construction_ms" : 0.51970799999999995,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 8.5748750000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2392920000000007,
+          "graph_construction_ms" : 0.52095800000000003,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 8.760250000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3357500000000009,
+          "graph_construction_ms" : 0.57020800000000005,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.9059580000000018
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.1406660000000004,
+          "graph_construction_ms" : 1.076584,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.2172499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0.092082999999999998,
+          "evaluation_wait_ms" : 1.796333,
+          "graph_construction_ms" : 0.17191699999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.060333
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 21,
+      "frame_wall_ms" : 82.778583338949829,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.2844580000000001,
+          "graph_construction_ms" : 0.12929199999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4137500000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.1673340000000003,
+          "graph_construction_ms" : 0.519208,
+          "name" : "encode",
+          "total_completed_wall_ms" : 5.6865420000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7882920000000002,
+          "graph_construction_ms" : 0.56612499999999999,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.354417
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7605419999999992,
+          "graph_construction_ms" : 0.64170799999999995,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.402249999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9379159999999995,
+          "graph_construction_ms" : 0.57641699999999996,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 10.514332999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9539159999999995,
+          "graph_construction_ms" : 0.60366699999999995,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 10.557582999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8720420000000004,
+          "graph_construction_ms" : 0.62229100000000004,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.4943330000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8288330000000004,
+          "graph_construction_ms" : 0.54608299999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.3749160000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9576669999999998,
+          "graph_construction_ms" : 0.52200000000000002,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.4796670000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.834625,
+          "graph_construction_ms" : 0.55504100000000001,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.3896660000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.9168339999999997,
+          "graph_construction_ms" : 1.0847500000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.0015839999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0.074124999999999996,
+          "evaluation_wait_ms" : 1.719875,
+          "graph_construction_ms" : 0.202125,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9961250000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 22,
+      "frame_wall_ms" : 73.433958343230188,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.472334,
+          "graph_construction_ms" : 0.10100000000000001,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.573334
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.9192499999999999,
+          "graph_construction_ms" : 0.54383300000000001,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.4630830000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4898749999999996,
+          "graph_construction_ms" : 0.53825000000000001,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 7.0281249999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3622920000000001,
+          "graph_construction_ms" : 0.560666,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.9229580000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3108329999999997,
+          "graph_construction_ms" : 0.55358300000000005,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.8644159999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.0937080000000003,
+          "graph_construction_ms" : 0.47654200000000002,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.5702500000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.358625,
+          "graph_construction_ms" : 0.56474999999999997,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.9233750000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4024999999999999,
+          "graph_construction_ms" : 0.52304200000000001,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.9255420000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.3159159999999996,
+          "graph_construction_ms" : 0.51637500000000003,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.8322909999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.6222909999999997,
+          "graph_construction_ms" : 0.51354200000000005,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.1358329999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0894589999999997,
+          "graph_construction_ms" : 1.0322910000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.1217500000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0.092917,
+          "evaluation_wait_ms" : 1.6994590000000001,
+          "graph_construction_ms" : 0.17066600000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.963042
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 23,
+      "frame_wall_ms" : 94.269916677149013,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3563750000000001,
+          "graph_construction_ms" : 0.109917,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4662920000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.0679169999999996,
+          "graph_construction_ms" : 0.51579200000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 5.5837089999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.0368329999999997,
+          "graph_construction_ms" : 0.58783399999999997,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 9.6246669999999988
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.4694579999999995,
+          "graph_construction_ms" : 0.58737499999999998,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 9.0568329999999992
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.2061250000000001,
+          "graph_construction_ms" : 0.63670800000000005,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 9.8428330000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6864170000000005,
+          "graph_construction_ms" : 0.61604099999999995,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 10.302458
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6862910000000007,
+          "graph_construction_ms" : 0.55133399999999999,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 10.237625000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9418340000000001,
+          "graph_construction_ms" : 0.57404100000000002,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 10.515874999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1374169999999992,
+          "graph_construction_ms" : 0.54970799999999997,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 8.687125
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.8267499999999997,
+          "graph_construction_ms" : 0.66491699999999998,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.4916669999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.1604169999999998,
+          "graph_construction_ms" : 1.091083,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.2515000000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0.10166699999999999,
+          "evaluation_wait_ms" : 1.8326659999999999,
+          "graph_construction_ms" : 0.16366700000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.0979999999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 24,
+      "frame_wall_ms" : 82.821708347182721,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3382080000000001,
+          "graph_construction_ms" : 0.1045,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4427080000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.5909579999999997,
+          "graph_construction_ms" : 0.52770799999999995,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.1186659999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6323749999999997,
+          "graph_construction_ms" : 0.58770900000000004,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.220084
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5967920000000007,
+          "graph_construction_ms" : 0.53712499999999996,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.133917
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9295000000000009,
+          "graph_construction_ms" : 0.56733299999999998,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 10.496833000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5489999999999995,
+          "graph_construction_ms" : 0.55312499999999998,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 10.102124999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8574580000000003,
+          "graph_construction_ms" : 0.61933400000000005,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.4767920000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9623749999999998,
+          "graph_construction_ms" : 0.51949999999999996,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.4818749999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8044580000000003,
+          "graph_construction_ms" : 0.52979200000000004,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.3342500000000008
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8828750000000003,
+          "graph_construction_ms" : 0.551458,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.4343330000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.0064580000000003,
+          "graph_construction_ms" : 1.072292,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.0787500000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0.082541000000000003,
+          "evaluation_wait_ms" : 2.1617090000000001,
+          "graph_construction_ms" : 0.14724999999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.3915000000000002
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 25,
+      "frame_wall_ms" : 71.750583330867812,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3446670000000001,
+          "graph_construction_ms" : 0.11749999999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.462167
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 3.8200409999999998,
+          "graph_construction_ms" : 0.51716700000000004,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.3372079999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2218330000000002,
+          "graph_construction_ms" : 0.41229199999999999,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.634125
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4835000000000003,
+          "graph_construction_ms" : 0.60845800000000005,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.091958
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2752499999999998,
+          "graph_construction_ms" : 0.54300000000000004,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.8182499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9983750000000002,
+          "graph_construction_ms" : 0.50904099999999997,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.5074160000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.308084,
+          "graph_construction_ms" : 0.54333299999999995,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.8514169999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3140000000000001,
+          "graph_construction_ms" : 0.51700000000000002,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.8310000000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.2651250000000003,
+          "graph_construction_ms" : 0.53087499999999999,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.7960000000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.6539999999999999,
+          "graph_construction_ms" : 0.52733300000000005,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 7.1813330000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0485829999999998,
+          "graph_construction_ms" : 1.0912500000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.1398329999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0.079500000000000001,
+          "evaluation_wait_ms" : 1.7268749999999999,
+          "graph_construction_ms" : 0.17441699999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9807919999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 26,
+      "frame_wall_ms" : 94.463916670065373,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.393583,
+          "graph_construction_ms" : 0.106,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4995830000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7762500000000001,
+          "graph_construction_ms" : 0.45854099999999998,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.2347910000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.3526670000000003,
+          "graph_construction_ms" : 0.67179100000000003,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.024458000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.9737090000000004,
+          "graph_construction_ms" : 0.58750000000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 8.5612089999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.7764579999999999,
+          "graph_construction_ms" : 0.72024999999999995,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 9.4967079999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.7916249999999998,
+          "graph_construction_ms" : 0.56562500000000004,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 9.3572500000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5924999999999994,
+          "graph_construction_ms" : 0.57587500000000003,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 10.168374999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.8642920000000007,
+          "graph_construction_ms" : 0.55345800000000001,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 10.417750000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7514160000000007,
+          "graph_construction_ms" : 0.53595899999999996,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 10.287375000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.8597089999999996,
+          "graph_construction_ms" : 0.54649999999999999,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.4062090000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.7941669999999998,
+          "graph_construction_ms" : 1.1100829999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 7.9042499999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0.088041999999999995,
+          "evaluation_wait_ms" : 1.699584,
+          "graph_construction_ms" : 0.16629099999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9539169999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 27,
+      "frame_wall_ms" : 83.903166669188067,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.283542,
+          "graph_construction_ms" : 0.10187499999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.3854169999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.3116659999999998,
+          "graph_construction_ms" : 0.54783400000000004,
+          "name" : "encode",
+          "total_completed_wall_ms" : 5.8594999999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5541669999999996,
+          "graph_construction_ms" : 0.57491599999999998,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.129083
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7438749999999992,
+          "graph_construction_ms" : 0.61383299999999996,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.357707999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 10.112,
+          "graph_construction_ms" : 0.51841599999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 10.630416
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 10.105167,
+          "graph_construction_ms" : 0.58245800000000003,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 10.687625000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8635419999999998,
+          "graph_construction_ms" : 0.55874999999999997,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.4222919999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.960083,
+          "graph_construction_ms" : 0.55020800000000003,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.5102910000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.1134170000000001,
+          "graph_construction_ms" : 0.55191599999999996,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.6653330000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4422079999999999,
+          "graph_construction_ms" : 0.51229199999999997,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.9544999999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.9456249999999997,
+          "graph_construction_ms" : 1.104125,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.0497499999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0.093124999999999999,
+          "evaluation_wait_ms" : 1.899208,
+          "graph_construction_ms" : 0.13566700000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.1280000000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 28,
+      "frame_wall_ms" : 72.641958337044343,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.367292,
+          "graph_construction_ms" : 0.13408300000000001,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.5013749999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.0209159999999997,
+          "graph_construction_ms" : 0.49758400000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.5184999999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.2109579999999998,
+          "graph_construction_ms" : 0.57045900000000005,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.7814169999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.593,
+          "graph_construction_ms" : 0.55666700000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 7.149667
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3613330000000001,
+          "graph_construction_ms" : 0.55258399999999996,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.9139169999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4539580000000001,
+          "graph_construction_ms" : 0.53229199999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.9862500000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.6959999999999997,
+          "graph_construction_ms" : 0.54737499999999994,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 7.2433749999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3037919999999996,
+          "graph_construction_ms" : 0.58620799999999995,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.8899999999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.5563750000000001,
+          "graph_construction_ms" : 0.64924999999999999,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.2056250000000004
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4631249999999998,
+          "graph_construction_ms" : 0.52562500000000001,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.9887499999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.24925,
+          "graph_construction_ms" : 1.1132919999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.3625419999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0.076166999999999999,
+          "evaluation_wait_ms" : 1.7452920000000001,
+          "graph_construction_ms" : 0.16529199999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9867510000000002
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 29,
+      "frame_wall_ms" : 94.175250007538125,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.9355830000000001,
+          "graph_construction_ms" : 0.104125,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 2.0397080000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.9419589999999998,
+          "graph_construction_ms" : 0.47845799999999999,
+          "name" : "encode",
+          "total_completed_wall_ms" : 5.4204169999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.1709999999999994,
+          "graph_construction_ms" : 0.61920799999999998,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 9.7902079999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2833749999999995,
+          "graph_construction_ms" : 0.57245800000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 8.8558329999999987
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.2930829999999993,
+          "graph_construction_ms" : 0.574542,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 9.8676249999999985
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.4936659999999993,
+          "graph_construction_ms" : 0.47229199999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 9.9659579999999988
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6690000000000005,
+          "graph_construction_ms" : 0.54862500000000003,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 10.217625
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.720834,
+          "graph_construction_ms" : 0.50220799999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 10.223042
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1854169999999993,
+          "graph_construction_ms" : 0.55254099999999995,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 8.737957999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2412910000000004,
+          "graph_construction_ms" : 0.51033399999999995,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.7516250000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.0616250000000003,
+          "graph_construction_ms" : 1.059042,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.120667000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0.079000000000000001,
+          "evaluation_wait_ms" : 1.810708,
+          "graph_construction_ms" : 0.18020900000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.0699170000000002
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 30,
+      "frame_wall_ms" : 94.511166651500389,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.322667,
+          "graph_construction_ms" : 0.119167,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4418340000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7331669999999999,
+          "graph_construction_ms" : 0.52454199999999995,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.2577090000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6322500000000009,
+          "graph_construction_ms" : 0.58850000000000002,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.220750000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7059580000000008,
+          "graph_construction_ms" : 0.60416700000000001,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.310125000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 10.107666999999999,
+          "graph_construction_ms" : 0.57170799999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 10.679374999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0382499999999997,
+          "graph_construction_ms" : 0.56091599999999997,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.5991660000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0212079999999997,
+          "graph_construction_ms" : 0.53445900000000002,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 8.5556669999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1973330000000004,
+          "graph_construction_ms" : 0.55425000000000002,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 8.7515830000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.5456660000000007,
+          "graph_construction_ms" : 0.575542,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 9.1212080000000011
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.7092080000000003,
+          "graph_construction_ms" : 0.56404200000000004,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 9.2732500000000009
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0723749999999992,
+          "graph_construction_ms" : 1.112166,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.1845409999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0.083167000000000005,
+          "evaluation_wait_ms" : 1.7474590000000001,
+          "graph_construction_ms" : 0.16137499999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9920010000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 31,
+      "frame_wall_ms" : 94.426916650263593,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.2849999999999999,
+          "graph_construction_ms" : 0.10825,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.3932499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.231916,
+          "graph_construction_ms" : 0.49758400000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.7294999999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 10.132667,
+          "graph_construction_ms" : 0.62179200000000001,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.754458999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6492090000000008,
+          "graph_construction_ms" : 0.55495799999999995,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.204167
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.251042,
+          "graph_construction_ms" : 0.55529200000000001,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 9.8063339999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9193339999999992,
+          "graph_construction_ms" : 0.52037500000000003,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 10.439708999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7894170000000003,
+          "graph_construction_ms" : 0.54966700000000002,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 10.339084
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7255830000000003,
+          "graph_construction_ms" : 0.53362500000000002,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 10.259208000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4548329999999998,
+          "graph_construction_ms" : 0.68925000000000003,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.1440830000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.8536659999999996,
+          "graph_construction_ms" : 0.51787499999999997,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 7.3715409999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.7614169999999998,
+          "graph_construction_ms" : 1.0747500000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 7.8361669999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0.10308299999999999,
+          "evaluation_wait_ms" : 1.753125,
+          "graph_construction_ms" : 0.1845,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.040708
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 32,
+      "frame_wall_ms" : 92.950166668742895,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3987080000000001,
+          "graph_construction_ms" : 0.11724999999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.5159580000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.6173330000000004,
+          "graph_construction_ms" : 0.547292,
+          "name" : "encode",
+          "total_completed_wall_ms" : 5.164625
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.8388749999999998,
+          "graph_construction_ms" : 0.58866600000000002,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 9.4275409999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1841249999999999,
+          "graph_construction_ms" : 0.58508300000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 8.769207999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1667919999999992,
+          "graph_construction_ms" : 0.58074999999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 8.7475419999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3026660000000003,
+          "graph_construction_ms" : 0.53883400000000004,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.8414999999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3865409999999994,
+          "graph_construction_ms" : 0.467084,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 8.8536249999999992
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.0522500000000008,
+          "graph_construction_ms" : 0.52466599999999997,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 9.5769160000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.5889589999999991,
+          "graph_construction_ms" : 0.50587499999999996,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 10.094833999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 10.070625,
+          "graph_construction_ms" : 0.53049999999999997,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 10.601125
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3239590000000003,
+          "graph_construction_ms" : 1.0658749999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.3898340000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0.075332999999999997,
+          "evaluation_wait_ms" : 1.6109579999999999,
+          "graph_construction_ms" : 0.16620799999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.8524989999999999
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 33,
+      "frame_wall_ms" : 80.612374993506819,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.4201250000000001,
+          "graph_construction_ms" : 0.110708,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.5308330000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3927500000000004,
+          "graph_construction_ms" : 0.64283400000000002,
+          "name" : "encode",
+          "total_completed_wall_ms" : 7.0355840000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 11.045999999999999,
+          "graph_construction_ms" : 0.63349999999999995,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 11.679499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 10.079416999999999,
+          "graph_construction_ms" : 0.60716599999999998,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.686582999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7104999999999997,
+          "graph_construction_ms" : 0.51624999999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 10.226749999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.6987079999999999,
+          "graph_construction_ms" : 0.58099999999999996,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.2797079999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.8519589999999999,
+          "graph_construction_ms" : 0.49175000000000002,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 6.3437089999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.9099589999999997,
+          "graph_construction_ms" : 0.58333299999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 6.4932919999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.5272500000000004,
+          "graph_construction_ms" : 0.50566699999999998,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.0329170000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 5.7644159999999998,
+          "graph_construction_ms" : 0.478209,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 6.2426249999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.9697500000000003,
+          "graph_construction_ms" : 1.0711660000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 6.0409160000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0.090999999999999998,
+          "evaluation_wait_ms" : 1.6688339999999999,
+          "graph_construction_ms" : 0.144708,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.904542
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 34,
+      "frame_wall_ms" : 73.969624994788319,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.334125,
+          "graph_construction_ms" : 0.109708,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4438329999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.3645829999999997,
+          "graph_construction_ms" : 0.50629199999999996,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.8708749999999998
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4059590000000002,
+          "graph_construction_ms" : 0.57695799999999997,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 6.9829170000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.1309170000000002,
+          "graph_construction_ms" : 0.57795799999999997,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 6.7088749999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.0986250000000002,
+          "graph_construction_ms" : 0.53758300000000003,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 6.6362079999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3587499999999997,
+          "graph_construction_ms" : 0.47737499999999999,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 6.836125
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.6935419999999999,
+          "graph_construction_ms" : 0.53658300000000003,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 7.2301250000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.5206249999999999,
+          "graph_construction_ms" : 0.52324999999999999,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 7.0438749999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.4548329999999998,
+          "graph_construction_ms" : 0.49795899999999998,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.9527919999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.8289169999999997,
+          "graph_construction_ms" : 0.52170799999999995,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.3506249999999991
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.7295420000000004,
+          "graph_construction_ms" : 1.0127079999999999,
+          "name" : "decode",
+          "total_completed_wall_ms" : 7.7422500000000003
+        },
+        {
+          "cpu_postprocessing_ms" : 0.10366599999999999,
+          "evaluation_wait_ms" : 1.7991250000000001,
+          "graph_construction_ms" : 0.16412499999999999,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.066916
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 35,
+      "frame_wall_ms" : 88.985833339393139,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3730830000000001,
+          "graph_construction_ms" : 0.10020800000000001,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4732910000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3203329999999998,
+          "graph_construction_ms" : 0.53600000000000003,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.8563329999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2155000000000005,
+          "graph_construction_ms" : 0.60587500000000005,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 8.8213749999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.812875,
+          "graph_construction_ms" : 0.58258299999999996,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.395458
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.8127909999999998,
+          "graph_construction_ms" : 0.57716699999999999,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 7.389958
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.9273340000000001,
+          "graph_construction_ms" : 0.55762500000000004,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.4849589999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1567080000000001,
+          "graph_construction_ms" : 0.41854200000000003,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 8.5752500000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0224159999999998,
+          "graph_construction_ms" : 0.57399999999999995,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 8.5964159999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3551669999999998,
+          "graph_construction_ms" : 0.47483300000000001,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 8.8300000000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3517499999999991,
+          "graph_construction_ms" : 0.53387499999999999,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 8.8856249999999992
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.6001250000000002,
+          "graph_construction_ms" : 1.061625,
+          "name" : "decode",
+          "total_completed_wall_ms" : 8.6617499999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0.075208999999999998,
+          "evaluation_wait_ms" : 1.694583,
+          "graph_construction_ms" : 0.139042,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.9088340000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 36,
+      "frame_wall_ms" : 98.677125002723187,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.353,
+          "graph_construction_ms" : 0.11625000000000001,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.4692499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3199170000000002,
+          "graph_construction_ms" : 0.51500000000000001,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.8349169999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 10.33825,
+          "graph_construction_ms" : 0.56558299999999995,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.903833000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7173750000000005,
+          "graph_construction_ms" : 0.58650000000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 10.303875000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.4602909999999998,
+          "graph_construction_ms" : 0.52000000000000002,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 8.9802909999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3925830000000001,
+          "graph_construction_ms" : 0.54362500000000002,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.9362080000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.6111249999999995,
+          "graph_construction_ms" : 0.57108300000000001,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 9.1822079999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.4840839999999993,
+          "graph_construction_ms" : 0.49741600000000002,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 9.9814999999999987
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7889999999999997,
+          "graph_construction_ms" : 0.53825000000000001,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 10.327249999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.6124170000000007,
+          "graph_construction_ms" : 0.53762500000000002,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 10.150042000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3384169999999997,
+          "graph_construction_ms" : 1.135167,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.4735839999999989
+        },
+        {
+          "cpu_postprocessing_ms" : 0.079541000000000001,
+          "evaluation_wait_ms" : 1.7600830000000001,
+          "graph_construction_ms" : 0.176208,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.0158320000000001
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 37,
+      "frame_wall_ms" : 89.065166655927896,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.2680419999999999,
+          "graph_construction_ms" : 0.114833,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.3828749999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.2013749999999996,
+          "graph_construction_ms" : 0.53670799999999996,
+          "name" : "encode",
+          "total_completed_wall_ms" : 4.7380829999999996
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2475000000000005,
+          "graph_construction_ms" : 0.58554200000000001,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 8.8330420000000007
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.4870409999999996,
+          "graph_construction_ms" : 0.59812500000000002,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 9.0851659999999992
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.2856660000000009,
+          "graph_construction_ms" : 0.59562499999999996,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 9.8812910000000009
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.4530410000000007,
+          "graph_construction_ms" : 0.60116700000000001,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 10.054208000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9038749999999993,
+          "graph_construction_ms" : 0.59279199999999999,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 10.496666999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.9133750000000003,
+          "graph_construction_ms" : 0.55991599999999997,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 10.473291
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.3633749999999996,
+          "graph_construction_ms" : 0.57899999999999996,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 6.9423749999999993
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.7427910000000004,
+          "graph_construction_ms" : 0.56716699999999998,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 7.309958
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.6070000000000002,
+          "graph_construction_ms" : 1.123791,
+          "name" : "decode",
+          "total_completed_wall_ms" : 7.730791
+        },
+        {
+          "cpu_postprocessing_ms" : 0.075499999999999998,
+          "evaluation_wait_ms" : 1.7668330000000001,
+          "graph_construction_ms" : 0.16766700000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.0100000000000002
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 38,
+      "frame_wall_ms" : 89.761541661573574,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.402709,
+          "graph_construction_ms" : 0.113958,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.516667
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 4.678375,
+          "graph_construction_ms" : 0.51608299999999996,
+          "name" : "encode",
+          "total_completed_wall_ms" : 5.194458
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.0093329999999998,
+          "graph_construction_ms" : 0.55733299999999997,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 8.5666659999999997
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.0645000000000007,
+          "graph_construction_ms" : 0.57508300000000001,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 9.639583
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2273750000000003,
+          "graph_construction_ms" : 0.56358399999999997,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 8.7909590000000009
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1636249999999997,
+          "graph_construction_ms" : 0.56087500000000001,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 8.724499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.3080829999999999,
+          "graph_construction_ms" : 0.53654199999999996,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 8.8446250000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.5172919999999994,
+          "graph_construction_ms" : 0.52933300000000005,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 9.0466249999999988
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.2905410000000002,
+          "graph_construction_ms" : 0.50170899999999996,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 7.7922500000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.3976249999999997,
+          "graph_construction_ms" : 0.50849999999999995,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 9.9061249999999994
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.4454159999999998,
+          "graph_construction_ms" : 1.1154170000000001,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.5608330000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0.080292000000000002,
+          "evaluation_wait_ms" : 1.7860419999999999,
+          "graph_construction_ms" : 0.18704200000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 2.0533759999999996
+        }
+      ]
+    },
+    {
+      "frame_index_after_warmup" : 39,
+      "frame_wall_ms" : 94.436083338223398,
+      "stages" : [
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 1.3363750000000001,
+          "graph_construction_ms" : 0.11816699999999999,
+          "name" : "analyze",
+          "total_completed_wall_ms" : 1.454542
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 6.4320000000000004,
+          "graph_construction_ms" : 0.52412499999999995,
+          "name" : "encode",
+          "total_completed_wall_ms" : 6.9561250000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7357080000000007,
+          "graph_construction_ms" : 0.58545899999999995,
+          "name" : "tf0",
+          "total_completed_wall_ms" : 10.321167000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.1107499999999995,
+          "graph_construction_ms" : 0.58266700000000005,
+          "name" : "tf1",
+          "total_completed_wall_ms" : 8.6934170000000002
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.8871250000000002,
+          "graph_construction_ms" : 0.56366700000000003,
+          "name" : "tf2",
+          "total_completed_wall_ms" : 8.4507919999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 7.3021669999999999,
+          "graph_construction_ms" : 0.50595800000000002,
+          "name" : "tf3",
+          "total_completed_wall_ms" : 7.8081249999999995
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.7645,
+          "graph_construction_ms" : 0.52808299999999997,
+          "name" : "tf4",
+          "total_completed_wall_ms" : 9.2925830000000005
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.7904999999999998,
+          "graph_construction_ms" : 0.55695899999999998,
+          "name" : "tf5",
+          "total_completed_wall_ms" : 9.3474590000000006
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.8067919999999997,
+          "graph_construction_ms" : 0.53879200000000005,
+          "name" : "tf6",
+          "total_completed_wall_ms" : 10.345584000000001
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 9.7328329999999994,
+          "graph_construction_ms" : 0.55229200000000001,
+          "name" : "tf7",
+          "total_completed_wall_ms" : 10.285124999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0,
+          "evaluation_wait_ms" : 8.2394999999999996,
+          "graph_construction_ms" : 1.171,
+          "name" : "decode",
+          "total_completed_wall_ms" : 9.410499999999999
+        },
+        {
+          "cpu_postprocessing_ms" : 0.083334000000000005,
+          "evaluation_wait_ms" : 1.6784159999999999,
+          "graph_construction_ms" : 0.18154200000000001,
+          "name" : "synthesis",
+          "total_completed_wall_ms" : 1.943292
+        }
+      ]
+    }
+  ],
+  "real_stream_warmup_frames" : 8,
+  "sample_rate" : 16000,
+  "schema_version" : 1,
+  "source_manifest" : {
+    "generated_files" : [
+      {
+        "path" : "LICENSE",
+        "sha256" : "6d1daa9c89ec421ba80fe051ac9f0dd46010d4fa4e8f4af654eb8e62f64e2ad5"
+      },
+      {
+        "path" : "Model\/Mamba\/MambaFiltering.swift",
+        "sha256" : "804fae28d0ffbaf3129ee953abff486f2dc8c45a928e4633b4eb70fd61c5ba90"
+      },
+      {
+        "path" : "Model\/Mamba\/MambaFrequencyScan.swift",
+        "sha256" : "7109585ba1bb4a751efe3e7a9bbaf694222fa7bd61c14f585dc5ea4da2a4b367"
+      },
+      {
+        "path" : "Model\/Mamba\/MambaInputFilter.swift",
+        "sha256" : "1aa5999366501e9962fe58dfb50e4720ae38f31880681c94920a78ecb8309307"
+      },
+      {
+        "path" : "Model\/Mamba\/MambaProjectionFrequency.swift",
+        "sha256" : "afab7b3c478337f48f58e79c4c5e1cbb9222dc9ef16f11e9e4034948f8b0a50c"
+      },
+      {
+        "path" : "Model\/Mamba\/MambaProjectionScan.swift",
+        "sha256" : "3d3d99f9b5caf543625beeb688476ac94f6a77bf3f31d4da9e633871650443fe"
+      },
+      {
+        "path" : "Model\/Mamba\/MambaProjectionTemporal.swift",
+        "sha256" : "c543321afdb63dd453e00fc3b04ad77e7a57c1b9263c236d538527c0cc4ad804"
+      },
+      {
+        "path" : "Model\/StreamingReuseCheckpoint.swift",
+        "sha256" : "dfbb8421ff4a4e0aa4739f5383e8fa423a4721a55193cec15e2179c0ff28f839"
+      },
+      {
+        "path" : "Model\/StreamingReuseInference.swift",
+        "sha256" : "a5ea9d6c6f6c8a64f9ff1e8a5934eb7a139f2ce1124367a0453b6bae92aaaef1"
+      },
+      {
+        "path" : "Model\/StreamingReuseLayers.swift",
+        "sha256" : "9b865437794a23cd5847ce37da1cc8dccaedaa2f87d34540f7e416b79f8f13b3"
+      },
+      {
+        "path" : "Model\/StreamingReuseMamba.swift",
+        "sha256" : "c27fecec63e970ad96b6fab37ad0afa3a129802639246458cd66144da362c42d"
+      },
+      {
+        "path" : "Model\/StreamingReuseModel.swift",
+        "sha256" : "7db65524f1f25e6cba37e1254a68f079a100070e464bb0d899c67fb45d0e804e"
+      },
+      {
+        "path" : "Model\/StreamingReuseScan.swift",
+        "sha256" : "b5125e76ce0e629306c873ee7c865f5be1b2f1072718aa27208a961de0949ef2"
+      },
+      {
+        "path" : "Pipeline\/StreamingFrames.swift",
+        "sha256" : "108844bd8ee08a972ec9c291a2926696b9c45831d98319e7b22422be9a33fdb9"
+      },
+      {
+        "path" : "Pipeline\/StreamingSession.swift",
+        "sha256" : "846758ad55bccda6be294411e91fac5ef7881a6994ec7136a16e650d2dc6dba5"
+      },
+      {
+        "path" : "Pipeline\/StreamingTransform.swift",
+        "sha256" : "75901d22e2a77a7832dc6346be88d594db5ce98ef9d449907cf1368e5b16aa07"
+      },
+      {
+        "path" : "StreamingEnhancer.swift",
+        "sha256" : "de04ed924c1d73088866eea05da2ab0c70c9a194913e2899bea5e775605b27ab"
+      },
+      {
+        "path" : "StreamingError.swift",
+        "sha256" : "799c0480facfb7a04b3dd52650cf2a994c14d439b1327da1990b73470006154e"
+      }
+    ],
+    "generator_sha256" : "e4c2bb910efb08609eab758fd5535b69c85d732a4724c1bcc7e84f938edd425c",
+    "schema_version" : 1,
+    "source_file_manifest_hash_format" : "SHA256 of UTF8 JSON file list, sorted_keys=True, separators=(',',':')",
+    "source_file_manifest_sha256" : "e4a1189c9d73f6021bf5d8be9dd4713c1a14fc33b57c0b30413d9b92bdf58c6c",
+    "source_files" : [
+      {
+        "path" : "Sources\/ReuseStreaming\/LICENSE",
+        "sha256" : "6d1daa9c89ec421ba80fe051ac9f0dd46010d4fa4e8f4af654eb8e62f64e2ad5"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/Mamba\/MambaFiltering.swift",
+        "sha256" : "804fae28d0ffbaf3129ee953abff486f2dc8c45a928e4633b4eb70fd61c5ba90"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/Mamba\/MambaFrequencyScan.swift",
+        "sha256" : "7109585ba1bb4a751efe3e7a9bbaf694222fa7bd61c14f585dc5ea4da2a4b367"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/Mamba\/MambaInputFilter.swift",
+        "sha256" : "1aa5999366501e9962fe58dfb50e4720ae38f31880681c94920a78ecb8309307"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/Mamba\/MambaProjectionFrequency.swift",
+        "sha256" : "afab7b3c478337f48f58e79c4c5e1cbb9222dc9ef16f11e9e4034948f8b0a50c"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/Mamba\/MambaProjectionScan.swift",
+        "sha256" : "3d3d99f9b5caf543625beeb688476ac94f6a77bf3f31d4da9e633871650443fe"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/Mamba\/MambaProjectionTemporal.swift",
+        "sha256" : "c543321afdb63dd453e00fc3b04ad77e7a57c1b9263c236d538527c0cc4ad804"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/StreamingReuseCheckpoint.swift",
+        "sha256" : "dfbb8421ff4a4e0aa4739f5383e8fa423a4721a55193cec15e2179c0ff28f839"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/StreamingReuseInference.swift",
+        "sha256" : "851af22e4cc9a68c418b6ee1377cdb529c62c3b895e0848842dea85d2f0637e2"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/StreamingReuseLayers.swift",
+        "sha256" : "9b865437794a23cd5847ce37da1cc8dccaedaa2f87d34540f7e416b79f8f13b3"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/StreamingReuseMamba.swift",
+        "sha256" : "c27fecec63e970ad96b6fab37ad0afa3a129802639246458cd66144da362c42d"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/StreamingReuseModel.swift",
+        "sha256" : "e0df9f072cc60cb87d20234903ed76ea5dc7ecd68d10d5b2abcbd7cd988f594b"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Model\/StreamingReuseScan.swift",
+        "sha256" : "b5125e76ce0e629306c873ee7c865f5be1b2f1072718aa27208a961de0949ef2"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Pipeline\/StreamingFrames.swift",
+        "sha256" : "108844bd8ee08a972ec9c291a2926696b9c45831d98319e7b22422be9a33fdb9"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Pipeline\/StreamingSession.swift",
+        "sha256" : "846758ad55bccda6be294411e91fac5ef7881a6994ec7136a16e650d2dc6dba5"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/Pipeline\/StreamingTransform.swift",
+        "sha256" : "e0fe806ca594c69bfdc9bd42118d37dfa02d9c86fd82913e2790d147f5ea8fc8"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/StreamingEnhancer.swift",
+        "sha256" : "eeefd599be1f98503295bc7ad110bd823328164d8ef2eed5cdef0e2fae81b79c"
+      },
+      {
+        "path" : "Sources\/ReuseStreaming\/StreamingError.swift",
+        "sha256" : "799c0480facfb7a04b3dd52650cf2a994c14d439b1327da1990b73470006154e"
+      }
+    ],
+    "source_revision" : "2446c8383ac65da5376d9159fa1d079535c4e36b",
+    "support_sha256" : "55c17bd18aa0c1c2905e4174351e0a0b19f596efa0f95ac159ef16b5cbed6f85",
+    "warning" : "Diagnostic forced completion boundaries distort normal fusion, dispatch and overlap. Evaluation wait is not isolated GPU execution time."
+  },
+  "stage_aggregates" : [
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 1.9355830000000001,
+        "mean_ms" : 1.2920875749999998,
+        "minimum_ms" : 0.75437500000000002,
+        "p50_ms" : 1.323688,
+        "p95_ms" : 1.472334
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.13408300000000001,
+        "mean_ms" : 0.099376924999999977,
+        "minimum_ms" : 0.035707999999999997,
+        "p50_ms" : 0.1043125,
+        "p95_ms" : 0.126333
+      },
+      "name" : "analyze",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 2.0397080000000001,
+        "mean_ms" : 1.3914645000000003,
+        "minimum_ms" : 0.80395800000000006,
+        "p50_ms" : 1.4334579999999999,
+        "p95_ms" : 1.572541
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 6.4505410000000003,
+        "mean_ms" : 4.9285343249999993,
+        "minimum_ms" : 2.7712910000000002,
+        "p50_ms" : 5.0049379999999992,
+        "p95_ms" : 6.4076659999999999
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.64283400000000002,
+        "mean_ms" : 0.46539797500000013,
+        "minimum_ms" : 0.183416,
+        "p50_ms" : 0.50925050000000005,
+        "p95_ms" : 0.547292
+      },
+      "name" : "encode",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 7.0355840000000001,
+        "mean_ms" : 5.3939323000000012,
+        "minimum_ms" : 3.0354160000000001,
+        "p50_ms" : 5.5020629999999997,
+        "p95_ms" : 6.9561250000000001
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 11.045999999999999,
+        "mean_ms" : 7.8020062250000013,
+        "minimum_ms" : 3.969166,
+        "p50_ms" : 8.2315000000000005,
+        "p95_ms" : 10.132667
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.67179100000000003,
+        "mean_ms" : 0.54205734999999999,
+        "minimum_ms" : 0.21149999999999999,
+        "p50_ms" : 0.5794165,
+        "p95_ms" : 0.63349999999999995
+      },
+      "name" : "tf0",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 11.679499999999999,
+        "mean_ms" : 8.3440635749999998,
+        "minimum_ms" : 4.216666,
+        "p50_ms" : 8.8272085000000011,
+        "p95_ms" : 10.754458999999999
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 10.079416999999999,
+        "mean_ms" : 7.3984251500000031,
+        "minimum_ms" : 3.776125,
+        "p50_ms" : 6.9954584999999998,
+        "p95_ms" : 9.7930840000000003
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.672041,
+        "mean_ms" : 0.53510197500000012,
+        "minimum_ms" : 0.21675,
+        "p50_ms" : 0.575604,
+        "p95_ms" : 0.61383299999999996
+      },
+      "name" : "tf1",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 10.686582999999999,
+        "mean_ms" : 7.9335271249999995,
+        "minimum_ms" : 4.013166,
+        "p50_ms" : 7.5049790000000005,
+        "p95_ms" : 10.395458
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 10.112,
+        "mean_ms" : 7.3543696500000006,
+        "minimum_ms" : 3.913958,
+        "p50_ms" : 6.9807709999999998,
+        "p95_ms" : 9.9648330000000005
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.72024999999999995,
+        "mean_ms" : 0.53056254999999986,
+        "minimum_ms" : 0.19679199999999999,
+        "p50_ms" : 0.55906299999999998,
+        "p95_ms" : 0.628
+      },
+      "name" : "tf2",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 10.679374999999999,
+        "mean_ms" : 7.8849321999999997,
+        "minimum_ms" : 4.1107500000000003,
+        "p50_ms" : 7.5062505000000002,
+        "p95_ms" : 10.592833000000001
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 10.105167,
+        "mean_ms" : 7.2458332499999996,
+        "minimum_ms" : 3.913125,
+        "p50_ms" : 7.0594580000000002,
+        "p95_ms" : 9.9193339999999992
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.61604099999999995,
+        "mean_ms" : 0.50545622499999987,
+        "minimum_ms" : 0.23191700000000001,
+        "p50_ms" : 0.52985450000000001,
+        "p95_ms" : 0.60116700000000001
+      },
+      "name" : "tf3",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 10.687625000000001,
+        "mean_ms" : 7.7512894750000001,
+        "minimum_ms" : 4.1920830000000002,
+        "p50_ms" : 7.5999790000000003,
+        "p95_ms" : 10.439708999999999
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 9.9038749999999993,
+        "mean_ms" : 7.0133343749999995,
+        "minimum_ms" : 3.9392499999999999,
+        "p50_ms" : 6.6947709999999994,
+        "p95_ms" : 9.6862910000000007
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.62229100000000004,
+        "mean_ms" : 0.49843857500000005,
+        "minimum_ms" : 0.19941600000000001,
+        "p50_ms" : 0.53729150000000003,
+        "p95_ms" : 0.59445899999999996
+      },
+      "name" : "tf4",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 10.496666999999999,
+        "mean_ms" : 7.5117729499999992,
+        "minimum_ms" : 4.214334,
+        "p50_ms" : 7.2367499999999998,
+        "p95_ms" : 10.237625000000001
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 9.9418340000000001,
+        "mean_ms" : 7.1309438250000001,
+        "minimum_ms" : 4.0084590000000002,
+        "p50_ms" : 6.6844999999999999,
+        "p95_ms" : 9.8642920000000007
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.71750000000000003,
+        "mean_ms" : 0.51675094999999993,
+        "minimum_ms" : 0.21112500000000001,
+        "p50_ms" : 0.5315415,
+        "p95_ms" : 0.58620799999999995
+      },
+      "name" : "tf5",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 10.515874999999999,
+        "mean_ms" : 7.6476947750000024,
+        "minimum_ms" : 4.2953340000000004,
+        "p50_ms" : 7.062271,
+        "p95_ms" : 10.417750000000002
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 9.8067919999999997,
+        "mean_ms" : 7.0569218499999993,
+        "minimum_ms" : 3.936334,
+        "p50_ms" : 6.9499375000000008,
+        "p95_ms" : 9.7514160000000007
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.76041700000000001,
+        "mean_ms" : 0.51395112499999995,
+        "minimum_ms" : 0.21612500000000001,
+        "p50_ms" : 0.53287499999999999,
+        "p95_ms" : 0.64924999999999999
+      },
+      "name" : "tf6",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 10.345584000000001,
+        "mean_ms" : 7.5708729749999986,
+        "minimum_ms" : 4.2164999999999999,
+        "p50_ms" : 7.2547090000000001,
+        "p95_ms" : 10.287375000000001
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 10.070625,
+        "mean_ms" : 7.1869583499999994,
+        "minimum_ms" : 3.9457089999999999,
+        "p50_ms" : 6.9599374999999997,
+        "p95_ms" : 9.6124170000000007
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.66491699999999998,
+        "mean_ms" : 0.52355517500000004,
+        "minimum_ms" : 0.22245899999999999,
+        "p50_ms" : 0.53162500000000001,
+        "p95_ms" : 0.629583
+      },
+      "name" : "tf7",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 10.601125,
+        "mean_ms" : 7.7105135249999988,
+        "minimum_ms" : 4.2217500000000001,
+        "p50_ms" : 7.4833749999999997,
+        "p95_ms" : 10.192
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0,
+        "mean_ms" : 0,
+        "minimum_ms" : 0,
+        "p50_ms" : 0,
+        "p95_ms" : 0
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 8.4454159999999998,
+        "mean_ms" : 6.4343771499999978,
+        "minimum_ms" : 3.7558340000000001,
+        "p50_ms" : 6.866771,
+        "p95_ms" : 8.3239590000000003
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 1.171,
+        "mean_ms" : 1.0381468,
+        "minimum_ms" : 0.48025000000000001,
+        "p50_ms" : 1.0735209999999999,
+        "p95_ms" : 1.135167
+      },
+      "name" : "decode",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 9.5608330000000006,
+        "mean_ms" : 7.4725239500000002,
+        "minimum_ms" : 4.5279590000000001,
+        "p50_ms" : 7.9499999999999993,
+        "p95_ms" : 9.410499999999999
+      }
+    },
+    {
+      "cpu_postprocessing" : {
+        "count" : 40,
+        "maximum_ms" : 0.10366599999999999,
+        "mean_ms" : 0.077287575000000025,
+        "minimum_ms" : 0.037333999999999999,
+        "p50_ms" : 0.079520499999999994,
+        "p95_ms" : 0.10166699999999999
+      },
+      "evaluation_wait" : {
+        "count" : 40,
+        "maximum_ms" : 2.1617090000000001,
+        "mean_ms" : 1.6577605000000002,
+        "minimum_ms" : 0.98124999999999996,
+        "p50_ms" : 1.704771,
+        "p95_ms" : 1.899208
+      },
+      "graph_construction" : {
+        "count" : 40,
+        "maximum_ms" : 0.202125,
+        "mean_ms" : 0.15237187500000002,
+        "minimum_ms" : 0.053499999999999999,
+        "p50_ms" : 0.16087499999999999,
+        "p95_ms" : 0.1845
+      },
+      "name" : "synthesis",
+      "total_completed_wall" : {
+        "count" : 40,
+        "maximum_ms" : 2.3915000000000002,
+        "mean_ms" : 1.88741995,
+        "minimum_ms" : 1.076125,
+        "p50_ms" : 1.9526465,
+        "p95_ms" : 2.1280000000000001
+      }
+    }
+  ],
+  "status" : "completed",
+  "thermal" : {
+    "normal_after" : "nominal",
+    "normal_before" : "nominal",
+    "normal_rendered_frame_counts" : {
+      "nominal" : 48
+    },
+    "profiled_after" : "nominal",
+    "profiled_before" : "nominal",
+    "profiled_rendered_frame_counts" : {
+      "nominal" : 48
+    }
+  }
+}
