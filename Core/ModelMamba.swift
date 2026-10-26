@@ -19,7 +19,7 @@ extension ReuseModel {
         x = x * sigmoid(x)
         eval(x, z)
         let y = scanMamba(x, z, prefix)
-        eval(y)
+        if optimization == .standard || configuration != .schedulingOnly { eval(y) }
         let result = linear(y, prefix + ".out_proj")
         eval(result)
         return result
@@ -30,15 +30,29 @@ extension ReuseModel {
         let b = projection[0..., 0..., 4..<20]
         let c = projection[0..., 0..., 20..<36]
         let a = -exp(w(prefix + ".A_log"))
+        if optimization == .specializedMetal && configuration.usesScan {
+            let kernel = configuration == .preparedSerial ? preparedSerialScan : specializedScan
+            return kernel([x, dt, a, b, c, w(prefix + ".D"), z, w(prefix + ".dt_proj.bias")])
+        }
         return scan(x, dt, a, b, c, w(prefix + ".D"), z, w(prefix + ".dt_proj.bias"))
     }
-    func bidirectional(_ x: MLXArray, _ prefix: String) -> MLXArray {
+    private func bidirectionalProjection(_ x: MLXArray, _ prefix: String) -> MLXArray {
         let fw = mamba(x, prefix + ".forward_blocks") + x
         eval(fw)
         let rx = reversed(x)
         let bw = reversed(mamba(rx, prefix + ".backward_blocks") + rx)
-        let output = linear(concatenated([fw, bw], axis: 2), prefix + ".output_proj")
+        return linear(concatenated([fw, bw], axis: 2), prefix + ".output_proj")
+    }
+    func bidirectional(_ x: MLXArray, _ prefix: String) -> MLXArray {
+        let output = bidirectionalProjection(x, prefix)
         return MLXFast.layerNorm(output, weight: w(prefix + ".norm.weight"),
                                  bias: w(prefix + ".norm.bias"), eps: 1e-5)
+    }
+    func bidirectionalResidual(_ x: MLXArray, _ prefix: String) -> MLXArray {
+        guard optimization == .specializedMetal && configuration.usesNormalization else {
+            return bidirectional(x, prefix) + x
+        }
+        return normalizationResidual(bidirectionalProjection(x, prefix),
+            affine: [w(prefix + ".norm.weight"), w(prefix + ".norm.bias")], residual: x)
     }
 }

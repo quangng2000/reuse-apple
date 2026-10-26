@@ -9,34 +9,38 @@ enum ProbeRunner {
         GPU.set(cacheLimit: 64 * 1024 * 1024)
         let samples = try AudioFileIO.read(options.input)
         let start = ProcessInfo.processInfo.systemUptime
-        let engine = try ReuseEngine(modelURL: options.model)
+        let engine = try options.optimization.load(modelURL: options.model)
         let loadSeconds = ProcessInfo.processInfo.systemUptime - start
-        let (output, timings) = try infer(engine, samples: samples, repeats: options.benchmark ? 3 : 1)
-        guard output.count == samples.count, output.allSatisfy({ $0.isFinite }) else {
+        let result = try infer(engine, samples: samples, repeats: options.benchmark ? 3 : 1)
+        guard result.output.count == samples.count, result.output.allSatisfy({ $0.isFinite }) else {
             throw ReuseError.invalid("Inference returned invalid audio or changed its duration.")
         }
-        let report = try makeReport(options, timings: timings, loadSeconds: loadSeconds, device: device.name, count: output.count)
-        try save(output, report: report, options: options)
+        let report = try makeReport(options, result: result, loadSeconds: loadSeconds, device: device.name)
+        try save(result.output, report: report, options: options)
         print(String(decoding: report, as: UTF8.self))
     }
 
-    private static func infer(_ engine: ReuseEngine, samples: [Float], repeats: Int) throws -> ([Float], [Double]) {
-        var timings = [Double](), output = [Float]()
+    private static func infer(_ engine: ReuseEngine, samples: [Float], repeats: Int) throws -> ProbeInferenceResult {
+        var result = ProbeInferenceResult()
         for index in 0..<repeats {
+            let thermal = ProcessInfo.processInfo.thermalState.rawValue
             let start = ProcessInfo.processInfo.systemUptime
-            output = try engine.enhance(samples) { _ in }
+            result.output = try engine.enhance(samples) { _ in }
             let seconds = ProcessInfo.processInfo.systemUptime - start
-            timings.append(seconds)
+            result.append(seconds: seconds, startingThermalState: thermal)
             fputs(String(format: "Run %d: %.3f seconds\n", index + 1, seconds), stderr)
         }
-        return (output, timings)
+        return result
     }
 
-    private static func makeReport(_ options: ProbeOptions, timings: [Double], loadSeconds: Double,
-                                   device: String, count: Int) throws -> Data {
+    private static func makeReport(_ options: ProbeOptions, result: ProbeInferenceResult,
+                                   loadSeconds: Double, device: String) throws -> Data {
+        let count = result.output.count
         let report: [String: Any] = ["input": options.input.path, "output": options.output.path,
             "model": options.model.path, "backend": "Swift/MLX/Metal", "device": device,
-            "timings_seconds": timings, "load_seconds": loadSeconds, "samples": count,
+            "timings_seconds": result.seconds, "load_seconds": loadSeconds, "samples": count,
+            "optimization": options.optimization.rawValue, "thermal_states_before_after": result.thermalStates,
+            "thermal_state_key": ["0": "nominal", "1": "fair", "2": "serious", "3": "critical"],
             "sample_rate": 16000, "channels": 1, "duration_seconds": Double(count) / 16000,
             "mlx_peak_bytes": GPU.peakMemory, "dtype": "float32", "all_finite": true]
         return try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])

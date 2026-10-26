@@ -16,6 +16,11 @@ public enum ReuseError: LocalizedError {
 final class ReuseModel {
     var weights: [String: MLXArray]
     let scan = SelectiveScan()
+    let specializedScan = OfflineSelectiveScan()
+    let preparedSerialScan = OfflineSelectiveScan(execution: .serial)
+    let normalizationResidual = OfflineNormalizationResidual()
+    let optimization: ReuseOptimization
+    let configuration: ReuseMetalConfiguration
     let dtype: DType
     let preluKernel = MLXFast.metalKernel(name: "reuse_prelu", inputNames: ["x", "weight"], outputNames: ["out"], source: """
         uint i = thread_position_in_grid.x;
@@ -25,7 +30,13 @@ final class ReuseModel {
         }
         """)
 
-    init(url: URL, half: Bool = false) throws {
+    init(url: URL, half: Bool = false, optimization: ReuseOptimization = .standard,
+         configuration: ReuseMetalConfiguration = .combined) throws {
+        guard !half || optimization == .standard else {
+            throw ReuseError.invalid("Specialized Metal execution requires FP32 weights and activations.")
+        }
+        self.optimization = optimization
+        self.configuration = configuration
         try Self.verifyCheckpoint(url)
         weights = try loadArrays(url: url)
         guard weights.count > 1000,

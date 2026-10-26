@@ -6,6 +6,8 @@ struct ProbeOptions {
     Usage: ReuseProbe --input AUDIO --output OUTPUT.wav [options]
       --model PATH  Pinned checkpoint; default REUSE_MODEL_PATH or Resources/model.safetensors
       --benchmark   Run inference three times; retain the final output
+      --optimization MODE  standard (default), specialized-metal, scan-only,
+                           normalization-only, prepared-serial, scheduling-only
       --force       Replace an existing output WAV and companion JSON report
       --help, -h    Print this help without loading the model
 
@@ -18,6 +20,7 @@ struct ProbeOptions {
     let model: URL
     let benchmark: Bool
     let force: Bool
+    let optimization: ProbeOptimization
     var report: URL { output.deletingPathExtension().appendingPathExtension("json") }
 
     init(_ arguments: [String]) throws {
@@ -31,6 +34,7 @@ struct ProbeOptions {
         model = URL(fileURLWithPath: parsed["--model"] ?? fallback).standardizedFileURL
         benchmark = parsed["--benchmark"] != nil
         force = parsed["--force"] != nil
+        optimization = try ProbeOptimization.parse(parsed["--optimization"] ?? "standard")
     }
 
     private static func parse(_ arguments: [String]) throws -> [String: String] {
@@ -38,7 +42,7 @@ struct ProbeOptions {
         while let argument = remaining.popFirst() {
             guard result[argument] == nil else { throw ReuseError.invalid("Duplicate option: \(argument)") }
             if ["--benchmark", "--force"].contains(argument) { result[argument] = "true"; continue }
-            guard ["--input", "--output", "--model"].contains(argument) else {
+            guard ["--input", "--output", "--model", "--optimization"].contains(argument) else {
                 throw ReuseError.invalid("Unknown option: \(argument)")
             }
             guard let value = remaining.popFirst(), !value.hasPrefix("--"), !value.isEmpty else {

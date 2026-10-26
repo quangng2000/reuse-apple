@@ -66,6 +66,11 @@ latency. See [implementation and evidence](docs/metal-optimization/README.md),
 the [detailed technical report](docs/metal-optimization/REPORT.md),
 and the [earlier four-layer benchmark](docs/streaming-validation.md).
 
+The **30-layer offline model** has a separate experimental port of these ideas.
+It preserved diagnostic audio but showed **no reliable speedup on M4 Pro**;
+the original offline implementation remains the default. See the
+[offline measurements and reproduction steps](docs/offline-metal-optimization.md).
+
 ## Licenses and attribution
 
 The products have **different licenses**. [OpenMDW-1.1](LICENSE) covers the

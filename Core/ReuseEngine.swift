@@ -18,9 +18,18 @@ public final class ReuseEngine {
     private let window = 64_000
     private let overlap = 8_000
     /// Loads the hash-verified offline checkpoint in FP32.
-    public init(modelURL: URL) throws {
+    /// Keep the default unless a device-specific benchmark supports the experimental path.
+    public convenience init(modelURL: URL, optimization: ReuseOptimization = .standard) throws {
+        try self.init(modelURL: modelURL, optimization: optimization, configuration: .combined)
+    }
+    package convenience init(modelURL: URL, configuration: ReuseMetalConfiguration) throws {
+        try self.init(modelURL: modelURL, optimization: .specializedMetal, configuration: configuration)
+    }
+    private init(modelURL: URL, optimization: ReuseOptimization, configuration: ReuseMetalConfiguration) throws {
         GPU.set(cacheLimit: 64 * 1024 * 1024)
-        model = try Device.withDefaultDevice(.gpu) { try ReuseModel(url: modelURL) }
+        model = try Device.withDefaultDevice(.gpu) {
+            try ReuseModel(url: modelURL, optimization: optimization, configuration: configuration)
+        }
     }
     /// Restores a complete recording. The callback may throw to cancel inference.
     public func enhance(_ input: [Float], progress: @escaping (Double) throws -> Void = { _ in }) throws -> [Float] {

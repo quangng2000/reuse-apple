@@ -1,0 +1,796 @@
+{
+  "date": "2026-10-26",
+  "status": "experimental; standard remains default; no reliable speedup observed",
+  "base_commit": "45dc8358844bc99ddb04d5d28c2982e8a4f6483d",
+  "device": "Apple M4 Pro",
+  "os": "macOS 15.7.3",
+  "xcode": "16.4",
+  "mlx_swift": "0.29.1",
+  "dtype": "float32",
+  "checkpoint_parameters": 9607747,
+  "blocks": 30,
+  "duration_seconds": 4.0,
+  "scope": "Local offline M4 Pro test. No phone latency claim. No release or remote training change.",
+  "mode_semantics": {
+    "standard": "Original scan, normalization, and scheduling",
+    "scan-only": "Prepared delta/gate and SIMD16 scan",
+    "normalization-only": "Original scan plus fused Mamba LayerNorm/affine/residual",
+    "specialized-metal": "SIMD16 scan plus fused Mamba LayerNorm/affine/residual",
+    "prepared-serial": "Original state/channel layout with shared delta/gate preparation; original norm",
+    "scheduling-only": "Original kernels; skips only scan-to-projection eval(y)"
+  },
+  "prechange_standard_bit_exact": true,
+  "experiments": {
+    "ablations": {
+      "timings": {
+        "binary_sha256": "810be9c2ae444b484a4f093b8186c11d7fb2cb6b7b237e65278074b65d059b49",
+        "model_sha256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+        "input_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+        "records": [
+          {
+            "mode": "standard",
+            "output": "00-standard.wav",
+            "timings_seconds": [
+              2.3412625416676747,
+              2.308963125000446,
+              2.357024333334266
+            ],
+            "warmed_seconds": [
+              2.308963125000446,
+              2.357024333334266
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "aeb572dfd300ca5fcb5a877601fe60268fc2a1257644790aa23119cb644fb8ce"
+          },
+          {
+            "mode": "scan-only",
+            "output": "01-scan-only.wav",
+            "timings_seconds": [
+              2.779676333333555,
+              2.6997589166676335,
+              2.743340500001068
+            ],
+            "warmed_seconds": [
+              2.6997589166676335,
+              2.743340500001068
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "72b8f2ea569be06fc2955daaac6986d53b24407f60f7642ce0ba00498afa1d02",
+            "report_sha256": "d80c49c9984962aa24b7524cdfa4d350005aaede4b92703afb83773cdc89518f"
+          },
+          {
+            "mode": "normalization-only",
+            "output": "02-normalization-only.wav",
+            "timings_seconds": [
+              2.2786646250006015,
+              2.187602208334283,
+              2.2838243333335413
+            ],
+            "warmed_seconds": [
+              2.187602208334283,
+              2.2838243333335413
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "0fe356bb1dd98bddfc47ac4a7104d04321fb40a6b68157df3673cbfc9f706065",
+            "report_sha256": "961f1507724e979b8df27f5ef3f90aa886bc79b5022f5bb2fa82d5dd5d473f60"
+          },
+          {
+            "mode": "specialized-metal",
+            "output": "03-specialized-metal.wav",
+            "timings_seconds": [
+              2.620979499999521,
+              2.5992388750000828,
+              2.644026791665965
+            ],
+            "warmed_seconds": [
+              2.5992388750000828,
+              2.644026791665965
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "fd661c31248350ddf8049ab86586b2f32196ad22438259e9141c16ef7b5f4ac8",
+            "report_sha256": "3806bded414d4b7067b5b20ea3a8cbf28be6754dc27eb59bfdd70741a5e8c292"
+          },
+          {
+            "mode": "specialized-metal",
+            "output": "04-specialized-metal.wav",
+            "timings_seconds": [
+              2.6545758333340927,
+              2.6484612499989453,
+              2.665475083333149
+            ],
+            "warmed_seconds": [
+              2.6484612499989453,
+              2.665475083333149
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "fd661c31248350ddf8049ab86586b2f32196ad22438259e9141c16ef7b5f4ac8",
+            "report_sha256": "4b2e4d9a641371742b02e549a8d31ae974bed697fea7849fb02845749f140667"
+          },
+          {
+            "mode": "normalization-only",
+            "output": "05-normalization-only.wav",
+            "timings_seconds": [
+              2.30459083333335,
+              2.2961222499998257,
+              2.205734041666801
+            ],
+            "warmed_seconds": [
+              2.2961222499998257,
+              2.205734041666801
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "0fe356bb1dd98bddfc47ac4a7104d04321fb40a6b68157df3673cbfc9f706065",
+            "report_sha256": "ba3f31acd1bbf1d229362b5ba3f49b12cbb7a8e59717a13c26af3048603bb2b1"
+          },
+          {
+            "mode": "scan-only",
+            "output": "06-scan-only.wav",
+            "timings_seconds": [
+              2.6579472916655504,
+              2.610973875000127,
+              2.5854617500008317
+            ],
+            "warmed_seconds": [
+              2.610973875000127,
+              2.5854617500008317
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "72b8f2ea569be06fc2955daaac6986d53b24407f60f7642ce0ba00498afa1d02",
+            "report_sha256": "9eb7a3c1515aa752ee8074ba3d0fc42656951ff55b0571b1fd7882c8306d57cb"
+          },
+          {
+            "mode": "standard",
+            "output": "07-standard.wav",
+            "timings_seconds": [
+              2.2333000833332335,
+              2.223453166665422,
+              2.2467888749997655
+            ],
+            "warmed_seconds": [
+              2.223453166665422,
+              2.2467888749997655
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "d503d7688736b0f0afdd6dcae79b1edf72266fe739f2edb51d867a0b36a5589a"
+          }
+        ],
+        "warmed_means_seconds": {
+          "standard": 2.284057374999975,
+          "scan-only": 2.659883760417415,
+          "normalization-only": 2.243320708333613,
+          "specialized-metal": 2.6393004999995355
+        },
+        "scope": "Full-file analysis + all 30 layers + synthesis, GPU completion; loading and file I/O excluded. First inference in each process excluded from warmed comparisons."
+      },
+      "quality": {
+        "clean_sha256": "5362132f72110a77cc4843eac7a26d9f59bb3e4ff3309fbff7f2ef663723bcc8",
+        "input_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+        "reference_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+        "input_stoi": 0.5000000070148772,
+        "input_si_sdr_db": -8.595900955645998,
+        "outputs": [
+          {
+            "file": "00-standard.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          },
+          {
+            "file": "01-scan-only.wav",
+            "sha256": "72b8f2ea569be06fc2955daaac6986d53b24407f60f7642ce0ba00498afa1d02",
+            "samples": 64000,
+            "stoi": 0.7814819431015168,
+            "si_sdr_db": 6.985625678423708,
+            "peak": 0.19190745055675507,
+            "max_abs_delta": 1.043081283569336e-07,
+            "relative_rms_delta": 4.777866974619562e-07
+          },
+          {
+            "file": "02-normalization-only.wav",
+            "sha256": "0fe356bb1dd98bddfc47ac4a7104d04321fb40a6b68157df3673cbfc9f706065",
+            "samples": 64000,
+            "stoi": 0.7814819367710495,
+            "si_sdr_db": 6.985625422210503,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 1.4901161193847656e-07,
+            "relative_rms_delta": 4.920215047918888e-07
+          },
+          {
+            "file": "03-specialized-metal.wav",
+            "sha256": "fd661c31248350ddf8049ab86586b2f32196ad22438259e9141c16ef7b5f4ac8",
+            "samples": 64000,
+            "stoi": 0.7814819523300054,
+            "si_sdr_db": 6.985625630533285,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 8.940696716308594e-08,
+            "relative_rms_delta": 4.870953090735856e-07
+          },
+          {
+            "file": "04-specialized-metal.wav",
+            "sha256": "fd661c31248350ddf8049ab86586b2f32196ad22438259e9141c16ef7b5f4ac8",
+            "samples": 64000,
+            "stoi": 0.7814819523300054,
+            "si_sdr_db": 6.985625630533285,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 8.940696716308594e-08,
+            "relative_rms_delta": 4.870953090735856e-07
+          },
+          {
+            "file": "05-normalization-only.wav",
+            "sha256": "0fe356bb1dd98bddfc47ac4a7104d04321fb40a6b68157df3673cbfc9f706065",
+            "samples": 64000,
+            "stoi": 0.7814819367710495,
+            "si_sdr_db": 6.985625422210503,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 1.4901161193847656e-07,
+            "relative_rms_delta": 4.920215047918888e-07
+          },
+          {
+            "file": "06-scan-only.wav",
+            "sha256": "72b8f2ea569be06fc2955daaac6986d53b24407f60f7642ce0ba00498afa1d02",
+            "samples": 64000,
+            "stoi": 0.7814819431015168,
+            "si_sdr_db": 6.985625678423708,
+            "peak": 0.19190745055675507,
+            "max_abs_delta": 1.043081283569336e-07,
+            "relative_rms_delta": 4.777866974619562e-07
+          },
+          {
+            "file": "07-standard.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          }
+        ],
+        "scope": "Unmodified aligned samples: no gain matching, normalization, trimming, or resampling."
+      }
+    },
+    "prepared-serial": {
+      "timings": {
+        "binary_sha256": "3e5e4cd638d2abd1c9e382cf4c1e0fe8075c0727de67ce94ab57d19f35f1fd06",
+        "model_sha256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+        "input_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+        "records": [
+          {
+            "mode": "standard",
+            "output": "00-standard.wav",
+            "timings_seconds": [
+              2.519566583332562,
+              2.3842224166655797,
+              2.394218291665311
+            ],
+            "warmed_seconds": [
+              2.3842224166655797,
+              2.394218291665311
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "46be03c8a363ae2c5c12a2edc1c9e7f94d0d616015cb396b3ec2c8bf90d2d89c"
+          },
+          {
+            "mode": "prepared-serial",
+            "output": "01-prepared-serial.wav",
+            "timings_seconds": [
+              2.6647874583322846,
+              2.61047412500011,
+              2.636980583334662
+            ],
+            "warmed_seconds": [
+              2.61047412500011,
+              2.636980583334662
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "6443d55c87a543bfb40585944f6d73b2d0db5707a7ad118bc3600a6caddf602f"
+          },
+          {
+            "mode": "prepared-serial",
+            "output": "02-prepared-serial.wav",
+            "timings_seconds": [
+              2.6301271250013087,
+              2.6835156666675175,
+              2.7621010416660283
+            ],
+            "warmed_seconds": [
+              2.6835156666675175,
+              2.7621010416660283
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "702811983cffe62befcf1f8fc13a36d82c9163b8ef4505e76ce480f7085096af"
+          },
+          {
+            "mode": "standard",
+            "output": "03-standard.wav",
+            "timings_seconds": [
+              2.5562580416662968,
+              3.2586563333334198,
+              2.5800375000017084
+            ],
+            "warmed_seconds": [
+              3.2586563333334198,
+              2.5800375000017084
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 846555404,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "210f89f0d2660f80b6a90705bcd1f8cff61409c34004629ba5e1aac5169312ed"
+          }
+        ],
+        "warmed_means_seconds": {
+          "standard": 2.6542836354165047,
+          "prepared-serial": 2.6732678541670793
+        },
+        "scope": "Full-file analysis + all 30 layers + synthesis, GPU completion; loading and file I/O excluded. First inference in each process excluded from warmed comparisons."
+      },
+      "quality": {
+        "clean_sha256": "5362132f72110a77cc4843eac7a26d9f59bb3e4ff3309fbff7f2ef663723bcc8",
+        "input_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+        "reference_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+        "input_stoi": 0.5000000070148772,
+        "input_si_sdr_db": -8.595900955645998,
+        "outputs": [
+          {
+            "file": "00-standard.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          },
+          {
+            "file": "01-prepared-serial.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          },
+          {
+            "file": "02-prepared-serial.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          },
+          {
+            "file": "03-standard.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          }
+        ],
+        "scope": "Unmodified aligned samples: no gain matching, normalization, trimming, or resampling."
+      }
+    },
+    "scheduling": {
+      "timings": {
+        "binary_sha256": "904a9b1e104dd35ee716213d24f7a57815ca7ed6d16652902b4559135a6bae00",
+        "model_sha256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+        "input_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+        "records": [
+          {
+            "mode": "standard",
+            "output": "00-standard.wav",
+            "timings_seconds": [
+              2.4407931250007096,
+              2.3467393749997427,
+              2.3617733333339856
+            ],
+            "warmed_seconds": [
+              2.3467393749997427,
+              2.3617733333339856
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "51a6a1b4b8080a0057a17efbe6eff81127964e2f38308fb3f20db0b4bd520c2f"
+          },
+          {
+            "mode": "scheduling-only",
+            "output": "01-scheduling-only.wav",
+            "timings_seconds": [
+              2.351810416666922,
+              2.3244265833327518,
+              2.372395250000409
+            ],
+            "warmed_seconds": [
+              2.3244265833327518,
+              2.372395250000409
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "cc9db1c5500403a6e1e31d8bc04f47857ba83c7d0d3616816386cde601b9decb"
+          },
+          {
+            "mode": "scheduling-only",
+            "output": "02-scheduling-only.wav",
+            "timings_seconds": [
+              2.4287049583326734,
+              2.4077216666664754,
+              2.2984996666673396
+            ],
+            "warmed_seconds": [
+              2.4077216666664754,
+              2.2984996666673396
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "ea665f08bc8134789d7aec0cbaf40d5aec3f7a4bfa82a8c56cd6f2592eb1c28d"
+          },
+          {
+            "mode": "standard",
+            "output": "03-standard.wav",
+            "timings_seconds": [
+              2.300169875001302,
+              2.284652708332942,
+              2.260155958332689
+            ],
+            "warmed_seconds": [
+              2.284652708332942,
+              2.260155958332689
+            ],
+            "thermal_states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "samples": 64000,
+            "peak_bytes": 845965580,
+            "waveform_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "report_sha256": "f311f490fdcc32f42a22e488cc7690a553e36e596c3a12486545fe58ce7bcd54"
+          }
+        ],
+        "warmed_means_seconds": {
+          "standard": 2.31333034374984,
+          "scheduling-only": 2.350760791666744
+        },
+        "scope": "Full-file analysis + all 30 layers + synthesis, GPU completion; loading and file I/O excluded. First inference in each process excluded from warmed comparisons."
+      },
+      "quality": {
+        "clean_sha256": "5362132f72110a77cc4843eac7a26d9f59bb3e4ff3309fbff7f2ef663723bcc8",
+        "input_sha256": "dcc4b761a008f4d45701fde2a692ccfd5c1c5023620c110b5f342271f283d232",
+        "reference_sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+        "input_stoi": 0.5000000070148772,
+        "input_si_sdr_db": -8.595900955645998,
+        "outputs": [
+          {
+            "file": "00-standard.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          },
+          {
+            "file": "01-scheduling-only.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          },
+          {
+            "file": "02-scheduling-only.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          },
+          {
+            "file": "03-standard.wav",
+            "sha256": "7c01dab37e1c4cbb944db7d0f1a553174aa996e393818a275d96bef45b16debf",
+            "samples": 64000,
+            "stoi": 0.7814819463529271,
+            "si_sdr_db": 6.985625459285679,
+            "peak": 0.19190740585327148,
+            "max_abs_delta": 0.0,
+            "relative_rms_delta": 0.0
+          }
+        ],
+        "scope": "Unmodified aligned samples: no gain matching, normalization, trimming, or resampling."
+      }
+    }
+  },
+  "final_source_sha256": {
+    "Core/AudioConversion.swift": "9d21dacc9536bf44f353039dc0528ae95aebcb26987cace67cb267f4ec655e6d",
+    "Core/AudioFileIO.swift": "8fdcca88ae33b24c3beb7cd4087fb3157da579206c2870a818092cda80a91d48",
+    "Core/AudioTransform.swift": "0c662d784aa8c4bc353737a133f4fcebab9f8cbc43d251b9211244c1ddf7fa27",
+    "Core/Metal/OfflineNormalizationResidual.swift": "ee78acad9d8453b4e354d09053d83d0bb5b3c1499ff20c138759f5d0423d3799",
+    "Core/Metal/OfflineScanSource.swift": "2d130cbf71c343f2a0d3945d998958c4b8349b92c0b9b01828ecf94000938b2a",
+    "Core/Metal/OfflineSelectiveScan.swift": "fb375879edab53553a9ba07faee18bba2db1e6c53e0a23b5a6f7b40535ab373c",
+    "Core/Metal/ReuseOptimization.swift": "d2c5bd0db6d785cb841bab28506c2e366277c3edb19e1e3be786ca6f42d61777",
+    "Core/ModelConvolution.swift": "6fe6598dec278706382ca138ec383dc3b58d32a07b782da1e7f660db5e24a836",
+    "Core/ModelInference.swift": "fb8325c5d581f54806659248f452278362d43a6b251d35affac1fbe45da787a3",
+    "Core/ModelLayers.swift": "0e36fecf6d077a9b972f0e29e15322d9df211de125da5cbb3b61d6184ceec1da",
+    "Core/ModelMamba.swift": "1d5e6351e6a12588ac75868577f7cef94a40ca648ae263ca0adaad1e2054d809",
+    "Core/ReuseEngine.swift": "4918f710fc377abae6326b3af98ee0ee7c72d17f22ae4bc6e16bb6e8ba542564",
+    "Core/ReuseModel.swift": "122597ae7a01fa44b1fa0df6288fb179198d20e20478262ae698228f0cdcc593",
+    "Core/SelectiveScan.swift": "a139c9b52d39caf6308c18bbf2b3f2a55b08b7f0e694e0adf8792727d8a33112",
+    "Probe/ProbeInferenceResult.swift": "e7cc184e1a347d112b34907db8ce324f96df76f07b9d62652e4f6549172fa2a1",
+    "Probe/ProbeOptimization.swift": "963efe3f4e30537307bd203e7ba0f894746ed3bffbb448e79c12fccb70819e55",
+    "Probe/ProbeOptions.swift": "1c929137cd44674a5eb81cc7ac08b8801009339c47721617c274c80daba77bbb",
+    "Probe/ProbeRunner.swift": "f28052dc65c05e900642912b82805da15fc10f1ea8e31a9884ee494ba61d68f1",
+    "Probe/main.swift": "dfe74ef2a5bdbd7a835cab7ddcfffa9355e37edae2b744a8b7963c3c2eabfbc9",
+    "Tests/ReuseAudioTests/AudioFileTests.swift": "346774d0fb6f37fcbfe9b3045e665acb87b747b3675bdb22e180b16a0081bb22",
+    "Tests/ReuseAudioTests/OfflineMetalEngineTests.swift": "f12c6d1f06c0ab2bb7e5716e84e1eadfc2330b46992564c57b519acf3e3eae35",
+    "Tests/ReuseAudioTests/OfflineMetalModelTests.swift": "ea305acc85f0e7f1c1e4f77b05facb7e4f8ec753cdc9ebb7066232ddf173cc95",
+    "Tests/ReuseAudioTests/OfflineMetalTestSupport.swift": "691e0c4413805192d15a7ab584544f5e926b3b92e3a0e20e44108c56b3ff0da6",
+    "Tests/ReuseAudioTests/OfflineMetalWindowTests.swift": "accf11237ce3ce6b97996bb58e06e299d3a8471ecfaf3877484898a805143c7c",
+    "Tests/ReuseAudioTests/OfflineNormalizationResidualTests.swift": "eccebd2ec39f69f5022cb46a39a89f9ad265dfabcf208059a00b9561251bc93f",
+    "Tests/ReuseAudioTests/OfflineScanFixture.swift": "644723f965fa9c7ea84a50b79714ad6a717715c467485bba2119cd508c6391cc",
+    "Tests/ReuseAudioTests/OfflineScanOracle.swift": "8645ef06d268a7a2150c04f647c5cbb897e1769984c670de89ce6ba542cdf3d4",
+    "Tests/ReuseAudioTests/OfflineSelectiveScanTests.swift": "2bdeb280852762d7e53118d0d049cc02f7ff316bc589ad1a9d1c833a29e751f2",
+    "Scripts/benchmark_offline_metal.py": "ef89fd6f350bf5117e68f02b017b7d8c993625fcc26092f733a3804e61a36fea",
+    "Scripts/compare_offline_audio.py": "0622f85b45552312f651abab678dad73d6a62024ad8db2241aa42d62db1c665f"
+  },
+  "validation": {
+    "mac_package_test_result": "Passed",
+    "passed_tests": 48,
+    "skipped_tests": 3,
+    "failed_tests": 0,
+    "skips": "Three opt-in streaming performance benchmarks; all offline and checkpoint-backed correctness tests ran.",
+    "unsigned_ios_library_build": "Passed",
+    "iphone_performance_tested": false
+  }
+}

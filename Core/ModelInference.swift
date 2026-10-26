@@ -33,9 +33,9 @@ extension ReuseModel {
     private func timeFrequencyBlock(_ x: MLXArray, index: Int) -> MLXArray {
         let nt = x.dim(1), nf = x.dim(2)
         let tx = x.transposed(0, 2, 1, 3).reshaped(nf, nt, 64)
-        let ty = bidirectional(tx, "TSMamba.\(index).time_mamba") + tx
+        let ty = bidirectionalResidual(tx, "TSMamba.\(index).time_mamba")
         let fx = ty.reshaped(1, nf, nt, 64).transposed(0, 2, 1, 3).reshaped(nt, nf, 64)
-        return (bidirectional(fx, "TSMamba.\(index).freq_mamba") + fx).reshaped(1, nt, nf, 64)
+        return bidirectionalResidual(fx, "TSMamba.\(index).freq_mamba").reshaped(1, nt, nf, 64)
     }
     private func decode(_ x: MLXArray, frames: Int, frequencies: Int) -> (MLXArray, MLXArray) {
         let magnitude = conv(decoder(x, "mask_decoder"), "mask_decoder.final_conv")[0, 0..<frames, 0..<frequencies, 0].T.asType(.float32)

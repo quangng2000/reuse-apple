@@ -46,6 +46,12 @@ half-second overlaps. This differs from the upstream full-recording model's
 context. Run inference on a background worker and use one caller per engine.
 The public API preserves FP32; it does not offer an FP16 quality/speed switch.
 
+The working branch also offers `optimization: .specializedMetal` for offline
+experiments. It runs all 30 layers with unchanged weights and both directions,
+but was slower than the default on the measured M4 Pro workload. Keep the default
+for normal use; see [offline optimization evidence](offline-metal-optimization.md).
+This experimental API is not part of the existing `v0.2.0` tag.
+
 ## Model files
 
 The package does not automatically download or bundle model weights:
