@@ -20,6 +20,10 @@ final class StreamingReuseModel {
     let frequencyScan = MambaFrequencyScan()
     let inputFilter = MambaInputFilter()
     let projectionScan = MambaProjectionScan()
+    // Direct model calls default to separate frequency branches. StreamingEnhancer
+    // selects pooling for optimized exit 8; constants survive stream resets.
+    var useBatchedFrequency = false
+    var bidirectionalFrequency: [String: MambaBidirectionalFrequency] = [:]
     let useParallelFrequencyScan: Bool
     let useFusedMambaFilter: Bool
     let useFusedMambaProjection: Bool

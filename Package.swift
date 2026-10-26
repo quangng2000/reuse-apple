@@ -22,13 +22,19 @@ let package = Package(
             "ReuseAudio", .product(name: "MLX", package: "mlx-swift"),
             .product(name: "MLXFFT", package: "mlx-swift")
         ], path: "Sources/ReuseStreaming", exclude: ["LICENSE"]),
+        // Frozen current implementation for regression tests and device A/B runs.
+        // Kept out of the public products and never used by the shipping library.
+        .target(name: "ReuseStreamingReference", dependencies: [
+            "ReuseAudio", .product(name: "MLX", package: "mlx-swift"),
+            .product(name: "MLXFFT", package: "mlx-swift")
+        ], path: "Benchmarks/Reference/Sources/ReuseStreaming", exclude: ["LICENSE"]),
         .executableTarget(name: "ReuseProbe", dependencies: [
             "ReuseAudio", .product(name: "MLX", package: "mlx-swift")
         ], path: "Probe"),
         .executableTarget(name: "ReuseStreamingCLI", dependencies: ["ReuseAudio", "ReuseStreaming"],
                           path: "Examples/StreamingCLI"),
         .testTarget(name: "ReuseAudioTests", dependencies: ["ReuseAudio"]),
-        .testTarget(name: "ReuseStreamingTests", dependencies: ["ReuseStreaming"])
+        .testTarget(name: "ReuseStreamingTests", dependencies: ["ReuseStreaming", "ReuseStreamingReference"])
     ],
     cxxLanguageStandard: .cxx17
 )

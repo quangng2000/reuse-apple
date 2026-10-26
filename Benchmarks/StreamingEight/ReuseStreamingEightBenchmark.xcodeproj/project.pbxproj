@@ -1,0 +1,1177 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0BCD713C50EA6B6ACD2CE2B7 /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = B84CFD2F40566277E3D32803 /* MLX */; };
+		109E7B54E7235EC3A1039A60 /* StreamingReuseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB87B413BEDE1A753AB8182 /* StreamingReuseLayers.swift */; };
+		14588ABEAC96B5BDAA3BEB55 /* StreamingReuseMamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF0B371B3D3B630DC25BAA /* StreamingReuseMamba.swift */; };
+		161041AF2474C65C75D2AAC8 /* StreamingReuseInference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A89DFC2ED16881D4947E15D /* StreamingReuseInference.swift */; };
+		16B7B40A5B40047E3A419E6D /* StreamingReuseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E12330060C3E1896773541 /* StreamingReuseModel.swift */; };
+		1D62BAB96C40D13D604C7E5C /* MambaFrequencyScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C44027712EE98792FBE1189 /* MambaFrequencyScan.swift */; };
+		22D13C27A448749777CF36C7 /* StreamingFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2AD02205C669EE8CC5982F /* StreamingFrames.swift */; };
+		23DC6346BCFFB10275378D5C /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 922036807D6FCD198026E743 /* MLX */; };
+		24EB682A420AEDE2533FD280 /* MambaFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA571519C73B24EBB578169 /* MambaFiltering.swift */; };
+		2B522D921E67F14F5FC6B84A /* BenchmarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7D3EF9EDB88AB52160F578 /* BenchmarkApp.swift */; };
+		2DDD85EE65BB831F1CC8761D /* StreamingReuseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1369CF49C760B75A16E227C2 /* StreamingReuseLayers.swift */; };
+		30BB5C2342B70553424EB567 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013910AF19E1B5B12A8B4D9A /* main.swift */; };
+		333E58EF4E9973165A9A1032 /* MambaProjectionTemporal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AF7C3111FF4E68493429 /* MambaProjectionTemporal.swift */; };
+		34AA4C4DA7522BF509824D3A /* EightLayerStageProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E891CA40026B05F63BE11E4 /* EightLayerStageProfile.swift */; };
+		358A45A0A870D7643FA0A473 /* profile-source.json in Resources */ = {isa = PBXBuildFile; fileRef = 280034E4221727F30FBDC402 /* profile-source.json */; };
+		376E77DB799D72599A255280 /* ReuseStreamingReference.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56FC5B8D3504F8E11F0D3C36 /* ReuseStreamingReference.framework */; };
+		37F466D33D004FE303BB68F6 /* StreamingEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495AE3F692717820E8989A55 /* StreamingEnhancer.swift */; };
+		37FA72EE91117ED931E8ED13 /* EightLayerStageProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E891CA40026B05F63BE11E4 /* EightLayerStageProfile.swift */; };
+		3E9863312273109E90BCE819 /* StreamingReuseCheckpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA16F1A41FD763BA0C28539 /* StreamingReuseCheckpoint.swift */; };
+		41B3BDD7EA8434E743BFD331 /* ReuseStreamingDiagnostic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6817B9027E51CE0417A875CE /* ReuseStreamingDiagnostic.framework */; };
+		4344FE3E90BEBC3CF2DA13A4 /* EightLayerBenchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0994056D9C65F014D3B17C /* EightLayerBenchmark.swift */; };
+		441C4AD92C2C115EB53DDF94 /* StreamingEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611B1E8E8897F7C9AC5192BC /* StreamingEnhancer.swift */; };
+		4690EB41EB221645E9879994 /* BenchAssets in Resources */ = {isa = PBXBuildFile; fileRef = FE1620CDC67F6AC6C3A3133F /* BenchAssets */; };
+		4C67B2D43EF0DA005EC4B8E0 /* ReuseAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 1EEDFE181A503E5FB85D7E79 /* ReuseAudio */; };
+		4D3D41E653E9CE6F353409F4 /* MambaProjectionScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3E564BB8CA4BF4A0395F7F /* MambaProjectionScan.swift */; };
+		553AFC2A413D22D84CCD4F7B /* StreamingReuseCheckpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA16F1A41FD763BA0C28539 /* StreamingReuseCheckpoint.swift */; };
+		55AE204166300B7B52685E21 /* StreamingReuseScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90B9B2E56976B7D95EC5187 /* StreamingReuseScan.swift */; };
+		594333A7220F24A529E46B6F /* MambaProjectionTemporal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AF7C3111FF4E68493429 /* MambaProjectionTemporal.swift */; };
+		5CFB07F89E131466B985CF5E /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = 7A43EFA5894BA4B88233B2C5 /* MLXFFT */; };
+		5E17CB881DEB993446894B7D /* MambaFrequencyScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C44027712EE98792FBE1189 /* MambaFrequencyScan.swift */; };
+		5E36CC40BD22A97DA008D2FC /* StreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F45D2F0035871C2E8BB0E42 /* StreamingSession.swift */; };
+		639ED03EBF62D5E70F526663 /* ReuseAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 32B0595BF9EE71BB87D33FF4 /* ReuseAudio */; };
+		697AF5B68536133D478C35F1 /* MambaFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88C99358409133BEDBFBAB /* MambaFiltering.swift */; };
+		70D5BF322EA86E9737CC4997 /* StreamingFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2AD02205C669EE8CC5982F /* StreamingFrames.swift */; };
+		718C75AEE2F63311F43E09A8 /* StreamingReuseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB87B413BEDE1A753AB8182 /* StreamingReuseLayers.swift */; };
+		765C8904DC6138206D6E0312 /* StageProfiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859CAD8877B75612A3121F77 /* StageProfiler.swift */; };
+		77D0007CF346FE9BD5F55207 /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = 9B16CB3F858D91CBBC66B8C3 /* MLXFFT */; };
+		792AC2050E29110F52275552 /* StreamingEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495AE3F692717820E8989A55 /* StreamingEnhancer.swift */; };
+		81B5088B5261588D28B55634 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = B42C64827009A22585BE4D56 /* LICENSE.txt */; };
+		834D9AC5B7B11CDEA4C610FC /* MambaFrequencyScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3A7B50EDA3ACC069B9E30 /* MambaFrequencyScan.swift */; };
+		85CED71248DCD01EC448401C /* StreamingReuseMamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF0B371B3D3B630DC25BAA /* StreamingReuseMamba.swift */; };
+		8EFE72B1DF597B07F4A0BF57 /* StreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F45D2F0035871C2E8BB0E42 /* StreamingSession.swift */; };
+		8FC85D2EAFC4B6117E72D783 /* StreamingReuseScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90B9B2E56976B7D95EC5187 /* StreamingReuseScan.swift */; };
+		94BB5669D9BD304F960254E4 /* StreamingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231C3CA0DD5ED0F855EBD5A2 /* StreamingError.swift */; };
+		94C19F278D46BF9664B66DC2 /* StreamingTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7567F679F9DC17BAA52A56 /* StreamingTransform.swift */; };
+		9C158F22CA86A65774845262 /* MambaProjectionFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84EFFEA73BCB90C9B23F7C7 /* MambaProjectionFrequency.swift */; };
+		9D49957A7CBDD2836C14B4E2 /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE7286AE5030E5C4909C8E1 /* MLX */; };
+		9D7BDF22C985ABB2B125D577 /* ReuseStreamingDiagnosticMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8748D76BE32A044A087DB492 /* ReuseStreamingDiagnosticMac.framework */; };
+		A19AFBC1675CF8E5C785E534 /* MambaInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1599BED819CEEE22A903DA /* MambaInputFilter.swift */; };
+		A69A53782BD6F7D937A9C4D8 /* StreamingReuseCheckpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA391016ABF8BFEE4E47F76 /* StreamingReuseCheckpoint.swift */; };
+		AAB3D4D1C773314CCB6AD09B /* BenchmarkRuntimeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E06B7AF69D96175CB635F9B /* BenchmarkRuntimeOptions.swift */; };
+		AB7B5E547AC360149BF0DCF2 /* MambaProjectionScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4704EAF7E0FBBE804F316E /* MambaProjectionScan.swift */; };
+		B178548661AC339199DC8E59 /* StreamingReuseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E12330060C3E1896773541 /* StreamingReuseModel.swift */; };
+		B2E115802CD28268B87E67C1 /* StreamingTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982C657FADF73DA76D748A3F /* StreamingTransform.swift */; };
+		B3E0035D7CAC611547EFC05B /* StreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2171C0F9B784C7517992CBF /* StreamingSession.swift */; };
+		B4EBC04B26BB424DB302CD73 /* MambaProjectionFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F6C85F7BF55CBA6CC7A608 /* MambaProjectionFrequency.swift */; };
+		B5F2428DAAF4B248857DB053 /* ReuseStreaming in Frameworks */ = {isa = PBXBuildFile; productRef = C1F127332554C3A832B72D6D /* ReuseStreaming */; };
+		B6161014494F9133DCE9C359 /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = D608B0028F6644E9FB88D9C8 /* MLXFFT */; };
+		BA667BE37099EE014A82B407 /* MambaProjectionFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84EFFEA73BCB90C9B23F7C7 /* MambaProjectionFrequency.swift */; };
+		BA9FCBFC6C7C8F1FE7CD0D26 /* MambaFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88C99358409133BEDBFBAB /* MambaFiltering.swift */; };
+		BF13B064387BB44441CD0688 /* StreamingReuseInference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A89DFC2ED16881D4947E15D /* StreamingReuseInference.swift */; };
+		C2435E3182AD8326EEAA6B52 /* MambaProjectionScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3E564BB8CA4BF4A0395F7F /* MambaProjectionScan.swift */; };
+		C60133EAFBDEDFD0BAE03DEB /* StreamingReuseMamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C3E1F8C5220B4900613868 /* StreamingReuseMamba.swift */; };
+		CB5E7CB66FEDE7EE12D52A43 /* StreamingReuseInference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16948FDCCDB67AEAB0064C8A /* StreamingReuseInference.swift */; };
+		D6DCA2207B2100E2D6553858 /* StreamingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9BFE6CBA4F8AEB66F538A1 /* StreamingError.swift */; };
+		D7B7B7B300DB115F47934B98 /* StageProfiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859CAD8877B75612A3121F77 /* StageProfiler.swift */; };
+		DD1F4873B9EFB393F2B96861 /* ReuseAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 92C732C786EC0E4E66CEE2EC /* ReuseAudio */; };
+		E41561EF3C1A283D3516A027 /* MambaInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1599BED819CEEE22A903DA /* MambaInputFilter.swift */; };
+		E98D95CF07BB900A14022BBA /* StreamingFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD2FD9735740E7989FA6B10 /* StreamingFrames.swift */; };
+		EDC1E7C342EFEC15A4982A57 /* StreamingReuseScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246801DB105DE194F602B0D2 /* StreamingReuseScan.swift */; };
+		F5C85F42638CCB88E69CB867 /* StreamingReuseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428F51C43797391571CA8377 /* StreamingReuseModel.swift */; };
+		F9FD9DB12BC9442EF33AC258 /* MambaInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B570F07B236D741B0B1CF0 /* MambaInputFilter.swift */; };
+		FAAC2D040629D88B88C6105F /* MambaProjectionTemporal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322F8F8EFA17388AEBE09CE /* MambaProjectionTemporal.swift */; };
+		FBBB36B0F14C3DF3BBF856D1 /* ReuseAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 35AA36A65E69F857BD06DEEF /* ReuseAudio */; };
+		FC6562D9E2B97A92D6D34F71 /* StreamingTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7567F679F9DC17BAA52A56 /* StreamingTransform.swift */; };
+		FC693511EFB5EF6228616AAD /* StreamingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231C3CA0DD5ED0F855EBD5A2 /* StreamingError.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3F051B56762F9E42ED91A527 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B2B27A441D2FF61D228CB09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E06E34BCC0922B921E21CA40;
+			remoteInfo = ReuseStreamingDiagnosticMac;
+		};
+		6DB6E5351E58839995E4353D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B2B27A441D2FF61D228CB09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55382DD2B47AEB659148FCD9;
+			remoteInfo = ReuseStreamingReference;
+		};
+		CCE4D778017C31C58F26D268 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B2B27A441D2FF61D228CB09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00F0FB7F0195B6A9E518507B;
+			remoteInfo = ReuseStreamingDiagnostic;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		013910AF19E1B5B12A8B4D9A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		0B0994056D9C65F014D3B17C /* EightLayerBenchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EightLayerBenchmark.swift; sourceTree = "<group>"; };
+		1369CF49C760B75A16E227C2 /* StreamingReuseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseLayers.swift; sourceTree = "<group>"; };
+		16948FDCCDB67AEAB0064C8A /* StreamingReuseInference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseInference.swift; sourceTree = "<group>"; };
+		1C44027712EE98792FBE1189 /* MambaFrequencyScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaFrequencyScan.swift; sourceTree = "<group>"; };
+		1D7567F679F9DC17BAA52A56 /* StreamingTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingTransform.swift; sourceTree = "<group>"; };
+		231C3CA0DD5ED0F855EBD5A2 /* StreamingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingError.swift; sourceTree = "<group>"; };
+		246801DB105DE194F602B0D2 /* StreamingReuseScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseScan.swift; sourceTree = "<group>"; };
+		280034E4221727F30FBDC402 /* profile-source.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "profile-source.json"; sourceTree = "<group>"; };
+		428F51C43797391571CA8377 /* StreamingReuseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseModel.swift; sourceTree = "<group>"; };
+		495AE3F692717820E8989A55 /* StreamingEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingEnhancer.swift; sourceTree = "<group>"; };
+		4A7D3EF9EDB88AB52160F578 /* BenchmarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkApp.swift; sourceTree = "<group>"; };
+		56FC5B8D3504F8E11F0D3C36 /* ReuseStreamingReference.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReuseStreamingReference.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CB87B413BEDE1A753AB8182 /* StreamingReuseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseLayers.swift; sourceTree = "<group>"; };
+		5E06B7AF69D96175CB635F9B /* BenchmarkRuntimeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkRuntimeOptions.swift; sourceTree = "<group>"; };
+		5E2AD02205C669EE8CC5982F /* StreamingFrames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingFrames.swift; sourceTree = "<group>"; };
+		611B1E8E8897F7C9AC5192BC /* StreamingEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingEnhancer.swift; sourceTree = "<group>"; };
+		63F6C85F7BF55CBA6CC7A608 /* MambaProjectionFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaProjectionFrequency.swift; sourceTree = "<group>"; };
+		6817B9027E51CE0417A875CE /* ReuseStreamingDiagnostic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReuseStreamingDiagnostic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B4704EAF7E0FBBE804F316E /* MambaProjectionScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaProjectionScan.swift; sourceTree = "<group>"; };
+		7407AF7C3111FF4E68493429 /* MambaProjectionTemporal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaProjectionTemporal.swift; sourceTree = "<group>"; };
+		7A89DFC2ED16881D4947E15D /* StreamingReuseInference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseInference.swift; sourceTree = "<group>"; };
+		7B824FEA2671E0C5045E97EF /* reuse-apple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "reuse-apple"; path = ../..; sourceTree = SOURCE_ROOT; };
+		7C1599BED819CEEE22A903DA /* MambaInputFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaInputFilter.swift; sourceTree = "<group>"; };
+		7F45D2F0035871C2E8BB0E42 /* StreamingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingSession.swift; sourceTree = "<group>"; };
+		80B570F07B236D741B0B1CF0 /* MambaInputFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaInputFilter.swift; sourceTree = "<group>"; };
+		8322F8F8EFA17388AEBE09CE /* MambaProjectionTemporal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaProjectionTemporal.swift; sourceTree = "<group>"; };
+		859CAD8877B75612A3121F77 /* StageProfiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageProfiler.swift; sourceTree = "<group>"; };
+		8748D76BE32A044A087DB492 /* ReuseStreamingDiagnosticMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReuseStreamingDiagnosticMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BA391016ABF8BFEE4E47F76 /* StreamingReuseCheckpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseCheckpoint.swift; sourceTree = "<group>"; };
+		8BA571519C73B24EBB578169 /* MambaFiltering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaFiltering.swift; sourceTree = "<group>"; };
+		9695B1A2A66F468B5FE26E0A /* ReuseStreamingEightBenchmark.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ReuseStreamingEightBenchmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		982C657FADF73DA76D748A3F /* StreamingTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingTransform.swift; sourceTree = "<group>"; };
+		9E891CA40026B05F63BE11E4 /* EightLayerStageProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EightLayerStageProfile.swift; sourceTree = "<group>"; };
+		A1C3E1F8C5220B4900613868 /* StreamingReuseMamba.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseMamba.swift; sourceTree = "<group>"; };
+		A4E12330060C3E1896773541 /* StreamingReuseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseModel.swift; sourceTree = "<group>"; };
+		A84EFFEA73BCB90C9B23F7C7 /* MambaProjectionFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaProjectionFrequency.swift; sourceTree = "<group>"; };
+		A854AE6462735FBEB8E12E24 /* ReuseStreamingStageProfileMac */ = {isa = PBXFileReference; includeInIndex = 0; path = ReuseStreamingStageProfileMac; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACC3A7B50EDA3ACC069B9E30 /* MambaFrequencyScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaFrequencyScan.swift; sourceTree = "<group>"; };
+		B42C64827009A22585BE4D56 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		B90B9B2E56976B7D95EC5187 /* StreamingReuseScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseScan.swift; sourceTree = "<group>"; };
+		CA9BFE6CBA4F8AEB66F538A1 /* StreamingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingError.swift; sourceTree = "<group>"; };
+		DAA16F1A41FD763BA0C28539 /* StreamingReuseCheckpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseCheckpoint.swift; sourceTree = "<group>"; };
+		DABF0B371B3D3B630DC25BAA /* StreamingReuseMamba.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingReuseMamba.swift; sourceTree = "<group>"; };
+		DFD2FD9735740E7989FA6B10 /* StreamingFrames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingFrames.swift; sourceTree = "<group>"; };
+		F2171C0F9B784C7517992CBF /* StreamingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingSession.swift; sourceTree = "<group>"; };
+		FA3E564BB8CA4BF4A0395F7F /* MambaProjectionScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaProjectionScan.swift; sourceTree = "<group>"; };
+		FB88C99358409133BEDBFBAB /* MambaFiltering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MambaFiltering.swift; sourceTree = "<group>"; };
+		FE1620CDC67F6AC6C3A3133F /* BenchAssets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = BenchAssets; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		13063164DAF6C894C8106992 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBBB36B0F14C3DF3BBF856D1 /* ReuseAudio in Frameworks */,
+				0BCD713C50EA6B6ACD2CE2B7 /* MLX in Frameworks */,
+				77D0007CF346FE9BD5F55207 /* MLXFFT in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B0AF6F13A07F85B78F3861A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D7BDF22C985ABB2B125D577 /* ReuseStreamingDiagnosticMac.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		611A521608A1D37444C1C896 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				639ED03EBF62D5E70F526663 /* ReuseAudio in Frameworks */,
+				9D49957A7CBDD2836C14B4E2 /* MLX in Frameworks */,
+				5CFB07F89E131466B985CF5E /* MLXFFT in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		988FBB2AD2050127C1139296 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1F4873B9EFB393F2B96861 /* ReuseAudio in Frameworks */,
+				23DC6346BCFFB10275378D5C /* MLX in Frameworks */,
+				B6161014494F9133DCE9C359 /* MLXFFT in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8CEB2157FE2176F8F37FCC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41B3BDD7EA8434E743BFD331 /* ReuseStreamingDiagnostic.framework in Frameworks */,
+				376E77DB799D72599A255280 /* ReuseStreamingReference.framework in Frameworks */,
+				B5F2428DAAF4B248857DB053 /* ReuseStreaming in Frameworks */,
+				4C67B2D43EF0DA005EC4B8E0 /* ReuseAudio in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04F0D97C7D34B7AF2A0D44C4 /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+				DFD2FD9735740E7989FA6B10 /* StreamingFrames.swift */,
+				F2171C0F9B784C7517992CBF /* StreamingSession.swift */,
+				982C657FADF73DA76D748A3F /* StreamingTransform.swift */,
+			);
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		1DC6248B0F3DD02964969B50 /* ReuseStreaming */ = {
+			isa = PBXGroup;
+			children = (
+				495AE3F692717820E8989A55 /* StreamingEnhancer.swift */,
+				231C3CA0DD5ED0F855EBD5A2 /* StreamingError.swift */,
+				5A3D41E947EEDF8BB8E4F141 /* Model */,
+				E46BDEF1FA798DD868FC7F5E /* Pipeline */,
+			);
+			name = ReuseStreaming;
+			path = ../Profiling/Generated/Sources/ReuseStreaming;
+			sourceTree = "<group>";
+		};
+		355FF85401E7A9E3160B8353 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				859CAD8877B75612A3121F77 /* StageProfiler.swift */,
+			);
+			name = Support;
+			path = ../Profiling/Support;
+			sourceTree = "<group>";
+		};
+		36B12A43CB80ABA78AFDF878 /* CLI */ = {
+			isa = PBXGroup;
+			children = (
+				013910AF19E1B5B12A8B4D9A /* main.swift */,
+			);
+			name = CLI;
+			path = ../Profiling/CLI;
+			sourceTree = "<group>";
+		};
+		3F83F0E785697DB1DB4BA6F3 = {
+			isa = PBXGroup;
+			children = (
+				FE1620CDC67F6AC6C3A3133F /* BenchAssets */,
+				5F09CB4268C5BF2B797AEEEC /* App */,
+				36B12A43CB80ABA78AFDF878 /* CLI */,
+				BE82007904273052EDDB4CA2 /* Generated */,
+				DA2523D101AB9E6C96B0E2EC /* Packages */,
+				E04D31CE57C2FE110A646BD0 /* Research */,
+				1DC6248B0F3DD02964969B50 /* ReuseStreaming */,
+				8FE9C85F4EEB08911896488B /* ReuseStreaming */,
+				355FF85401E7A9E3160B8353 /* Support */,
+				E84AE5DFB30CC33FD5F31FB6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5A3D41E947EEDF8BB8E4F141 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DAA16F1A41FD763BA0C28539 /* StreamingReuseCheckpoint.swift */,
+				7A89DFC2ED16881D4947E15D /* StreamingReuseInference.swift */,
+				5CB87B413BEDE1A753AB8182 /* StreamingReuseLayers.swift */,
+				DABF0B371B3D3B630DC25BAA /* StreamingReuseMamba.swift */,
+				A4E12330060C3E1896773541 /* StreamingReuseModel.swift */,
+				B90B9B2E56976B7D95EC5187 /* StreamingReuseScan.swift */,
+				CBD468ED03E61716D0E195B4 /* Mamba */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5F09CB4268C5BF2B797AEEEC /* App */ = {
+			isa = PBXGroup;
+			children = (
+				4A7D3EF9EDB88AB52160F578 /* BenchmarkApp.swift */,
+				5E06B7AF69D96175CB635F9B /* BenchmarkRuntimeOptions.swift */,
+				0B0994056D9C65F014D3B17C /* EightLayerBenchmark.swift */,
+				9E891CA40026B05F63BE11E4 /* EightLayerStageProfile.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		8FE9C85F4EEB08911896488B /* ReuseStreaming */ = {
+			isa = PBXGroup;
+			children = (
+				611B1E8E8897F7C9AC5192BC /* StreamingEnhancer.swift */,
+				CA9BFE6CBA4F8AEB66F538A1 /* StreamingError.swift */,
+				ACDEB57FCDC7EA5FBFE2A9FC /* Model */,
+				04F0D97C7D34B7AF2A0D44C4 /* Pipeline */,
+			);
+			name = ReuseStreaming;
+			path = ../Reference/Sources/ReuseStreaming;
+			sourceTree = "<group>";
+		};
+		ACDEB57FCDC7EA5FBFE2A9FC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8BA391016ABF8BFEE4E47F76 /* StreamingReuseCheckpoint.swift */,
+				16948FDCCDB67AEAB0064C8A /* StreamingReuseInference.swift */,
+				1369CF49C760B75A16E227C2 /* StreamingReuseLayers.swift */,
+				A1C3E1F8C5220B4900613868 /* StreamingReuseMamba.swift */,
+				428F51C43797391571CA8377 /* StreamingReuseModel.swift */,
+				246801DB105DE194F602B0D2 /* StreamingReuseScan.swift */,
+				C2D2A3FA4BBB2C75F99054D6 /* Mamba */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BE82007904273052EDDB4CA2 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				280034E4221727F30FBDC402 /* profile-source.json */,
+			);
+			name = Generated;
+			path = ../Profiling/Generated;
+			sourceTree = "<group>";
+		};
+		C2D2A3FA4BBB2C75F99054D6 /* Mamba */ = {
+			isa = PBXGroup;
+			children = (
+				8BA571519C73B24EBB578169 /* MambaFiltering.swift */,
+				ACC3A7B50EDA3ACC069B9E30 /* MambaFrequencyScan.swift */,
+				80B570F07B236D741B0B1CF0 /* MambaInputFilter.swift */,
+				63F6C85F7BF55CBA6CC7A608 /* MambaProjectionFrequency.swift */,
+				6B4704EAF7E0FBBE804F316E /* MambaProjectionScan.swift */,
+				8322F8F8EFA17388AEBE09CE /* MambaProjectionTemporal.swift */,
+			);
+			path = Mamba;
+			sourceTree = "<group>";
+		};
+		CBD468ED03E61716D0E195B4 /* Mamba */ = {
+			isa = PBXGroup;
+			children = (
+				FB88C99358409133BEDBFBAB /* MambaFiltering.swift */,
+				1C44027712EE98792FBE1189 /* MambaFrequencyScan.swift */,
+				7C1599BED819CEEE22A903DA /* MambaInputFilter.swift */,
+				A84EFFEA73BCB90C9B23F7C7 /* MambaProjectionFrequency.swift */,
+				FA3E564BB8CA4BF4A0395F7F /* MambaProjectionScan.swift */,
+				7407AF7C3111FF4E68493429 /* MambaProjectionTemporal.swift */,
+			);
+			path = Mamba;
+			sourceTree = "<group>";
+		};
+		DA2523D101AB9E6C96B0E2EC /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				7B824FEA2671E0C5045E97EF /* reuse-apple */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		E04D31CE57C2FE110A646BD0 /* Research */ = {
+			isa = PBXGroup;
+			children = (
+				B42C64827009A22585BE4D56 /* LICENSE.txt */,
+			);
+			name = Research;
+			path = ../../Research;
+			sourceTree = "<group>";
+		};
+		E46BDEF1FA798DD868FC7F5E /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+				5E2AD02205C669EE8CC5982F /* StreamingFrames.swift */,
+				7F45D2F0035871C2E8BB0E42 /* StreamingSession.swift */,
+				1D7567F679F9DC17BAA52A56 /* StreamingTransform.swift */,
+			);
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		E84AE5DFB30CC33FD5F31FB6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6817B9027E51CE0417A875CE /* ReuseStreamingDiagnostic.framework */,
+				8748D76BE32A044A087DB492 /* ReuseStreamingDiagnosticMac.framework */,
+				9695B1A2A66F468B5FE26E0A /* ReuseStreamingEightBenchmark.app */,
+				56FC5B8D3504F8E11F0D3C36 /* ReuseStreamingReference.framework */,
+				A854AE6462735FBEB8E12E24 /* ReuseStreamingStageProfileMac */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00F0FB7F0195B6A9E518507B /* ReuseStreamingDiagnostic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5981071D816EAF236DC1CF8 /* Build configuration list for PBXNativeTarget "ReuseStreamingDiagnostic" */;
+			buildPhases = (
+				FF95A7C38ADDE40734C8B7BE /* Sources */,
+				13063164DAF6C894C8106992 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReuseStreamingDiagnostic;
+			packageProductDependencies = (
+				35AA36A65E69F857BD06DEEF /* ReuseAudio */,
+				B84CFD2F40566277E3D32803 /* MLX */,
+				9B16CB3F858D91CBBC66B8C3 /* MLXFFT */,
+			);
+			productName = ReuseStreamingDiagnostic;
+			productReference = 6817B9027E51CE0417A875CE /* ReuseStreamingDiagnostic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4003BC9CBA7ECE219DA02C93 /* ReuseStreamingEightBenchmark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AD2332AE0DAFB65B162A361 /* Build configuration list for PBXNativeTarget "ReuseStreamingEightBenchmark" */;
+			buildPhases = (
+				8015BA07F54CF4041576E2AA /* Sources */,
+				F4E2F702B246ADECB16999CD /* Resources */,
+				D8CEB2157FE2176F8F37FCC9 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E1D1FCFD8CF8EA63DA7D4928 /* PBXTargetDependency */,
+				A5AC8CE307D4F0B742C5E835 /* PBXTargetDependency */,
+			);
+			name = ReuseStreamingEightBenchmark;
+			packageProductDependencies = (
+				C1F127332554C3A832B72D6D /* ReuseStreaming */,
+				1EEDFE181A503E5FB85D7E79 /* ReuseAudio */,
+			);
+			productName = ReuseStreamingEightBenchmark;
+			productReference = 9695B1A2A66F468B5FE26E0A /* ReuseStreamingEightBenchmark.app */;
+			productType = "com.apple.product-type.application";
+		};
+		55382DD2B47AEB659148FCD9 /* ReuseStreamingReference */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 179B78D802F40EB867F154D3 /* Build configuration list for PBXNativeTarget "ReuseStreamingReference" */;
+			buildPhases = (
+				C303F5466ABCE1E58A33EA33 /* Sources */,
+				611A521608A1D37444C1C896 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReuseStreamingReference;
+			packageProductDependencies = (
+				32B0595BF9EE71BB87D33FF4 /* ReuseAudio */,
+				9BE7286AE5030E5C4909C8E1 /* MLX */,
+				7A43EFA5894BA4B88233B2C5 /* MLXFFT */,
+			);
+			productName = ReuseStreamingReference;
+			productReference = 56FC5B8D3504F8E11F0D3C36 /* ReuseStreamingReference.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DF555C71487FA231A6DB39A2 /* ReuseStreamingStageProfileMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68B2D0A1F30D7165E3E6E7F6 /* Build configuration list for PBXNativeTarget "ReuseStreamingStageProfileMac" */;
+			buildPhases = (
+				3E55A486A8389E1A5B877C3E /* Sources */,
+				2B0AF6F13A07F85B78F3861A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				47DA40560064B43FE2EDC7CC /* PBXTargetDependency */,
+			);
+			name = ReuseStreamingStageProfileMac;
+			packageProductDependencies = (
+			);
+			productName = ReuseStreamingStageProfileMac;
+			productReference = A854AE6462735FBEB8E12E24 /* ReuseStreamingStageProfileMac */;
+			productType = "com.apple.product-type.tool";
+		};
+		E06E34BCC0922B921E21CA40 /* ReuseStreamingDiagnosticMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CBA684D2865B2645B253605 /* Build configuration list for PBXNativeTarget "ReuseStreamingDiagnosticMac" */;
+			buildPhases = (
+				3AF1EAE77B288120715FA54A /* Sources */,
+				988FBB2AD2050127C1139296 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReuseStreamingDiagnosticMac;
+			packageProductDependencies = (
+				92C732C786EC0E4E66CEE2EC /* ReuseAudio */,
+				922036807D6FCD198026E743 /* MLX */,
+				D608B0028F6644E9FB88D9C8 /* MLXFFT */,
+			);
+			productName = ReuseStreamingDiagnosticMac;
+			productReference = 8748D76BE32A044A087DB492 /* ReuseStreamingDiagnosticMac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6B2B27A441D2FF61D228CB09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					00F0FB7F0195B6A9E518507B = {
+						ProvisioningStyle = Automatic;
+					};
+					4003BC9CBA7ECE219DA02C93 = {
+						ProvisioningStyle = Automatic;
+					};
+					55382DD2B47AEB659148FCD9 = {
+						ProvisioningStyle = Automatic;
+					};
+					DF555C71487FA231A6DB39A2 = {
+						ProvisioningStyle = Automatic;
+					};
+					E06E34BCC0922B921E21CA40 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 359790E7C94CFD0DA64A7C6B /* Build configuration list for PBXProject "ReuseStreamingEightBenchmark" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 3F83F0E785697DB1DB4BA6F3;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */,
+				E5F5A3F98C266854A6C780F3 /* XCLocalSwiftPackageReference "../.." */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00F0FB7F0195B6A9E518507B /* ReuseStreamingDiagnostic */,
+				E06E34BCC0922B921E21CA40 /* ReuseStreamingDiagnosticMac */,
+				4003BC9CBA7ECE219DA02C93 /* ReuseStreamingEightBenchmark */,
+				55382DD2B47AEB659148FCD9 /* ReuseStreamingReference */,
+				DF555C71487FA231A6DB39A2 /* ReuseStreamingStageProfileMac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F4E2F702B246ADECB16999CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4690EB41EB221645E9879994 /* BenchAssets in Resources */,
+				81B5088B5261588D28B55634 /* LICENSE.txt in Resources */,
+				358A45A0A870D7643FA0A473 /* profile-source.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3AF1EAE77B288120715FA54A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA9FCBFC6C7C8F1FE7CD0D26 /* MambaFiltering.swift in Sources */,
+				5E17CB881DEB993446894B7D /* MambaFrequencyScan.swift in Sources */,
+				E41561EF3C1A283D3516A027 /* MambaInputFilter.swift in Sources */,
+				9C158F22CA86A65774845262 /* MambaProjectionFrequency.swift in Sources */,
+				C2435E3182AD8326EEAA6B52 /* MambaProjectionScan.swift in Sources */,
+				333E58EF4E9973165A9A1032 /* MambaProjectionTemporal.swift in Sources */,
+				765C8904DC6138206D6E0312 /* StageProfiler.swift in Sources */,
+				792AC2050E29110F52275552 /* StreamingEnhancer.swift in Sources */,
+				94BB5669D9BD304F960254E4 /* StreamingError.swift in Sources */,
+				22D13C27A448749777CF36C7 /* StreamingFrames.swift in Sources */,
+				553AFC2A413D22D84CCD4F7B /* StreamingReuseCheckpoint.swift in Sources */,
+				161041AF2474C65C75D2AAC8 /* StreamingReuseInference.swift in Sources */,
+				109E7B54E7235EC3A1039A60 /* StreamingReuseLayers.swift in Sources */,
+				14588ABEAC96B5BDAA3BEB55 /* StreamingReuseMamba.swift in Sources */,
+				16B7B40A5B40047E3A419E6D /* StreamingReuseModel.swift in Sources */,
+				55AE204166300B7B52685E21 /* StreamingReuseScan.swift in Sources */,
+				5E36CC40BD22A97DA008D2FC /* StreamingSession.swift in Sources */,
+				FC6562D9E2B97A92D6D34F71 /* StreamingTransform.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3E55A486A8389E1A5B877C3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34AA4C4DA7522BF509824D3A /* EightLayerStageProfile.swift in Sources */,
+				30BB5C2342B70553424EB567 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8015BA07F54CF4041576E2AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B522D921E67F14F5FC6B84A /* BenchmarkApp.swift in Sources */,
+				AAB3D4D1C773314CCB6AD09B /* BenchmarkRuntimeOptions.swift in Sources */,
+				4344FE3E90BEBC3CF2DA13A4 /* EightLayerBenchmark.swift in Sources */,
+				37FA72EE91117ED931E8ED13 /* EightLayerStageProfile.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C303F5466ABCE1E58A33EA33 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24EB682A420AEDE2533FD280 /* MambaFiltering.swift in Sources */,
+				834D9AC5B7B11CDEA4C610FC /* MambaFrequencyScan.swift in Sources */,
+				F9FD9DB12BC9442EF33AC258 /* MambaInputFilter.swift in Sources */,
+				B4EBC04B26BB424DB302CD73 /* MambaProjectionFrequency.swift in Sources */,
+				AB7B5E547AC360149BF0DCF2 /* MambaProjectionScan.swift in Sources */,
+				FAAC2D040629D88B88C6105F /* MambaProjectionTemporal.swift in Sources */,
+				441C4AD92C2C115EB53DDF94 /* StreamingEnhancer.swift in Sources */,
+				D6DCA2207B2100E2D6553858 /* StreamingError.swift in Sources */,
+				E98D95CF07BB900A14022BBA /* StreamingFrames.swift in Sources */,
+				A69A53782BD6F7D937A9C4D8 /* StreamingReuseCheckpoint.swift in Sources */,
+				CB5E7CB66FEDE7EE12D52A43 /* StreamingReuseInference.swift in Sources */,
+				2DDD85EE65BB831F1CC8761D /* StreamingReuseLayers.swift in Sources */,
+				C60133EAFBDEDFD0BAE03DEB /* StreamingReuseMamba.swift in Sources */,
+				F5C85F42638CCB88E69CB867 /* StreamingReuseModel.swift in Sources */,
+				EDC1E7C342EFEC15A4982A57 /* StreamingReuseScan.swift in Sources */,
+				B3E0035D7CAC611547EFC05B /* StreamingSession.swift in Sources */,
+				B2E115802CD28268B87E67C1 /* StreamingTransform.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF95A7C38ADDE40734C8B7BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				697AF5B68536133D478C35F1 /* MambaFiltering.swift in Sources */,
+				1D62BAB96C40D13D604C7E5C /* MambaFrequencyScan.swift in Sources */,
+				A19AFBC1675CF8E5C785E534 /* MambaInputFilter.swift in Sources */,
+				BA667BE37099EE014A82B407 /* MambaProjectionFrequency.swift in Sources */,
+				4D3D41E653E9CE6F353409F4 /* MambaProjectionScan.swift in Sources */,
+				594333A7220F24A529E46B6F /* MambaProjectionTemporal.swift in Sources */,
+				D7B7B7B300DB115F47934B98 /* StageProfiler.swift in Sources */,
+				37F466D33D004FE303BB68F6 /* StreamingEnhancer.swift in Sources */,
+				FC693511EFB5EF6228616AAD /* StreamingError.swift in Sources */,
+				70D5BF322EA86E9737CC4997 /* StreamingFrames.swift in Sources */,
+				3E9863312273109E90BCE819 /* StreamingReuseCheckpoint.swift in Sources */,
+				BF13B064387BB44441CD0688 /* StreamingReuseInference.swift in Sources */,
+				718C75AEE2F63311F43E09A8 /* StreamingReuseLayers.swift in Sources */,
+				85CED71248DCD01EC448401C /* StreamingReuseMamba.swift in Sources */,
+				B178548661AC339199DC8E59 /* StreamingReuseModel.swift in Sources */,
+				8FC85D2EAFC4B6117E72D783 /* StreamingReuseScan.swift in Sources */,
+				8EFE72B1DF597B07F4A0BF57 /* StreamingSession.swift in Sources */,
+				94C19F278D46BF9664B66DC2 /* StreamingTransform.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		47DA40560064B43FE2EDC7CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E06E34BCC0922B921E21CA40 /* ReuseStreamingDiagnosticMac */;
+			targetProxy = 3F051B56762F9E42ED91A527 /* PBXContainerItemProxy */;
+		};
+		A5AC8CE307D4F0B742C5E835 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 55382DD2B47AEB659148FCD9 /* ReuseStreamingReference */;
+			targetProxy = 6DB6E5351E58839995E4353D /* PBXContainerItemProxy */;
+		};
+		E1D1FCFD8CF8EA63DA7D4928 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00F0FB7F0195B6A9E518507B /* ReuseStreamingDiagnostic */;
+			targetProxy = CCE4D778017C31C58F26D268 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0011F3BE3768E0D4E4D47F9B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-diagnostic";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		256DC94B36F5453D10F75AC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-stage-profile-mac";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4074C54A8C4CAE9B293EC5F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		65BD2D57B73AC16C813D7AAD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-reference";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		8875FFE1DE9179A19FACAC1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "RE-USE Eight Benchmark";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIFileSharingEnabled = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-eight-benchmark";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A45F71EEA791CDDE87B6ED58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "RE-USE Eight Benchmark";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIFileSharingEnabled = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-eight-benchmark";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A4E49D9A53B631080332985C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		ADB64C1F1335C7907945DC22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-stage-profile-mac";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BB9D05F75139D78179A380EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-reference";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		BCEC2C0C8EE86B8C5C31CB01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-diagnostic";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		CEF09A5ACEB675E5ED2261D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-diagnostic-mac";
+				PRODUCT_MODULE_NAME = ReuseStreamingDiagnostic;
+				PRODUCT_NAME = ReuseStreamingDiagnostic;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		F0D830DA082534B616BDA7C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				OTHER_SWIFT_FLAGS = "$(inherited) -package-name reuse_apple";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.riftco.reuse-streaming-diagnostic-mac";
+				PRODUCT_MODULE_NAME = ReuseStreamingDiagnostic;
+				PRODUCT_NAME = ReuseStreamingDiagnostic;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		179B78D802F40EB867F154D3 /* Build configuration list for PBXNativeTarget "ReuseStreamingReference" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65BD2D57B73AC16C813D7AAD /* Debug */,
+				BB9D05F75139D78179A380EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2CBA684D2865B2645B253605 /* Build configuration list for PBXNativeTarget "ReuseStreamingDiagnosticMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEF09A5ACEB675E5ED2261D0 /* Debug */,
+				F0D830DA082534B616BDA7C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		359790E7C94CFD0DA64A7C6B /* Build configuration list for PBXProject "ReuseStreamingEightBenchmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4E49D9A53B631080332985C /* Debug */,
+				4074C54A8C4CAE9B293EC5F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		68B2D0A1F30D7165E3E6E7F6 /* Build configuration list for PBXNativeTarget "ReuseStreamingStageProfileMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADB64C1F1335C7907945DC22 /* Debug */,
+				256DC94B36F5453D10F75AC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9AD2332AE0DAFB65B162A361 /* Build configuration list for PBXNativeTarget "ReuseStreamingEightBenchmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A45F71EEA791CDDE87B6ED58 /* Debug */,
+				8875FFE1DE9179A19FACAC1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C5981071D816EAF236DC1CF8 /* Build configuration list for PBXNativeTarget "ReuseStreamingDiagnostic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCEC2C0C8EE86B8C5C31CB01 /* Debug */,
+				0011F3BE3768E0D4E4D47F9B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		E5F5A3F98C266854A6C780F3 /* XCLocalSwiftPackageReference "../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.29.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1EEDFE181A503E5FB85D7E79 /* ReuseAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReuseAudio;
+		};
+		32B0595BF9EE71BB87D33FF4 /* ReuseAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReuseAudio;
+		};
+		35AA36A65E69F857BD06DEEF /* ReuseAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReuseAudio;
+		};
+		7A43EFA5894BA4B88233B2C5 /* MLXFFT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXFFT;
+		};
+		922036807D6FCD198026E743 /* MLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLX;
+		};
+		92C732C786EC0E4E66CEE2EC /* ReuseAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReuseAudio;
+		};
+		9B16CB3F858D91CBBC66B8C3 /* MLXFFT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXFFT;
+		};
+		9BE7286AE5030E5C4909C8E1 /* MLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLX;
+		};
+		B84CFD2F40566277E3D32803 /* MLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLX;
+		};
+		C1F127332554C3A832B72D6D /* ReuseStreaming */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReuseStreaming;
+		};
+		D608B0028F6644E9FB88D9C8 /* MLXFFT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5259AA3B285752A175F8AAA5 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXFFT;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6B2B27A441D2FF61D228CB09 /* Project object */;
+}

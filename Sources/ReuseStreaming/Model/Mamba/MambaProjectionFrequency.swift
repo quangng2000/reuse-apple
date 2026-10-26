@@ -5,7 +5,7 @@ import MLX
 
 final class MambaProjectionFrequency {
     private let kernel = MLXFast.metalKernel(
-        name: "reuse_mamba_projected_frequency", inputNames: ["u", "p", "a", "d", "z", "w", "bias"],
+        name: "reuse_mamba_projected_frequency_shared_delta_gather", inputNames: ["u", "p", "a", "d", "z", "w", "bias"],
         outputNames: ["out"], source: """
         uint lane = thread_position_in_grid.x;
         uint channel = lane / 16;
@@ -14,15 +14,24 @@ final class MambaProjectionFrequency {
         uint channels = u_shape[2];
         uint length = u_shape[1];
         if (channel >= channels || batch >= u_shape[0]) return;
+        // One 16-lane subgroup owns a channel's state. A SIMD group can
+        // contain multiple channels, so share relative to component zero,
+        // never relative to the first lane of the whole SIMD group.
+        bool share_delta = threads_per_simdgroup >= 16;
+        ushort leader = ushort(thread_index_in_simdgroup & ~15u);
         float state = 0.0f;
         float aa = a[channel * 16 + component];
         for (uint t = 0; t < length; ++t) {
             uint ix = (batch * length + t) * channels + channel;
             uint pi = (batch * length + t) * 36;
-            float delta = p[pi] * w[channel * 4];
-            for (uint rank = 1; rank < 4; ++rank) delta += p[pi + rank] * w[channel * 4 + rank];
-            float v = delta + bias[channel];
-            float dt = max(v, 0.0f) + log1p(exp(-abs(v)));
+            float dt = 0.0f;
+            if (!share_delta || component == 0) {
+                float delta = p[pi] * w[channel * 4];
+                for (uint rank = 1; rank < 4; ++rank) delta += p[pi + rank] * w[channel * 4 + rank];
+                float v = delta + bias[channel];
+                dt = max(v, 0.0f) + log1p(exp(-abs(v)));
+            }
+            if (share_delta) dt = simd_shuffle(dt, leader);
             float uu = u[ix];
             state = exp(dt * aa) * state + dt * p[pi + 4 + component] * uu;
             float yy = state * p[pi + 20 + component];

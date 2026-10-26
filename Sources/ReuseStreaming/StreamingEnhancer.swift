@@ -17,17 +17,33 @@ public final class StreamingEnhancer {
     /// Actual frame times from the latest push/finish, including GPU completion.
     public private(set) var lastFrameMilliseconds = [Double]()
     private let model: StreamingReuseModel
+    private let compilation: StreamingFrameCompilation
+    private var compiledFrame: StreamingCompiledFrame?
     private var transform: StreamingTransform
     private var session = StreamingSession()
 
-    /// Loads the pinned checkpoint. Exit 4 is the measured iPhone configuration.
+    /// Loads the pinned checkpoint. Optimized exit 8 uses the validated compiled
+    /// decoder-feature graph and pooled frequency branches.
     /// Other exits trade speed for quality; optimized=false retains the baseline kernels.
-    public init(modelURL: URL, layers: Int = 4, optimized: Bool = true) throws {
+    public convenience init(modelURL: URL, layers: Int = 4, optimized: Bool = true) throws {
+        let useEightLayerPath = optimized && layers == 8
+        try self.init(modelURL: modelURL, layers: layers, optimized: optimized,
+                      compilation: useEightLayerPath ? .decoderFeatures : .disabled,
+                      pooledFrequency: useEightLayerPath)
+    }
+
+    /// Explicit package configuration for benchmark and regression comparisons.
+    package init(modelURL: URL, layers: Int, optimized: Bool, compilation: StreamingFrameCompilation,
+                 pooledFrequency: Bool = false) throws {
         guard (3...12).contains(layers) else { throw StreamingError.invalidLayers(layers) }
         self.layers = layers
         isOptimized = optimized
+        self.compilation = optimized ? compilation : .disabled
         model = try Device.withDefaultDevice(.gpu) {
-            try StreamingReuseModel(weightsURL: modelURL, layers: layers, lookahead: 0, optimized: optimized)
+            let model = try StreamingReuseModel(weightsURL: modelURL, layers: layers, lookahead: 0,
+                                                optimized: optimized)
+            model.useBatchedFrequency = pooledFrequency && optimized
+            return model
         }
         transform = Device.withDefaultDevice(.gpu) { StreamingTransform() }
     }
@@ -52,11 +68,14 @@ public final class StreamingEnhancer {
             model.reset()
             transform = StreamingTransform()
         }
+        // The compiled graph only retains weights and placeholders, with caches
+        // supplied on each call. Keep it warm across independent recordings.
         session = StreamingSession()
         lastFrameMilliseconds.removeAll(keepingCapacity: true)
     }
 
-    /// Prepares GPU kernels before recording. Valid only on a fresh/reset stream.
+    /// Prepares GPU kernels and the eight-layer graph before recording.
+    /// Valid only on a fresh/reset stream.
     /// Three dummy frames are excluded from later timing and audio output.
     public func warmUp() throws {
         guard session.isFresh else { throw StreamingError.warmupRequiresReset }
@@ -69,8 +88,17 @@ public final class StreamingEnhancer {
     private func renderFrame(_ input: [Float]) -> [Float] {
         let started = ProcessInfo.processInfo.systemUptime
         let (magnitude, phase) = transform.analyze(input)
-        let (restoredMagnitude, restoredPhase) = model(magnitude: magnitude, phase: phase)
-        let output = transform.synthesize(magnitude: restoredMagnitude, phase: restoredPhase)
+        let restored: (MLXArray, MLXArray)
+        if compilation != .disabled && !model.isFirstFrame {
+            if compiledFrame == nil {
+                compiledFrame = StreamingCompiledFrame(model: model, mode: compilation)
+            }
+            restored = compiledFrame!(magnitude: magnitude, phase: phase)
+        } else {
+            restored = model(magnitude: magnitude, phase: phase, deferEvaluation: isOptimized)
+        }
+        let output = transform.synthesize(magnitude: restored.0, phase: restored.1,
+                                         evaluating: isOptimized ? model.frameStateArrays : [])
         lastFrameMilliseconds.append((ProcessInfo.processInfo.systemUptime - started) * 1000)
         return output
     }

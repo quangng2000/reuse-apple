@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "baseline_revision": "2446c83",
+  "hardware": "Apple M4 Pro",
+  "precision": "FP32",
+  "scope": "Mac custom-kernel microbenchmarks only; no iPhone measurements or iPhone performance conclusions.",
+  "method": {
+    "configuration": "Release Xcode macOS arm64 package tests, MLX GPU",
+    "order": "8 ABBA rounds; 16 samples per variant after 3 warmup samples per variant",
+    "dependent_calls_per_sample": 32,
+    "timing": "Prebuilt dependency-chain evaluation plus GPU completion, divided by 32; includes MLX dispatch; excludes graph construction; not GPU-only time"
+  },
+  "experiments": [
+    {
+      "name": "Frequency alpha precomputation",
+      "shape": [
+        1,
+        162,
+        256
+      ],
+      "current_mean_ms": 0.10595637695312499,
+      "candidate_mean_ms": 0.12398795703125003,
+      "exact_checks": "Bitwise FP32 output equality against the frozen bdf56d1 optimized kernel and the current inline path, across seven batch/length/channel cases including silence, extreme softplus deltas, adjacent SIMD channels and partially full groups; finite outputs required.",
+      "decision": "Rejected: 17.0% slower on this Mac microbenchmark."
+    },
+    {
+      "name": "Temporal SIMD16 with ordered leader accumulation",
+      "shape": [
+        162,
+        1,
+        256
+      ],
+      "current_mean_ms": 0.026614175781249996,
+      "candidate_mean_ms": 0.12991886328125,
+      "exact_checks": "Bitwise FP32 recurrent-state and output equality against frozen 2446c83 over eight successive updates in each of seven batch/channel cases, including silence and extreme softplus deltas; finite state and outputs required.",
+      "decision": "Rejected: 4.88 times the current mean latency on this Mac microbenchmark."
+    }
+  ],
+  "local_archive": "Benchmarks/StreamingEight/Results/rejected-scan-experiments/",
+  "shipping_changes": "Both production kernels and the original frequency test restored to 2446c83; experimental temporal test removed."
+}

@@ -1,0 +1,90 @@
+{
+  "base_revision": "2446c8383ac65da5376d9159fa1d079535c4e36b",
+  "source_sha256": "67c502f124d274911d23cbad777886c811fec9eeae5bfb231cd94a161f36a3a1",
+  "fingerprint_method": "SHA256 of compact JSON (sort_keys=True,separators=comma:colon) of path/sha256 records sorted by path",
+  "measured_pre_adoption_engine_sha256": "10c9df70e85a4e7c3b522aed91b6d6feb5e6f4ff3bd90d05c7166ba2dc02478a",
+  "measured_pre_adoption_engine_commit": "83a2a632d84215ce344cd74224836901efc8c285",
+  "adoption_change": "Public optimized-eight initializer selects the same phone-tested package flags; remaining production changes are comments. GPU math unchanged.",
+  "files": [
+    {
+      "path": "Sources/ReuseStreaming/LICENSE",
+      "sha256": "6d1daa9c89ec421ba80fe051ac9f0dd46010d4fa4e8f4af654eb8e62f64e2ad5"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaBidirectionalFrequency.swift",
+      "sha256": "051e6f830b992daf8f694f86cb951330b1234f637fbc7ce1c57f15f06abfc5fe"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaFiltering.swift",
+      "sha256": "804fae28d0ffbaf3129ee953abff486f2dc8c45a928e4633b4eb70fd61c5ba90"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaFrequencyScan.swift",
+      "sha256": "7109585ba1bb4a751efe3e7a9bbaf694222fa7bd61c14f585dc5ea4da2a4b367"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaInputFilter.swift",
+      "sha256": "1aa5999366501e9962fe58dfb50e4720ae38f31880681c94920a78ecb8309307"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaProjectionFrequency.swift",
+      "sha256": "afab7b3c478337f48f58e79c4c5e1cbb9222dc9ef16f11e9e4034948f8b0a50c"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaProjectionScan.swift",
+      "sha256": "3d3d99f9b5caf543625beeb688476ac94f6a77bf3f31d4da9e633871650443fe"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/Mamba/MambaProjectionTemporal.swift",
+      "sha256": "c543321afdb63dd453e00fc3b04ad77e7a57c1b9263c236d538527c0cc4ad804"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/StreamingCompiledFrame.swift",
+      "sha256": "e62f1a02a138b63645562ea0824ce5121f928d3de7e08137f0999bdd2d7d2ded"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/StreamingReuseCheckpoint.swift",
+      "sha256": "dfbb8421ff4a4e0aa4739f5383e8fa423a4721a55193cec15e2179c0ff28f839"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/StreamingReuseInference.swift",
+      "sha256": "cd99416979b043961b4e26a8876c1295a864eaca60925789f2bc1be89db5fdf4"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/StreamingReuseLayers.swift",
+      "sha256": "9b865437794a23cd5847ce37da1cc8dccaedaa2f87d34540f7e416b79f8f13b3"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/StreamingReuseMamba.swift",
+      "sha256": "55d1852b8743921e5e6114945f0fdbee4a1801b6a382f0e079770bfaa990802e"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/StreamingReuseModel.swift",
+      "sha256": "8a1809a52840b8b3c40e94478552a7e90163a5e6fc4089ffdbe51879288d3a11"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Model/StreamingReuseScan.swift",
+      "sha256": "b5125e76ce0e629306c873ee7c865f5be1b2f1072718aa27208a961de0949ef2"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Pipeline/StreamingFrames.swift",
+      "sha256": "108844bd8ee08a972ec9c291a2926696b9c45831d98319e7b22422be9a33fdb9"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Pipeline/StreamingSession.swift",
+      "sha256": "846758ad55bccda6be294411e91fac5ef7881a6994ec7136a16e650d2dc6dba5"
+    },
+    {
+      "path": "Sources/ReuseStreaming/Pipeline/StreamingTransform.swift",
+      "sha256": "e0fe806ca594c69bfdc9bd42118d37dfa02d9c86fd82913e2790d147f5ea8fc8"
+    },
+    {
+      "path": "Sources/ReuseStreaming/StreamingEnhancer.swift",
+      "sha256": "b82e17195063f7db3790011f54bf79892a84ea5aae23bdf44149ebd557f94d8a"
+    },
+    {
+      "path": "Sources/ReuseStreaming/StreamingError.swift",
+      "sha256": "799c0480facfb7a04b3dd52650cf2a994c14d439b1327da1990b73470006154e"
+    }
+  ]
+}
