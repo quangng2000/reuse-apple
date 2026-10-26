@@ -36,7 +36,7 @@ extension StreamingReuseModel {
         for index in 0..<4 {
             let block = "\(prefix).dense_block.\(index)"
             x = causalConvolution(skip, block + ".1", dilation: 1 << index)
-            x = prelu(normalize(x, block + ".2.norm"), block + ".3")
+            x = normalizedPrelu(x, norm: block + ".2.norm", activation: block + ".3")
             if index < 3 { skip = concatenated([x, skip], axis: 3) }
         }
         return x
@@ -49,9 +49,9 @@ extension StreamingReuseModel {
         x = padded(x, widths: [0, 0, 1, 0])
         x = convolution(x, prefix + ".up_conv1.0.conv")
         x = x.reshaped(x.dim(0), x.dim(1), x.dim(2) * 2, 64)
-        x = prelu(normalize(x, prefix + ".up_conv1.1.norm"), prefix + ".up_conv1.2")
+        x = normalizedPrelu(x, norm: prefix + ".up_conv1.1.norm", activation: prefix + ".up_conv1.2")
         x = causalConvolution(x, prefix + ".up_conv2.0.conv", transposeKernel: true)
-        x = prelu(normalize(x, prefix + ".up_conv2.1.norm"), prefix + ".up_conv2.2")
+        x = normalizedPrelu(x, norm: prefix + ".up_conv2.1.norm", activation: prefix + ".up_conv2.2")
         return x
     }
 }

@@ -41,10 +41,10 @@ extension StreamingReuseModel {
         x = padded(x, widths: [0, 0, .init((0, 2)), 0])
         let initial = "dense_encoder.dense_conv_1_\(lookahead + 1)"
         x = causalConvolution(x, initial + ".0", initialPadding: 2 - lookahead)
-        x = prelu(normalize(x, initial + ".1.norm"), initial + ".2")
+        x = normalizedPrelu(x, norm: initial + ".1.norm", activation: initial + ".2")
         x = dense(x, "dense_encoder.dense_block")
         x = convolution(x, "dense_encoder.dense_conv_2.0", stride: .init((1, 2)))
-        return prelu(normalize(x, "dense_encoder.dense_conv_2.1.norm"), "dense_encoder.dense_conv_2.2")
+        return normalizedPrelu(x, norm: "dense_encoder.dense_conv_2.1.norm", activation: "dense_encoder.dense_conv_2.2")
     }
 
     func decodeFrame(_ x: MLXArray, frequencies: Int) -> (MLXArray, MLXArray) {

@@ -14,6 +14,7 @@ public final class StreamingEnhancer {
     public static let windowSamples = 640
     public let layers: Int
     public let isOptimized: Bool
+    public let optimization: StreamingOptimization
     /// Actual frame times from the latest push/finish, including GPU completion.
     public private(set) var lastFrameMilliseconds = [Double]()
     private let model: StreamingReuseModel
@@ -22,27 +23,19 @@ public final class StreamingEnhancer {
     private var transform: StreamingTransform
     private var session = StreamingSession()
 
-    /// Loads the pinned checkpoint. Optimized exit 8 uses the validated compiled
-    /// decoder-feature graph and pooled frequency branches.
-    /// Other exits trade speed for quality; optimized=false retains the baseline kernels.
-    public convenience init(modelURL: URL, layers: Int = 4, optimized: Bool = true) throws {
-        let useEightLayerPath = optimized && layers == 8
-        try self.init(modelURL: modelURL, layers: layers, optimized: optimized,
-                      compilation: useEightLayerPath ? .decoderFeatures : .disabled,
-                      pooledFrequency: useEightLayerPath)
-    }
-
     /// Explicit package configuration for benchmark and regression comparisons.
     package init(modelURL: URL, layers: Int, optimized: Bool, compilation: StreamingFrameCompilation,
-                 pooledFrequency: Bool = false) throws {
+                 pooledFrequency: Bool = false, optimization: StreamingOptimization = .standard) throws {
         guard (3...12).contains(layers) else { throw StreamingError.invalidLayers(layers) }
+        try optimization.validate(layers: layers, optimized: optimized)
         self.layers = layers
         isOptimized = optimized
+        self.optimization = optimization
         self.compilation = optimized ? compilation : .disabled
         model = try Device.withDefaultDevice(.gpu) {
             let model = try StreamingReuseModel(weightsURL: modelURL, layers: layers, lookahead: 0,
-                                                optimized: optimized)
-            model.useBatchedFrequency = pooledFrequency && optimized
+                                                optimized: optimized, optimization: optimization)
+            model.useBatchedFrequency = pooledFrequency && optimized && optimization == .standard
             return model
         }
         transform = Device.withDefaultDevice(.gpu) { StreamingTransform() }

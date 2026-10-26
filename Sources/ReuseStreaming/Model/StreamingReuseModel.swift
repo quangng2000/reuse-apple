@@ -19,7 +19,9 @@ final class StreamingReuseModel {
     var recurrentStates: [String: MLXArray] = [:]
     let frequencyScan = MambaFrequencyScan()
     let inputFilter = MambaInputFilter()
-    let projectionScan = MambaProjectionScan()
+    let projectionScan: MambaProjectionScan
+    let useSpecializedMetal: Bool
+    let normalizationFusion = StreamingNormalizationFusion()
     // Direct model calls default to separate frequency branches. StreamingEnhancer
     // selects pooling for optimized exit 8; constants survive stream resets.
     var useBatchedFrequency = false
@@ -40,12 +42,16 @@ final class StreamingReuseModel {
         }
         """)
 
-    init(weightsURL: URL, layers: Int, lookahead: Int, optimized: Bool = true) throws {
+    init(weightsURL: URL, layers: Int, lookahead: Int, optimized: Bool = true,
+         optimization: StreamingOptimization = .standard) throws {
         guard (3...12).contains(layers), (0...2).contains(lookahead) else {
             throw ModelError.invalid("Real-time RE-USE supports exits 3–12 and 0–2 lookahead frames.")
         }
+        try optimization.validate(layers: layers, optimized: optimized, lookahead: lookahead)
         self.layers = layers
         self.lookahead = lookahead
+        useSpecializedMetal = optimization == .specializedMetal
+        projectionScan = MambaProjectionScan(specialized: useSpecializedMetal)
         useParallelFrequencyScan = optimized
         useFusedMambaFilter = optimized
         useFusedMambaProjection = optimized

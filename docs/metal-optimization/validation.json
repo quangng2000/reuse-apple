@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "scope": "Historical Mac state probes and independent phone waveform audits. These are separate evidence sources, not phone state instrumentation.",
+  "quality_thresholds": {"relative_error_db_maximum": -60,"maximum_absolute_error_below": 0.0001,"absolute_stoi_delta_maximum": 0.001,"absolute_si_sdr_delta_db_maximum": 0.05},
+  "state_tolerance": "For each FP32 tensor, relative RMS < 1e-4 OR maximum absolute error < 1e-5.",
+  "waveform_tolerance": "Maximum absolute error < 1e-4 AND relative RMS <= 1e-3 (-60 dB).",
+  "si_sdr_definition": "Mean-centered clean projection; 10 log10(target energy / residual energy).",
+  "exact_reset_definition": "Each implementation replays its own full four-second waveform and sampled state hashes exactly after reset; baseline and candidate need not be bit-identical to one another.",
+  "state_probes": [
+    {"layers": 8,"platform": "Mac research validation probe","source_report_filename": "temporal-state-parity.json","source_report_sha256": "eb581432305910885807aa4b468ed830c9a98309a430b46e0c1ae556408b82ca","samples": 64000,"frames": 201,"state_tensors_per_snapshot": 31,"snapshot_frames": [0,1,50,100,150,200],"reset_replay_hash_witness_count": 372,"all_audio_finite": true,"all_state_samples_finite": true,"reset_replay_exact": true,"state_parity_passed": true,"maximum_state_absolute_error": 2.086162567138672e-05,"maximum_state_relative_rms_error": 1.6949313320137747e-06,"raw_waveform_error": {"maximum_absolute_error": 1.4901161193847656e-07,"relative_rms_error": 6.08567950743468e-07,"rms_error": 2.0312705496482155e-08}},
+    {"layers": 12,"platform": "Mac research validation probe","source_report_filename": "twelve-state-parity.json","source_report_sha256": "85e27ed4a21b82ad6a53598706f173b67e7b3b00db300ddb22a299ed5c2162cc","samples": 64000,"frames": 201,"state_tensors_per_snapshot": 39,"snapshot_frames": [0,1,50,100,150,200],"reset_replay_hash_witness_count": 468,"all_audio_finite": true,"all_state_samples_finite": true,"reset_replay_exact": true,"state_parity_passed": true,"maximum_state_absolute_error": 2.09808349609375e-05,"maximum_state_relative_rms_error": 1.6426510820063548e-06,"raw_waveform_error": {"maximum_absolute_error": 1.7881393432617188e-07,"relative_rms_error": 6.111353117698337e-07,"rms_error": 1.9833887019346445e-08}}
+  ],
+  "all_long_intermediate_states_checked": false,
+  "limits": ["The Mac probes check all state tensors at six selected frames, not every frame.","No instrumented phone-state or complete sixty-second state comparison was performed.","FP32 reduction association changes explain small numerical differences; no general perceptual equivalence is claimed.","Timing excludes loading, warmup, microphone, echo cancellation, codec, network, jitter buffer and playback."]
+}

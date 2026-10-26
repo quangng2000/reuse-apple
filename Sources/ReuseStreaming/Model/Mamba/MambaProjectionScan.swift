@@ -6,8 +6,16 @@ import MLX
 final class MambaProjectionScan {
     let temporal = MambaProjectionTemporal()
     let frequency = MambaProjectionFrequency()
+    private let parallelTemporal = MambaParallelTemporal()
+    private let preparedFrequency = MambaPreparedFrequency()
+    private let specialized: Bool
+
+    init(specialized: Bool = false) { self.specialized = specialized }
+
     func step(_ inputs: [MLXArray], state: MLXArray) -> (MLXArray, MLXArray) {
-        temporal(inputs, state: state)
+        specialized ? parallelTemporal(inputs, state: state) : temporal(inputs, state: state)
     }
-    func sequence(_ inputs: [MLXArray]) -> MLXArray { frequency(inputs) }
+    func sequence(_ inputs: [MLXArray]) -> MLXArray {
+        specialized ? preparedFrequency(inputs) : frequency(inputs)
+    }
 }

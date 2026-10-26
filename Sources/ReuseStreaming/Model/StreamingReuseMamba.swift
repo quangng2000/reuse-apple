@@ -63,11 +63,11 @@ extension StreamingReuseModel {
     private func temporalBlock(_ input: MLXArray, _ prefix: String) -> MLXArray {
         let temporal = mamba(input, prefix + ".forward_blocks", streaming: true) + input
         let projected = linear(temporal, prefix + ".output_proj")
-        return normalize(projected, prefix + ".norm") + input
+        return normalizedResidual(projected, norm: prefix + ".norm", residual: input)
     }
 
     private func frequencyBlock(_ input: MLXArray, _ prefix: String) -> MLXArray {
-        if useBatchedFrequency && useFusedMambaFilter && useFusedMambaProjection {
+        if useBatchedFrequency && useFusedMambaFilter && useFusedMambaProjection && !useSpecializedMetal {
             let operation: MambaBidirectionalFrequency
             if let cached = bidirectionalFrequency[prefix] {
                 operation = cached
@@ -77,12 +77,12 @@ extension StreamingReuseModel {
             }
             let (forward, backward) = operation(input, reversedIndices: frequencyScan.reversedIndices(input.dim(1)))
             let output = linear(concatenated([forward, backward], axis: 2), prefix + ".output_proj")
-            return normalize(output, prefix + ".norm") + input
+            return normalizedResidual(output, norm: prefix + ".norm", residual: input)
         }
         let forward = mamba(input, prefix + ".forward_blocks", streaming: false) + input
         let reversed = reverseSequence(input)
         let backward = reverseSequence(mamba(reversed, prefix + ".backward_blocks", streaming: false) + reversed)
         let output = linear(concatenated([forward, backward], axis: 2), prefix + ".output_proj")
-        return normalize(output, prefix + ".norm") + input
+        return normalizedResidual(output, norm: prefix + ".norm", residual: input)
     }
 }

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "recorded_at_utc": "2026-10-26T16:44:02.936190+00:00",
+  "base_commit": "c3dbe9e6cf1a8ed054e7a7f65d08a5dccd35306f",
+  "scope": "Local validation of the opt-in Swift Package port; separate from the historical research-app iPhone measurements.",
+  "host": {
+    "chip": "Apple M4 Pro",
+    "os": "macOS 15.7.3 (24G419)",
+    "architecture": "arm64",
+    "xcode": "16.4 (16F6)",
+    "mlx_swift": "0.29.1"
+  },
+  "checkpoint_sha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "macos_release_tests": {
+    "command": "TEST_RUNNER_REUSE_STREAMING_CHECKPOINT=/path/to/verified/realtime-reuse.safetensors xcodebuild test -scheme ReuseApple-Package -configuration Release -destination \"platform=macOS,arch=arm64\" -derivedDataPath BuildPackage -clonedSourcePackagesDirPath SourcePackages ENABLE_TESTABILITY=YES CODE_SIGNING_ALLOWED=NO -resultBundlePath Validation/metal-port/package-tests-v2.xcresult",
+    "command_note": "The checkpoint path is sanitized; the run used the verified local checkpoint with the SHA256 above.",
+    "result": "TEST SUCCEEDED",
+    "total_test_count": 40,
+    "passed_tests": 37,
+    "skipped_tests": 3,
+    "failed_tests": 0,
+    "streaming_test_count": 37,
+    "streaming_passed": 34,
+    "offline_audio_passed": 3,
+    "checkpoint_backed_tests_skipped": 0,
+    "optional_benchmark_skips": [
+      "MambaBidirectionalFrequencyTests.testOptionalBatchedFrequencyTimeFrequencyMicrobenchmark",
+      "MambaFrequencyGeometryTests.testOptionalFrequencyGeometryMicrobenchmark",
+      "StreamingCompiledBenchmarkTests.testMacWholeStreamABBA"
+    ],
+    "new_passed_tests": [
+      "MambaParallelTemporalTests.testEveryStateComponentMatchesSerialUpdatesAcrossStepsAndBatches",
+      "MambaPreparedFrequencyTests.testPreparedFrequencyPreservesExistingScanBitsAcrossLengthsAndBatches",
+      "StreamingNormalizationFusionTests.testFusedEpiloguesPreserveConstantAndStridedRows",
+      "StreamingMetalConfigurationTests.testUnsupportedSpecializedConfigurationsFailBeforeCheckpointAccess",
+      "StreamingMetalConfigurationTests.testSpecializedConfigurationSupportsOnlyValidatedDepthsAndZeroLookahead",
+      "StreamingMetalModelTests.testEightLayerCompiledAudioAndEveryStateMatchAcrossReset",
+      "StreamingMetalModelTests.testTwelveLayerCompiledAudioAndEveryStateMatchAcrossReset",
+      "StreamingMetalEnhancerTests.testPublicOptInPreservesSamplesChunkingWarmupAndResetAtBothDepths"
+    ],
+    "state_scope": "At each depth, four synthetic frames replayed twice across reset; every convolution and recurrent state tensor compared against the standard model on every frame. All recurrent state remains FP32. Candidate waveform reset replay is bit-exact.",
+    "numeric_tolerance": "Per tensor/audio comparison: relative RMS error < 1e-4 OR maximum absolute error < 1e-5. Prepared-frequency kernel comparison and candidate waveform reset replay additionally require exact float bits.",
+    "default_regression_scope": "Existing frozen-reference, compiled, pooled, legacy fallback, framing and reset tests passed without changing their assertions.",
+    "log_sha256": "b00bf17b81db35dfb32bb3ffe2d6c7a8633390d636528d7fd13262b75e77af53",
+    "local_result_bundle": "Validation/metal-port/package-tests-v2.xcresult"
+  },
+  "ios_release_build": {
+    "command": "xcodebuild build -scheme ReuseApple-Package -configuration Release -destination \"generic/platform=iOS\" -derivedDataPath BuildIOS -clonedSourcePackagesDirPath SourcePackages -disableAutomaticPackageResolution CODE_SIGNING_ALLOWED=NO -resultBundlePath Validation/metal-port/package-ios-build.xcresult",
+    "result": "BUILD SUCCEEDED",
+    "signed": false,
+    "installed_on_device": false,
+    "device_inference_run": false,
+    "log_sha256": "0d29cdd561aee4c2803ac378ff22c5c29941985b8797a091e0bdfa074a2cbee5",
+    "local_result_bundle": "Validation/metal-port/package-ios-build.xcresult"
+  },
+  "source_fingerprints": {
+    "algorithm": "SHA256 of sorted newline-terminated \"relative/path sha256(file)\" records for all Swift files under the stated folder.",
+    "Sources/ReuseStreaming": "07c4f5422467b124ba6e9d240c5e108f8013c1b4cb506c1464605f4925545cc7",
+    "Tests/ReuseStreamingTests": "a3b549a0f8c7876a14f883cdc1850760f0779268c0ae4a54bb58015946308eb8"
+  },
+  "selected_kernel_provenance": [
+    {
+      "file": "Sources/ReuseStreaming/Model/Metal/MambaPreparedFrequency.swift",
+      "metal_body_sha256": "9bda8f426d2b98d0481d561324b5febd0bd7e680f80002a465d44499b1eff3fd",
+      "matches_measured_research_kernel_body": true
+    },
+    {
+      "file": "Sources/ReuseStreaming/Model/Metal/MambaParallelTemporal.swift",
+      "metal_body_sha256": "dce8d915736ef0ca33dbfb2202bae0b42f080c7d32de25f72335a39347130cec",
+      "matches_measured_research_kernel_body": true
+    },
+    {
+      "file": "Sources/ReuseStreaming/Model/Fusion/StreamingNormalizationSource.swift",
+      "metal_body_sha256": "9f986256bb24a0f50d4f5be52dbe98e5abaea0e11d152a2b931737336f05ae03",
+      "matches_measured_research_kernel_body": true
+    }
+  ],
+  "limitations": [
+    "No physical-iPhone timing or inference was run for this package port.",
+    "The package retains its decoder-feature compilation boundary; historical research-app timing does not establish this port's latency.",
+    "Synthetic integration tests and numerical equivalence checks do not establish general speech quality or indefinite stream stability.",
+    "Only optional timing benchmarks were skipped; checkpoint-backed correctness tests ran."
+  ]
+}

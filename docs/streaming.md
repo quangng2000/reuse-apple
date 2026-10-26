@@ -34,8 +34,15 @@ enhancer.reset()
 
 The default uses optimized FP32 Metal kernels with the original MLX transforms.
 `optimized: false` selects the baseline network implementation for comparison.
-Depths 3–12 are supported, but the sub-20 ms phone result applies specifically
-to four layers. Increasing depth changes cost and quality.
+Depths 3–12 are supported. Increasing depth changes cost and quality.
+
+For eight or twelve layers, select `optimization: .specializedMetal` to use
+prepared frequency values, fused normalization and parallel temporal recurrence.
+This retains FP32 and zero lookahead, with small floating-point rounding changes.
+It requires `optimized: true`; other depths reject this option. The default
+`.standard` preserves the existing configuration, including pooled frequency
+processing and compilation at eight layers. See the
+[specialized kernel guide](metal-optimization/README.md) for benchmark scope.
 
 ## Examples
 

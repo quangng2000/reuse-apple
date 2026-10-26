@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "scope": "Static curation audit of the five evidence files listed below only; no new build, phone run or inference. The full technical report, chart, README and package validation are separate.",
+  "source_artifact_hashes_reconciled": 22,
+  "checks": {
+    "all_json_parses": true,
+    "metrics_match_historical_audits_exactly": true,
+    "source_reports_match_saved_hashes": true,
+    "eight_and_twelve_state_depths_match": true,
+    "long_pairs_marked_uncontrolled": true,
+    "package_port_has_no_phone_measurement_claim": true,
+    "no_private_absolute_paths_or_device_identifiers_found": true,
+    "only_markdown_and_json_included": true,
+    "each_file_under_100_lines": true
+  },
+  "files": [
+    {
+      "file": "measurements.json",
+      "bytes": 15302,
+      "lines": 20,
+      "sha256": "db926ea106b3fd2c1b1d1eeae27b0be0e38c0405493c6241a337656ae39f5b75"
+    },
+    {
+      "file": "provenance.json",
+      "bytes": 6354,
+      "lines": 30,
+      "sha256": "31230379ef6c17bf5c04aea60fe045447a2fc1b5763cec09114295d0ad31498b"
+    },
+    {
+      "file": "sustained.json",
+      "bytes": 8944,
+      "lines": 13,
+      "sha256": "a5ff4e71a74458b18e412082fa1d7773ae72b50f7bcd0def6f6356e1189baf56"
+    },
+    {
+      "file": "technical-notes.md",
+      "bytes": 5856,
+      "lines": 98,
+      "sha256": "5f9341ac91f7ba1e1d388f3d0be9b806ccfc573c7cabc60653b2f441b11feb29"
+    },
+    {
+      "file": "validation.json",
+      "bytes": 2797,
+      "lines": 15,
+      "sha256": "f97f64fe6f9397d6e09869c39bfcccbed165c89fab4d2566b0b84e93bdbb2cd3"
+    }
+  ]
+}

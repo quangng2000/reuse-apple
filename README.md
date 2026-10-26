@@ -47,11 +47,24 @@ and [the streaming iPhone example](Examples/StreamingApp/README.md).
 
 ## Measured performance
 
-The optimized four-layer prototype processed 60 seconds of repeated audio on an
-**iPhone 13 Pro Max** at **18.28 ms/frame average**, **19.03 ms p95**. About 1%
-of frames exceeded the 20 ms processing budget. Waveform checks preserved the
-original output to FP32 rounding differences. This measures processing, not
-complete call latency. See [benchmark scope and evidence](docs/streaming-validation.md).
+Specialized FP32 Metal kernels reduced matched short-test processing on an
+**iPhone 13 Pro Max** from **27.65 to 13.01 ms/frame at eight layers**, and from
+**39.96 to 17.20 ms at twelve layers**. Reverse-order tests confirmed the gain;
+paired STOI changed by less than 4e-9 on the diagnostic recording.
+
+These are measurements of the research prototype. The public package exposes
+the kernels as an opt-in path for eight and twelve layers:
+
+```swift
+let enhancer = try StreamingEnhancer(
+    modelURL: checkpointURL, layers: 12, optimization: .specializedMetal)
+```
+
+The twelve-layer one-minute replay averaged **16.98 ms**, with **17.27 ms p95**;
+7 of 3,001 frames exceeded 20 ms. This measures processing, not complete call
+latency. See [implementation and evidence](docs/metal-optimization/README.md),
+the [detailed technical report](docs/metal-optimization/REPORT.md),
+and the [earlier four-layer benchmark](docs/streaming-validation.md).
 
 ## Licenses and attribution
 
