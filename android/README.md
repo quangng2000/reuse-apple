@@ -50,7 +50,7 @@ One enhancer serializes its jobs. Cancellation is permanent per token, is checke
 
 Models are not embedded in Git or the AAR. Applications provision a pinned ONNX artifact themselves. Bundle the **trusted manifest** with the application; do not accept an untrusted downloaded sidecar as the source of the expected hash. `ModelManifest.fromJson`/`read(File)` enforce the 30-layer source contract, and session construction verifies ONNX size and SHA-256 before loading.
 
-The source checkpoint is `06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1`, architecture revision `31f82f2efad1095034492f236e8dac9239ba713b`. Export tooling and its independently implemented PyTorch CPU oracle live in [export](export/). Only FP32 CPU inference is registered: no NNAPI, FP16, quantization, model truncation, or streaming approximation is enabled.
+The source checkpoint is `06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1`, architecture revision `31f82f2efad1095034492f236e8dac9239ba713b`. Shared metadata, licenses and local checkpoints live in [models](../models/). Export tooling and its independently implemented PyTorch CPU oracle live in [tools/model-export](../tools/model-export/). Only FP32 CPU inference is registered: no NNAPI, FP16, quantization, model truncation, or streaming approximation is enabled.
 
 The graph consumes `magnitude`/`phase` and returns `enhanced_magnitude`/`enhanced_phase`, all `[1,321,frames]` Float32 with dynamic final-window lengths. The DSP uses periodic Hann, FFT 640/hop 80, centered reflect padding, log1p magnitude, the original sweep suppression, inverse overlap/add, and the same 64k/8k crossfade starts/weights. PocketFFT's pinned Float32 implementation and exact reference Hann coefficients preserve phase branches at the first reflected frame; their source hashes are recorded beside the C++/Kotlin source. JNI and host tests compile with `-O2 -fno-fast-math -ffp-contract=on`: ordinary FP32 fused operations match the reference, with no fast-math reassociation or reduced precision. Final short windows retain their actual padded length; padding every window to 64k would change instance normalization and bidirectional context.
 
@@ -65,13 +65,17 @@ From `android/`, with `JAVA_HOME` pointing to JDK 21 and `ANDROID_HOME` to the A
 DSP/file tests cover independent FFT/STFT comparisons, sweep suppression, boundary lengths and clips beyond 60 seconds, bounded reads, whole-file gain, stereo conversion, cancellation, integrity failures, and destination preservation. Real model tests are explicitly skipped unless the generated oracle assets are supplied:
 
 ```sh
-REUSE_PARITY_DIR="$PWD/export/generated/parity" \
-REUSE_MODEL_FILE="$PWD/export/generated/reuse-30-fp32.onnx" \
-REUSE_MODEL_MANIFEST="$PWD/export/generated/reuse-30-fp32.manifest.json" \
+REUSE_PARITY_DIR="$PWD/../tools/model-export/generated/parity" \
+REUSE_MODEL_FILE="$PWD/../tools/model-export/generated/reuse-30-fp32.onnx" \
+REUSE_MODEL_MANIFEST="$PWD/../tools/model-export/generated/reuse-30-fp32.manifest.json" \
 ./gradlew :reuse-audio:testDebugUnitTest --max-workers=2
 ```
 
 For Android instrumentation, stage the same generated ONNX/manifest and `640-*.f32` oracle files in `reuse-audio/build/generated/parity-assets/` before running `:reuse-audio:connectedDebugAndroidTest`. The generated assets remain ignored. Instrumentation checks actual Android CPU/JNI inference, PCM restoration, native AAC decode/resampling, and cancellation. An emulator provides functional evidence; physical-device latency, thermals, and battery behavior require a real phone.
+
+`validation.json` describes the recorded validation build. Its artifact/source
+hashes and evidence paths retain their historical identity; current reproduction
+commands use the layout above.
 
 ## Attribution
 

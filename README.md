@@ -19,6 +19,21 @@ The Swift products, module names and existing public APIs remain unchanged.
 additive [single-window API](docs/apple-bounded-window.md) lets apps keep bounded
 file transport without copying the neural engine into application sources.
 
+## Repository layout
+
+- [`apple/Sources/ReuseAudio`](apple/Sources/ReuseAudio) — Apple offline SDK.
+- [`apple/Sources/ReuseStreaming`](apple/Sources/ReuseStreaming) — Apple streaming research SDK.
+- [`apple/Tests`](apple/Tests), [`apple/Examples`](apple/Examples),
+  [`apple/Benchmarks`](apple/Benchmarks) — Apple tests and runnable projects.
+- [`android/reuse-audio`](android/reuse-audio) — Android SDK, JNI DSP and tests.
+- [`models`](models) — shared model provenance and licenses; downloaded weights stay out of Git.
+- [`tools/model-export`](tools/model-export) — shared checkpoint fetching, ONNX export and validation.
+- [`apple/scripts`](apple/scripts) — Apple build, setup and smoke-test commands.
+
+The root `Package.swift` remains the Swift Package entry point. Android uses
+`android/settings.gradle.kts`. Runtime code is separated by platform; model
+identity and validation tooling are shared.
+
 ## Add the Apple package
 
 In Xcode, add `https://github.com/quangng2000/reuse-audio` as a package dependency
@@ -26,33 +41,31 @@ and select the library product you need. Requirements: Apple silicon,
 macOS 14+ or iOS/iPadOS 17+, and Xcode 16.4+.
 
 ```swift
-import ReuseStreaming
+import ReuseAudio
 
-let enhancer = try StreamingEnhancer(modelURL: checkpointURL)
-try enhancer.warmUp() // Optional: prepare GPU kernels before capture.
-let restored = try enhancer.push(mono16kSamples)
-let finalSamples = try enhancer.finish()
+let enhancer = try ReuseEngine(modelURL: checkpointURL)
+let restored = try enhancer.enhance(mono16kSamples)
 ```
 
-Call a stream serially from a background worker. It preserves state across
-chunks and emits audio when enough samples arrive. Download model weights
-separately. See [Swift Package integration](docs/package.md) and
-[streaming API and examples](docs/streaming.md).
+Call the offline engine on a serial background worker. Download the pinned
+checkpoint separately; inference remains on the device. See
+[Swift Package integration](docs/package.md). The separate Apple streaming
+research API and its license are documented in [streaming](docs/streaming.md).
 
 ## Try the tools
 
 ```sh
 git clone https://github.com/quangng2000/reuse-audio.git
 cd reuse-audio
-python3 Scripts/prepare_streaming_model.py
-bash Scripts/run_streaming.sh --input noisy.wav --output enhanced.wav
+python3 apple/scripts/prepare_streaming_model.py
+bash apple/scripts/run_streaming.sh --input noisy.wav --output enhanced.wav
 ```
 
 For the offline model, use
-`bash Scripts/run_mac.sh --input noisy.wav --output enhanced.wav`.
+`bash apple/scripts/run_mac.sh --input noisy.wav --output enhanced.wav`.
 The tools protect existing outputs unless `--force` is specified. Their builds
 use Xcode so MLX's Metal shaders are compiled. See [development](docs/development.md)
-and [the streaming iPhone example](Examples/StreamingApp/README.md).
+and [the streaming iPhone example](apple/Examples/StreamingApp/README.md).
 
 ## Measured performance
 
@@ -83,10 +96,10 @@ the original offline implementation remains the default. See the
 ## Licenses and attribution
 
 The products have **different licenses**. [OpenMDW-1.1](LICENSE) covers the
-offline component. [NVIDIA NSCLv1](Research/LICENSE.txt) covers the streaming
+offline component. [NVIDIA NSCLv1](apple/Research/LICENSE.txt) covers the streaming
 model and derivative port; it cannot be included in a paid app under that license.
 See [NOTICE](NOTICE) for the boundary and required attribution.
 
-This independent Apple port uses MLX/Metal; it is not PyTorch's MPS backend or
-an NVIDIA/Apple product. Model weights and personal recordings are excluded
+These independent implementations use MLX/Metal on Apple and ONNX Runtime on
+Android; they are not NVIDIA or Apple products. Model weights and personal recordings are excluded
 from Git. If used in research, please [cite the port and original papers](docs/citation.md).

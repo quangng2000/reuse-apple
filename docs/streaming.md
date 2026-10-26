@@ -4,7 +4,7 @@
 the offline 30-layer model with layers removed. The pinned multi-exit checkpoint
 has 13,475,815 parameters; the default four-layer, zero-lookahead path uses
 2,032,067. The full checkpoint is downloaded separately and verified by hash.
-This component uses the [NVIDIA noncommercial research license](../Research/LICENSE.txt).
+This component uses the [NVIDIA noncommercial research license](../apple/Research/LICENSE.txt).
 
 ## Incremental inference
 
@@ -46,15 +46,15 @@ processing and compilation at eight layers. See the
 
 ## Examples
 
-The [Mac tool](../Examples/StreamingCLI) reads a recording and feeds it to the
-streaming API. The [iPhone example](../Examples/StreamingApp) records your voice,
+The [Mac tool](../apple/Examples/StreamingCLI) reads a recording and feeds it to the
+streaming API. The [iPhone example](../apple/Examples/StreamingApp) records your voice,
 enhances arriving audio, and saves original/restored recordings after stopping.
 Use your own development team and unique bundle identifier when signing.
 No account, private recording or paid-app purchase configuration is required.
 
 ```sh
-python3 Scripts/prepare_streaming_model.py
-bash Scripts/run_streaming.sh --input noisy.wav --output restored.wav
+python3 apple/scripts/prepare_streaming_model.py
+bash apple/scripts/run_streaming.sh --input noisy.wav --output restored.wav
 ```
 
 Use `--benchmark` for processing measurements on the Mac. Specify `--model PATH`

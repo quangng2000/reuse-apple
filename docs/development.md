@@ -8,25 +8,25 @@ because plain SwiftPM command-line builds do not compile MLX's Metal shaders.
 For the streaming tool and iPhone example:
 
 ```sh
-python3 Scripts/prepare_streaming_model.py
-bash Scripts/run_streaming.sh --help
+python3 apple/scripts/prepare_streaming_model.py
+bash apple/scripts/run_streaming.sh --help
 ```
 
-The iPhone research example has its own [setup instructions](../Examples/StreamingApp/README.md).
+The iPhone research example has its own [setup instructions](../apple/Examples/StreamingApp/README.md).
 Use a physical Apple device for GPU measurements, Release configuration, and
 report loading/warmup separately from frame processing.
 
 ## Original offline tool and app
 
-The offline example's generated Xcode project is in `Examples/OfflineApp/`;
+The offline example's generated Xcode project is in `apple/Examples/OfflineApp/`;
 XcodeGen is only needed when changing its definition. Swift package revisions
 are locked in `Package.resolved`. The repository root is the standalone package.
 
 ```sh
-python3 Scripts/prepare_model.py
-bash Scripts/run_mac.sh --help
-python3 Scripts/smoke_test.py
-python3 Scripts/boundary_smoke.py
+python3 tools/model-export/prepare_model.py
+bash apple/scripts/run_mac.sh --help
+python3 apple/scripts/smoke_test.py
+python3 apple/scripts/boundary_smoke.py
 ```
 
 The smoke test creates a synthetic chirp, runs one actual GPU inference, and
@@ -40,7 +40,7 @@ and a 4.1-second recording spanning two inference windows.
 For an unsigned iPhone/iPad device build:
 
 ```sh
-xcodebuild build -project Examples/OfflineApp/ReusePocket.xcodeproj -scheme ReusePocket \
+xcodebuild build -project apple/Examples/OfflineApp/ReusePocket.xcodeproj -scheme ReusePocket \
   -configuration Release -destination 'generic/platform=iOS' \
   -derivedDataPath BuildIOS -clonedSourcePackagesDirPath SourcePackages \
   CODE_SIGNING_ALLOWED=NO
@@ -53,7 +53,7 @@ included in this repository.
 After adding or moving Swift sources, regenerate the project:
 
 ```sh
-xcodegen generate --spec Examples/OfflineApp/project.yml
+xcodegen generate --spec apple/Examples/OfflineApp/project.yml
 ```
 
 The first dependency build can take several minutes. Build outputs, model
@@ -74,12 +74,12 @@ making device-speed claims.
 ## Standalone package checks (2026-10-25)
 
 ```sh
-TEST_RUNNER_REUSE_STREAMING_CHECKPOINT="$PWD/Resources/realtime-reuse.safetensors" \
+TEST_RUNNER_REUSE_STREAMING_CHECKPOINT="$PWD/models/realtime-reuse.safetensors" \
 xcodebuild test -scheme ReuseApple-Package -configuration Release \
   -destination 'platform=macOS,arch=arm64' -derivedDataPath BuildPackage \
   -clonedSourcePackagesDirPath SourcePackages ENABLE_TESTABILITY=YES CODE_SIGNING_ALLOWED=NO
-bash Examples/StreamingApp/Checks/run_conversion_check.sh
-bash Examples/Checks/run_report_check.sh
+bash apple/Examples/StreamingApp/Checks/run_conversion_check.sh
+bash apple/Examples/Checks/run_report_check.sh
 ```
 
 - All **16 package tests passed**, including checkpoint-backed GPU parity/reset

@@ -1,19 +1,19 @@
-RE-USE Apple contains separately licensed model components.
+RE-USE Audio contains separately licensed model components.
 Apple port and application packaging: Copyright (c) 2026 quangng2000.
 
-ReuseAudio (Core/, the original offline CLI and app)
+ReuseAudio (apple/Sources/ReuseAudio/, android/reuse-audio/, offline tools and examples)
 -------------------------------------------------
 The offline NVIDIA NemotronLabs RE-USE model and derived port use OpenMDW-1.1.
 Architecture revision: 31f82f2efad1095034492f236e8dac9239ba713b.
 Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-See LICENSE, Resources/MODEL-LICENSE.txt and Resources/THIRD-PARTY-NOTICES.txt.
+See LICENSE, models/MODEL-LICENSE.txt and models/THIRD-PARTY-NOTICES.txt.
 The root LICENSE does not replace the separate streaming license below.
 
-ReuseStreaming (Sources/ReuseStreaming/, streaming examples and research assets)
+ReuseStreaming (apple/Sources/ReuseStreaming/, streaming examples and research assets)
 -------------------------------------------------------------------------------
 The Real-time RE-USE architecture, checkpoint and derivative Swift/Metal port
 are subject to the NVIDIA One-Way Noncommercial License v1 (NSCLv1), included
-in Research/LICENSE.txt. These materials are for noncommercial research and
+in apple/Research/LICENSE.txt. These materials are for noncommercial research and
 education only. They are not included in the ReuseAudio library product.
 Retain that license and all applicable NVIDIA attribution when redistributing.
 
@@ -32,7 +32,7 @@ license agreement from NVIDIA CORPORATION is strictly prohibited.
 The Apple adaptation replaces PyTorch/CUDA execution with Swift, MLX and Metal,
 implements incremental audio framing/state, and adds parallel/fused GPU kernels.
 It does not change the pinned model weights. Modified files retain their
-applicable notices. Hashes and source identities: Research/ModelProvenance.json.
+applicable notices. Hashes and source identities: apple/Research/ModelProvenance.json.
 
 MLX and its dependencies retain their own licenses. This project is independent
 of NVIDIA and Apple and does not imply their endorsement. See docs/citation.md

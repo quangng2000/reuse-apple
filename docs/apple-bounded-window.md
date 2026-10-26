@@ -38,7 +38,7 @@ The original input file's bytes were preserved. Engine and test builds emitted
 no diagnostics. These checks do not establish audio quality or device throughput.
 
 The public contract tests are in
-[`OfflinePublicWindowTests.swift`](../Tests/ReuseAudioTests/OfflinePublicWindowTests.swift).
+[`OfflinePublicWindowTests.swift`](../apple/Tests/ReuseAudioTests/OfflinePublicWindowTests.swift).
 The app repository retains the separate vendored-reference integration runner at
 `iosApp/Tests/SDKIntegration/run.py`, with setup instructions alongside it. The
 summary records the executed command and source hashes; the runner saves exact

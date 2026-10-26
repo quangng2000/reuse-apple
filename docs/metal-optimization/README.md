@@ -64,4 +64,4 @@ iOS Release build also passed. See [package validation](package-validation.json)
 for commands, source fingerprints, test scope and the distinction from phone timing.
 
 The streaming model and derivative port remain **noncommercial research and
-education only** under [NVIDIA NSCLv1](../../Research/LICENSE.txt).
+education only** under [NVIDIA NSCLv1](../../apple/Research/LICENSE.txt).

@@ -1,0 +1,33 @@
+{
+  "base_revision": "045555e7d5d32b6cfe72d99945305e32539fde4f",
+  "scope": "Directory organization and path/documentation updates only; public products/APIs and model math preserved.",
+  "layout": {
+    "apple_runtime": "apple/Sources",
+    "apple_tests": "apple/Tests",
+    "apple_examples": "apple/Examples",
+    "android_runtime": "android/reuse-audio",
+    "model_metadata": "models",
+    "model_tooling": "tools/model-export",
+    "swift_entrypoint": "Package.swift"
+  },
+  "relocated_files": 200,
+  "relocated_byte_identical": 172,
+  "checks": {
+    "swift_target_paths": 7,
+    "apple_real_checkpoint_regression_tests": 6,
+    "apple_regression_bitwise_equal": true,
+    "apple_release_cli_build": true,
+    "apple_gpu_smoke_64000_finite_samples": true,
+    "android_host_tests": 17,
+    "android_host_skipped": 0,
+    "android_release_build": true,
+    "exporter_tests": 4,
+    "same_default_onnx_export_hash": true,
+    "three_example_projects_regenerated_and_linted": true,
+    "local_document_links_valid": true
+  },
+  "checkpoint_sha256": "06badaf4029b297f97f7fe48d62990b48d5482608210df577354e0d4e0ed70e1",
+  "onnx_sha256": "90485d1081cac00736684f9fe6e16d229fcb8bf41a10a54b01f06f3cbe12ed91",
+  "historical_evidence": "Earlier benchmark/reference receipts retain their original source paths and hashes; source-history records were not rewritten.",
+  "performance_scope": "No new phone performance claim or model optimization."
+}

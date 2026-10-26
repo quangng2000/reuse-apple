@@ -17,24 +17,25 @@ let package = Package(
         .target(name: "ReuseAudio", dependencies: [
             .product(name: "MLX", package: "mlx-swift"),
             .product(name: "MLXFFT", package: "mlx-swift")
-        ], path: "Core"),
+        ], path: "apple/Sources/ReuseAudio"),
         .target(name: "ReuseStreaming", dependencies: [
             "ReuseAudio", .product(name: "MLX", package: "mlx-swift"),
             .product(name: "MLXFFT", package: "mlx-swift")
-        ], path: "Sources/ReuseStreaming", exclude: ["LICENSE"]),
+        ], path: "apple/Sources/ReuseStreaming", exclude: ["LICENSE"]),
         // Frozen current implementation for regression tests and device A/B runs.
         // Kept out of the public products and never used by the shipping library.
         .target(name: "ReuseStreamingReference", dependencies: [
             "ReuseAudio", .product(name: "MLX", package: "mlx-swift"),
             .product(name: "MLXFFT", package: "mlx-swift")
-        ], path: "Benchmarks/Reference/Sources/ReuseStreaming", exclude: ["LICENSE"]),
+        ], path: "apple/Benchmarks/Reference/Sources/ReuseStreaming", exclude: ["LICENSE"]),
         .executableTarget(name: "ReuseProbe", dependencies: [
             "ReuseAudio", .product(name: "MLX", package: "mlx-swift")
-        ], path: "Probe"),
+        ], path: "apple/Tools/ReuseProbe"),
         .executableTarget(name: "ReuseStreamingCLI", dependencies: ["ReuseAudio", "ReuseStreaming"],
-                          path: "Examples/StreamingCLI"),
-        .testTarget(name: "ReuseAudioTests", dependencies: ["ReuseAudio"]),
-        .testTarget(name: "ReuseStreamingTests", dependencies: ["ReuseStreaming", "ReuseStreamingReference"])
+                          path: "apple/Examples/StreamingCLI"),
+        .testTarget(name: "ReuseAudioTests", dependencies: ["ReuseAudio"], path: "apple/Tests/ReuseAudioTests"),
+        .testTarget(name: "ReuseStreamingTests", dependencies: ["ReuseStreaming", "ReuseStreamingReference"],
+                    path: "apple/Tests/ReuseStreamingTests")
     ],
     cxxLanguageStandard: .cxx17
 )

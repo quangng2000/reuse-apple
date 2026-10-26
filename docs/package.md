@@ -11,7 +11,7 @@ Add this dependency to an Apple-platform package:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/quangng2000/reuse-audio", from: "0.3.0")
+    .package(url: "https://github.com/quangng2000/reuse-audio", from: "0.3.1")
 ],
 targets: [
     .target(name: "YourApp", dependencies: [
@@ -57,12 +57,12 @@ This experimental API is not part of the existing `v0.2.0` tag.
 The package does not automatically download or bundle model weights:
 
 ```sh
-python3 Scripts/prepare_model.py
-python3 Scripts/prepare_streaming_model.py
+python3 tools/model-export/prepare_model.py
+python3 apple/scripts/prepare_streaming_model.py
 ```
 
-The offline model is saved to `Resources/model.safetensors`; the streaming
-model to `Resources/realtime-reuse.safetensors`. Each loader checks a pinned
+The offline model is saved to `models/model.safetensors`; the streaming
+model to `models/realtime-reuse.safetensors`. Each loader checks a pinned
 SHA-256 before inference. The streaming setup accepts `--output FILE` and saves
 its license alongside that file. Pass the selected checkpoint's URL to the API.
 
@@ -70,5 +70,5 @@ For an app, bundle the correct model and license as app resources or implement
 your own explicit download/storage flow. Keep the two checkpoints distinct.
 See [streaming lifecycle](streaming.md) and [build checks](development.md).
 
-The original offline iPhone app is in `Examples/OfflineApp/ReusePocket.xcodeproj`.
+The original offline iPhone app is in `apple/Examples/OfflineApp/ReusePocket.xcodeproj`.
 Both example apps use the root package as a local dependency.

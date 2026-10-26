@@ -5,8 +5,8 @@ BuildIOS/
 *.xcuserstate
 xcuserdata/
 Validation/
-Resources/model.safetensors
-Resources/REALTIME-LICENSE.txt
+models/model.safetensors
+models/REALTIME-LICENSE.txt
 *.download
 *.wav
 *.safetensors
@@ -14,8 +14,8 @@ __pycache__/
 .DS_Store
 .build/
 .swiftpm/
-Examples/StreamingApp/Build/
-Examples/StreamingApp/Logs/
+apple/Examples/StreamingApp/Build/
+apple/Examples/StreamingApp/Logs/
 BuildStreaming/
 BuildPackage/
 BuildConsumer/
@@ -25,17 +25,19 @@ BuildConsumer/
 *.pth
 *.ckpt
 *.profraw
-Benchmarks/Fixtures/*.f32
-Benchmarks/StreamingEight/BenchAssets/*.f32
-Benchmarks/StreamingEight/BenchAssets/REALTIME-LICENSE.txt
-Benchmarks/StreamingEight/Results/
+apple/Benchmarks/Fixtures/*.f32
+apple/Benchmarks/StreamingEight/BenchAssets/*.f32
+apple/Benchmarks/StreamingEight/BenchAssets/REALTIME-LICENSE.txt
+apple/Benchmarks/StreamingEight/Results/
 
 # Android toolchain/build products and generated model exports.
 .gradle/
 **/build/
 **/.cxx/
 **/local.properties
-android/export/generated/
+tools/model-export/generated/
 *.onnx
 *.aar
 *.apk
+
+apple/Benchmarks/Profiling/Generated/

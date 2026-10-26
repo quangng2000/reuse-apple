@@ -1,0 +1,457 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C1873BA7798BD4898F2CACA /* ReuseStreaming in Frameworks */ = {isa = PBXBuildFile; productRef = 5A2FC3FDCFDAFABEA15E23EC /* ReuseStreaming */; };
+		1B61767827148FA718740789 /* RecordingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9705B5ACA339953FA835E2 /* RecordingProcessor.swift */; };
+		1BB55539A740EB6862AE3537 /* RecordingReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD5F1BB0B85C2720AA62FC3 /* RecordingReport.swift */; };
+		2961C925F7E09663AA50E36B /* RecordingProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A80A38C5BF8799CAD020B2 /* RecordingProgress.swift */; };
+		39F8CAFBEE69E6B76341A4A1 /* RecordingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F90AFA2D68616DFC5374594 /* RecordingWorker.swift */; };
+		3F21BB775FFE5C03F2CA0D7F /* RecordingPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EBD248614B465BD21C7A /* RecordingPlayback.swift */; };
+		4E4D73BF54D6AC3F72B1099F /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54390F97EC81C4A146B898A1 /* RecordingView.swift */; };
+		66E0F09B90CF7AB732754A16 /* MicrophoneConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0C64CFC03510D530477A4D /* MicrophoneConversion.swift */; };
+		7B6E14708A3DF70BD057CC48 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = A4455AE45F0D0902159DC843 /* LICENSE.txt */; };
+		7D5DADDA6813CA9CD52E85D8 /* RecordingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E593A18C7F463371DA93A2D /* RecordingSession.swift */; };
+		92CF725DAD9920BC91E7BCA9 /* RecordingSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80413738DB2430911C29015 /* RecordingSetup.swift */; };
+		A355A159C68CF872222BF930 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 069622F015BE9B84F556FA00 /* LICENSE */; };
+		BCA77CCA9B853CDBEEBC74A6 /* THIRD-PARTY-NOTICES.txt in Resources */ = {isa = PBXBuildFile; fileRef = EBE4ABDA9EDD0AF063E53B82 /* THIRD-PARTY-NOTICES.txt */; };
+		C52688B0D52B10097822CC1E /* ReuseAudio in Frameworks */ = {isa = PBXBuildFile; productRef = BBCFC04543AAC404A3AC491A /* ReuseAudio */; };
+		CE08F03344AF9CB04558949C /* realtime-reuse.safetensors in Resources */ = {isa = PBXBuildFile; fileRef = DC580B4776E5FD78A6610F6A /* realtime-reuse.safetensors */; };
+		D9BD46A44CCE0A13C08C5B0E /* StreamingExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E00576FD7B9FDFBBD99359 /* StreamingExampleApp.swift */; };
+		DE8CA6FF268C85B56C437D0B /* NOTICE in Resources */ = {isa = PBXBuildFile; fileRef = 898F36B189BE7CB7AAD21103 /* NOTICE */; };
+		E21FA5ACD9F045E73DD933B7 /* MicrophoneCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31136142CD8F12526206AE4 /* MicrophoneCapture.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		069622F015BE9B84F556FA00 /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		0F0C64CFC03510D530477A4D /* MicrophoneConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneConversion.swift; sourceTree = "<group>"; };
+		22A80A38C5BF8799CAD020B2 /* RecordingProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingProgress.swift; sourceTree = "<group>"; };
+		4F90AFA2D68616DFC5374594 /* RecordingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingWorker.swift; sourceTree = "<group>"; };
+		54390F97EC81C4A146B898A1 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
+		7E593A18C7F463371DA93A2D /* RecordingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSession.swift; sourceTree = "<group>"; };
+		898F36B189BE7CB7AAD21103 /* NOTICE */ = {isa = PBXFileReference; path = NOTICE; sourceTree = "<group>"; };
+		9B9705B5ACA339953FA835E2 /* RecordingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingProcessor.swift; sourceTree = "<group>"; };
+		A4455AE45F0D0902159DC843 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		A80413738DB2430911C29015 /* RecordingSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSetup.swift; sourceTree = "<group>"; };
+		A8E00576FD7B9FDFBBD99359 /* StreamingExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingExampleApp.swift; sourceTree = "<group>"; };
+		ADD5F1BB0B85C2720AA62FC3 /* RecordingReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingReport.swift; sourceTree = "<group>"; };
+		C31136142CD8F12526206AE4 /* MicrophoneCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneCapture.swift; sourceTree = "<group>"; };
+		C657EBD248614B465BD21C7A /* RecordingPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingPlayback.swift; sourceTree = "<group>"; };
+		D0E62212177083193276F1A5 /* ReuseStreamingExample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ReuseStreamingExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC580B4776E5FD78A6610F6A /* realtime-reuse.safetensors */ = {isa = PBXFileReference; path = "realtime-reuse.safetensors"; sourceTree = "<group>"; };
+		DC9503B7A239C2A409C910BF /* reuse-audio-android */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "reuse-audio-android"; path = ../../..; sourceTree = SOURCE_ROOT; };
+		EBE4ABDA9EDD0AF063E53B82 /* THIRD-PARTY-NOTICES.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "THIRD-PARTY-NOTICES.txt"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4F758105FF34456F55AA7C72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C1873BA7798BD4898F2CACA /* ReuseStreaming in Frameworks */,
+				C52688B0D52B10097822CC1E /* ReuseAudio in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		24350D6897879FBA5330C68C /* Research */ = {
+			isa = PBXGroup;
+			children = (
+				A4455AE45F0D0902159DC843 /* LICENSE.txt */,
+			);
+			name = Research;
+			path = ../../Research;
+			sourceTree = "<group>";
+		};
+		44F37ACE0B00FC2037110BBF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C657EBD248614B465BD21C7A /* RecordingPlayback.swift */,
+				7E593A18C7F463371DA93A2D /* RecordingSession.swift */,
+				A80413738DB2430911C29015 /* RecordingSetup.swift */,
+				54390F97EC81C4A146B898A1 /* RecordingView.swift */,
+				A8E00576FD7B9FDFBBD99359 /* StreamingExampleApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		490B1A6C48644722F8196586 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0E62212177083193276F1A5 /* ReuseStreamingExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		54EEE36A2D3C2707C0C3EFF7 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				DC580B4776E5FD78A6610F6A /* realtime-reuse.safetensors */,
+				EBE4ABDA9EDD0AF063E53B82 /* THIRD-PARTY-NOTICES.txt */,
+			);
+			name = models;
+			path = ../../../models;
+			sourceTree = "<group>";
+		};
+		75C49AF42E49880731B3E241 /* reuse-audio-android */ = {
+			isa = PBXGroup;
+			children = (
+				069622F015BE9B84F556FA00 /* LICENSE */,
+				898F36B189BE7CB7AAD21103 /* NOTICE */,
+			);
+			name = "reuse-audio-android";
+			path = ../../..;
+			sourceTree = "<group>";
+		};
+		C2795D672603DD4E5AB195EA = {
+			isa = PBXGroup;
+			children = (
+				44F37ACE0B00FC2037110BBF /* App */,
+				D3AEEFC99AD60CDF44C6F211 /* Audio */,
+				54EEE36A2D3C2707C0C3EFF7 /* models */,
+				CFE87190F8C7055787E7356E /* Packages */,
+				24350D6897879FBA5330C68C /* Research */,
+				75C49AF42E49880731B3E241 /* reuse-audio-android */,
+				490B1A6C48644722F8196586 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CFE87190F8C7055787E7356E /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				DC9503B7A239C2A409C910BF /* reuse-audio-android */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		D3AEEFC99AD60CDF44C6F211 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				C31136142CD8F12526206AE4 /* MicrophoneCapture.swift */,
+				0F0C64CFC03510D530477A4D /* MicrophoneConversion.swift */,
+				9B9705B5ACA339953FA835E2 /* RecordingProcessor.swift */,
+				22A80A38C5BF8799CAD020B2 /* RecordingProgress.swift */,
+				ADD5F1BB0B85C2720AA62FC3 /* RecordingReport.swift */,
+				4F90AFA2D68616DFC5374594 /* RecordingWorker.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2FD36EDE6699070B54C8A651 /* ReuseStreamingExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CABAACB02DB2AB242E42B33 /* Build configuration list for PBXNativeTarget "ReuseStreamingExample" */;
+			buildPhases = (
+				A05A8DC9DBEC63B92696F638 /* Sources */,
+				D36EA0DD22CA690E7C88BD87 /* Resources */,
+				4F758105FF34456F55AA7C72 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReuseStreamingExample;
+			packageProductDependencies = (
+				5A2FC3FDCFDAFABEA15E23EC /* ReuseStreaming */,
+				BBCFC04543AAC404A3AC491A /* ReuseAudio */,
+			);
+			productName = ReuseStreamingExample;
+			productReference = D0E62212177083193276F1A5 /* ReuseStreamingExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		306273060E799230F603AD58 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					2FD36EDE6699070B54C8A651 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 74CE25CFEA6F17E0314C9A81 /* Build configuration list for PBXProject "ReuseStreamingExample" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C2795D672603DD4E5AB195EA;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				86818E0D108439B8545A47DC /* XCLocalSwiftPackageReference "../../.." */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2FD36EDE6699070B54C8A651 /* ReuseStreamingExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D36EA0DD22CA690E7C88BD87 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A355A159C68CF872222BF930 /* LICENSE in Resources */,
+				7B6E14708A3DF70BD057CC48 /* LICENSE.txt in Resources */,
+				DE8CA6FF268C85B56C437D0B /* NOTICE in Resources */,
+				BCA77CCA9B853CDBEEBC74A6 /* THIRD-PARTY-NOTICES.txt in Resources */,
+				CE08F03344AF9CB04558949C /* realtime-reuse.safetensors in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A05A8DC9DBEC63B92696F638 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E21FA5ACD9F045E73DD933B7 /* MicrophoneCapture.swift in Sources */,
+				66E0F09B90CF7AB732754A16 /* MicrophoneConversion.swift in Sources */,
+				3F21BB775FFE5C03F2CA0D7F /* RecordingPlayback.swift in Sources */,
+				1B61767827148FA718740789 /* RecordingProcessor.swift in Sources */,
+				2961C925F7E09663AA50E36B /* RecordingProgress.swift in Sources */,
+				1BB55539A740EB6862AE3537 /* RecordingReport.swift in Sources */,
+				7D5DADDA6813CA9CD52E85D8 /* RecordingSession.swift in Sources */,
+				92CF725DAD9920BC91E7BCA9 /* RecordingSetup.swift in Sources */,
+				4E4D73BF54D6AC3F72B1099F /* RecordingView.swift in Sources */,
+				39F8CAFBEE69E6B76341A4A1 /* RecordingWorker.swift in Sources */,
+				D9BD46A44CCE0A13C08C5B0E /* StreamingExampleApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		16BBCFEEA4E996BBDC0B8DB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "RE-USE Streaming";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record speech to test streaming enhancement privately on this device.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIFileSharingEnabled = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.quangng2000.reuse-streaming-example";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AC7359010CB6770A866E54B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "RE-USE Streaming";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record speech to test streaming enhancement privately on this device.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIFileSharingEnabled = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.quangng2000.reuse-streaming-example";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AF8774AECC7007DB3EF047A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		DF2F21F917735F3119447F01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3CABAACB02DB2AB242E42B33 /* Build configuration list for PBXNativeTarget "ReuseStreamingExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC7359010CB6770A866E54B0 /* Debug */,
+				16BBCFEEA4E996BBDC0B8DB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		74CE25CFEA6F17E0314C9A81 /* Build configuration list for PBXProject "ReuseStreamingExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF2F21F917735F3119447F01 /* Debug */,
+				AF8774AECC7007DB3EF047A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		86818E0D108439B8545A47DC /* XCLocalSwiftPackageReference "../../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5A2FC3FDCFDAFABEA15E23EC /* ReuseStreaming */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReuseStreaming;
+		};
+		BBCFC04543AAC404A3AC491A /* ReuseAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReuseAudio;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 306273060E799230F603AD58 /* Project object */;
+}

@@ -94,5 +94,5 @@ hashes alone do not make the experiment fully reproducible. Audio, weights, trac
 device identifiers and absolute local paths are excluded. See the existing
 [diagnostic attribution](../streaming-validation.md#evidence-and-attribution).
 The streaming model and derivative port retain the **noncommercial research and
-education** terms of [NVIDIA NSCLv1](../../Research/LICENSE.txt); the offline
+education** terms of [NVIDIA NSCLv1](../../apple/Research/LICENSE.txt); the offline
 component's root license does not replace them. See [NOTICE](../../NOTICE).

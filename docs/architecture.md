@@ -6,7 +6,7 @@ noncommercial license. See [package integration](package.md),
 [streaming architecture/API](streaming.md), and [license boundaries](../NOTICE).
 The existing offline behavior below remains available through `ReuseAudio`.
 
-The Mac command-line tool and the iOS/iPadOS app use the shared `Core/` engine.
+The Mac command-line tool and the iOS/iPadOS app use the shared `apple/Sources/ReuseAudio/` engine.
 Swift handles audio files and application state. MLX schedules array operations;
 custom Metal kernels implement PReLU and the Mamba selective scan on the GPU.
 There is no PyTorch dependency and no call to PyTorch's MPS backend.

@@ -107,9 +107,9 @@ and `scheduling-only` ablations. Build `ReuseProbe` using the
 [Xcode instructions](development.md), then run:
 
 ```sh
-python3 Scripts/benchmark_offline_metal.py \
+python3 apple/scripts/benchmark_offline_metal.py \
   --binary BuildPackage/Build/Products/Release/ReuseProbe \
-  --model Resources/model.safetensors --input diagnostic.wav \
+  --model models/model.safetensors --input diagnostic.wav \
   --output-dir Validation/offline-ablation
 ```
 
@@ -120,7 +120,7 @@ The script records timings, thermal states, allocation, sample counts, and
 SHA-256 hashes without downloading weights or changing remote resources.
 
 For aligned paired audio, install `numpy`, `soundfile`, and `pystoi` in your test
-environment and run `Scripts/compare_offline_audio.py --help`. Pass the clean,
+environment and run `apple/scripts/compare_offline_audio.py --help`. Pass the clean,
 damaged and standard-output WAVs plus the ablation output directory. It saves
 STOI, SI-SDR, sample-error and hash evidence without altering the audio.
 

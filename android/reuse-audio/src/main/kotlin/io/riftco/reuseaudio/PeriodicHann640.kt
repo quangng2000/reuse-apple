@@ -5,7 +5,7 @@ package io.riftco.reuseaudio
  * dtype float32. Same mathematical window as the Apple backend transform; the
  * explicit bits prevent phase-branch drift from a different cosine library.
  * Little-endian Float32 SHA256: ca961f55e3d74499159074e0401c180a88f41c6a4a7d9540fb733cb3d8a91a27
- * Generation: android/export/generate_hann.py. Coefficients contain no model weights.
+ * Generation: tools/model-export/generate_hann.py. Coefficients contain no model weights.
  */
 internal object PeriodicHann640 {
     val values: FloatArray

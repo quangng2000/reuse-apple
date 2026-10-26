@@ -131,5 +131,5 @@
     "windowSamples": 64000,
     "overlapSamples": 8000
   },
-  "reproduce": "See android/README.md and android/export/README.md. Generated model/oracle assets and build outputs remain excluded from Git."
+  "reproduce": "See android/README.md and tools/model-export/README.md. Generated model/oracle assets now live under tools/model-export/generated and remain excluded from Git. Artifact/source hashes and recorded evidence paths above identify the historical validation build, not a new build after the layout move."
 }
