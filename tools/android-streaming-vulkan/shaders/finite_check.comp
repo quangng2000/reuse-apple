@@ -1,0 +1,13 @@
+#version 450
+// All model states are checked on the GPU. Only this four-byte result needs
+// a readback; a non-finite result prevents recurrent-state commit.
+layout(set=0,binding=0,std430) readonly buffer Arena { float data[]; } arena;
+layout(set=0,binding=1,std430) buffer Status { uint bits; } status;
+layout(push_constant) uniform Parameters { uint offset;uint count; } pc;
+layout(local_size_x=128) in;
+void main() {
+    uint i=gl_GlobalInvocationID.x;
+    if(i>=pc.count)return;
+    uint bits=floatBitsToUint(arena.data[pc.offset+i]);
+    if((bits&0x7f800000u)==0x7f800000u)atomicOr(status.bits,1u);
+}

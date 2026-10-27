@@ -5,3 +5,5 @@ models/MODEL-CARD.md -text whitespace=-trailing-space,-blank-at-eof
 models/THIRD-PARTY-NOTICES.txt -text whitespace=-trailing-space,-blank-at-eof
 apple/Research/LICENSE.txt -text whitespace=-trailing-space,-blank-at-eof
 apple/Sources/ReuseStreaming/LICENSE -text whitespace=-trailing-space,-blank-at-eof
+# Vendored Eigen files are SHA-pinned against upstream, including CRLF headers.
+tools/android-streaming-native/v2/softplus/vendor/eigen/** -text whitespace=-trailing-space,-blank-at-eof

@@ -2,16 +2,23 @@
 
 Release coordinates:
 
-- `io.github.quangng2000:reuse-audio-android:0.1.2` — commercial offline model port.
-- `io.github.quangng2000:reuse-streaming-android:0.1.2` — optional NSCLv1 streaming research port.
+- `io.github.quangng2000:reuse-audio-android:0.1.3` — commercial offline model port.
+- `io.github.quangng2000:reuse-streaming-android:0.1.3` — optional NSCLv1 streaming research port.
 
 These are independent artifacts with distinct licenses and no dependency on each other.
 The Android artifact version is independent of the repository-wide Swift release
-version. The matching source tag is `android-v0.1.2`.
+version. The matching source tag is `android-v0.1.3`.
 
-The release AAR contains all four native ABIs and license notices. Model weights
-remain a separate, hash-verified download. ONNX Runtime is a transitive runtime
-dependency in the published POM and Gradle module metadata.
+The release AAR contains the ordinary DSP/CPU native adapters for all four
+Android ABIs and their license notices. Model weights remain a separate,
+hash-verified download. ONNX Runtime is a transitive runtime dependency in the
+published POM and Gradle module metadata.
+
+Version 0.1.3 includes the experimental eight-layer Vulkan v2 Kotlin API. Its
+separately pinned ARM64 Vulkan runtime and audited v2 model/shader bundle are
+not embedded in the Maven AAR or downloaded by that API; consumers must supply
+those exact artifacts explicitly. The ordinary CPU constructor is unchanged.
+The streaming component remains NSCLv1 noncommercial research software.
 
 ## Prepare the release
 
@@ -29,8 +36,8 @@ this automatically before validation. Then:
 ```sh
 python3 tools/central_bundle.py \
   --repository build/central-repository \
-  --output build/reuse-audio-android-0.1.2-central.zip \
-  --version 0.1.2 --include-streaming --allow-unsigned
+  --output build/reuse-audio-android-0.1.3-central.zip \
+  --version 0.1.3 --include-streaming --allow-unsigned
 ```
 
 The unsigned check validates artifacts without creating an upload ZIP when
@@ -49,8 +56,8 @@ browser upload. Never add secrets, private keys or passphrases to a commit.
 ```sh
 python3 tools/central_bundle.py \
   --repository build/central-repository \
-  --output build/reuse-audio-android-0.1.2-central.zip \
-  --version 0.1.2 --include-streaming \
+  --output build/reuse-audio-android-0.1.3-central.zip \
+  --version 0.1.3 --include-streaming \
   --gpg-home /absolute/private/gnupg \
   --signing-key YOUR_PUBLIC_FINGERPRINT \
   --passphrase-file /absolute/private/signing-passphrase
@@ -106,9 +113,9 @@ Apple/repository-wide tags such as `v0.3.1` do not publish an Android artifact.
 
 For the next Android release:
 
-1. Set the new Android version, for example `0.1.2`, and merge the tested change
+1. Set the new Android version, for example `0.1.3`, and merge the tested change
    into `main`.
-2. Create and push `android-v0.1.2` on that commit.
+2. Create and push `android-v0.1.3` on that commit.
 3. Actions tests the library, validates the staged Maven artifacts, signs them,
    uploads one combined bundle to Central, waits for validation of both exact
    coordinates, publishes once, and verifies all ten public primary artifacts
@@ -141,7 +148,9 @@ The workflow intentionally publishes only on the first attempt of a tag event.
 A rerun validates again without uploading. Read the saved `publish-report.json`
 in the Actions publication artifact before recovery: an upload request with an
 uncertain outcome must not be blindly repeated. Resume a known deployment with
-the exact original bundle, version and deployment ID:
+the exact original bundle, version and deployment ID. The example below
+intentionally retains the historical 0.1.2 recovery version; use the version
+recorded in the deployment receipt, not the next release version:
 
 ```sh
 python3 android/tools/central_publish.py \

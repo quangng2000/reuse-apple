@@ -11,4 +11,4 @@ case "$(uname -s)" in
 esac
 "${CXX:-c++}" -std=c++17 -O2 -fno-fast-math -ffp-contract=on -DPOCKETFFT_NO_MULTITHREADING=1 -fPIC -shared \
   -I"$jdk_directory/include" -I"$jdk_directory/include/$jni_platform" \
-  "$source_directory/reuse_audio_dsp.cpp" -o "$output_directory/$library_name"
+  "$source_directory/reuse_audio_dsp.cpp" "$source_directory/streaming_buffers.cpp" -o "$output_directory/$library_name"

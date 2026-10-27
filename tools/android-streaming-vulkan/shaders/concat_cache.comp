@@ -1,0 +1,19 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#include "common.glsl"
+// Exact FP32 copy: adjacent pieces within each outer row. Optional suffix
+// cache is written from the very same loaded value, with no arithmetic.
+// Output/source/cache spans are admitted as disjoint by the host validator.
+layout(local_size_x=128) in;
+void main() {
+    uint i=gl_GlobalInvocationID.x;
+    if(i>=pc.v[2])return;
+    uint first=pc.v[6],second=pc.v[7],inner=first+second;
+    uint outer=i/inner,position=i-outer*inner;
+    float value=position<first?arena.data[pc.v[3]+outer*first+position]:arena.data[pc.v[4]+outer*second+position-first];
+    arena.data[pc.v[1]+i]=value;
+    if(pc.v[10]!=0 && position>=pc.v[9]) {
+        uint remaining=inner-pc.v[9];
+        arena.data[pc.v[5]+outer*remaining+position-pc.v[9]]=value;
+    }
+}

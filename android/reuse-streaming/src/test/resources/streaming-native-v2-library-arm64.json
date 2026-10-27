@@ -1,0 +1,27 @@
+{
+  "kernelAbi": 2,
+  "domain": "ai.reuse.streaming",
+  "op": "FrequencyScanV1",
+  "temporalOp": "TemporalStepV2",
+  "ortVersion": "1.23.2",
+  "abi": "arm64-v8a",
+  "file": "libreuse_streaming_native_v2.so",
+  "bytes": 1192152,
+  "sha256": "3013f39b7e97464b415a6b8b3500be0ac0a26b678ea8d7e71f248178a29b8868",
+  "sourceSha256": "a6553337fb2bbdf5592bd44ec96a3a57b437b271490987cbc5298a27725e2196",
+  "sources": {
+    "native_v2.cpp": "a6553337fb2bbdf5592bd44ec96a3a57b437b271490987cbc5298a27725e2196",
+    "CMakeLists.txt": "2efe800cc04cb9eeba946cf54b538abdadded238815f7a060f85081803e23ca6",
+    "build_v2.py": "45c71780dfca0130604e0e8cd7807c9f99722c7f4977db4a3fed39a2446ef13c",
+    "transform_v2.py": "0899a73d6cdf4a321e2aa5c26dbb99e31c0569463191b65e26bf7bc0e35acdc2",
+    "v1FrequencySource": "1708573ce611abc9da7ab8453fbd51c7635f61dd8f5db77ee14788002f6ac030",
+    "v1TransformSource": "c77c1560266f87b61ef8972c0231c52b789c4294c061959cbc15db38f5327be8",
+    "ortHeaderProvenance": "5abee8adc9f970885827b081f21d3091b4ed8bbb8112a523d80a8d0966119281"
+  },
+  "verifiedExportedSymbols": [
+    "RegisterCustomOps",
+    "ReuseStreamingKernelAbiVersion"
+  ],
+  "compilerFlags": "-O3 -fno-fast-math -ffp-contract=off -fvisibility=hidden",
+  "precision": "float32"
+}

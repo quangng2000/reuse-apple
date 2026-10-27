@@ -1,0 +1,31 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#include "common.glsl"
+layout(local_size_x=128) in;
+void main() {
+    uint i=gl_GlobalInvocationID.x;
+    if(i>=pc.v[2])return;
+    float x=arena.data[pc.v[3]+i];
+    precise float y=x;
+    switch(pc.v[6]) {
+        case 1:y=-x;break;
+        case 2:y=reuseExp(x);break;
+        case 3:y=1.0/(1.0+reuseExp(-x));break;
+        case 4:y=reuseSoftplus(x);break;
+        case 5:y=atan(x);break;
+        case 6:y=sqrt(x);break;
+        case 7:y=1.0/x;break;
+        case 8:y=tanh(x);break;
+        case 9:y=max(x,0.0);break;
+        case 10:y=log(x);break;
+        case 11:y=abs(x);break;
+        case 12:y=sin(x);break;
+        case 13:y=cos(x);break;
+        case 14: {
+            precise float sigmoid=1.0/(1.0+reuseExp(-x));
+            y=x*sigmoid;
+            break;
+        }
+    }
+    arena.data[pc.v[1]+i]=y;
+}

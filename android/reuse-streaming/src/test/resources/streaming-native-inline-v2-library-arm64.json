@@ -1,0 +1,29 @@
+{
+  "kernelAbi": 2,
+  "domain": "ai.reuse.streaming",
+  "op": "FrequencyScanV2",
+  "temporalOp": "TemporalStepV2",
+  "ortVersion": "1.23.2",
+  "abi": "arm64-v8a",
+  "file": "libreuse_streaming_inline_v2.so",
+  "bytes": 1198920,
+  "sha256": "7a6d98e2f2d13991de0a5aa21aebc8879a262ffdcf2fe85d10a0e027aea3be01",
+  "sourceSha256": "77f816373c9d84a75d3f5de1379c1add7d6f88ed16dbe3a36c47cade3a91bc44",
+  "sources": {
+    "native_inline_v2.cpp": "77f816373c9d84a75d3f5de1379c1add7d6f88ed16dbe3a36c47cade3a91bc44",
+    "CMakeLists.txt": "04673a3e31d487a0a1d03298974695a3512b00628d2c200883a93f19d09962c8",
+    "build_inline_v2.py": "7f6b5a39666b96d7e5656bdd1069dff9a426afa25fca272956777289467e0bdd",
+    "transform_inline_v2.py": "9d00c182b50b6b143493eae3817d1826610cf9a335de213cd9c509a88b99709b",
+    "mlas_exp_neon.h": "e65204dc9f5a7748201c186cbb7ef713631d2c94c8facc866ef35b13993e3f24",
+    "mlas-provenance.json": "558d85391b7302a8bb4749c280eb2ab3a37a992b3a06a1fa7fd365d8269e0bc5",
+    "v1FrequencySource": "1708573ce611abc9da7ab8453fbd51c7635f61dd8f5db77ee14788002f6ac030",
+    "v1TransformSource": "c77c1560266f87b61ef8972c0231c52b789c4294c061959cbc15db38f5327be8",
+    "ortHeaderProvenance": "5abee8adc9f970885827b081f21d3091b4ed8bbb8112a523d80a8d0966119281"
+  },
+  "verifiedExportedSymbols": [
+    "RegisterCustomOps",
+    "ReuseStreamingKernelAbiVersion"
+  ],
+  "compilerFlags": "-O3 -fno-fast-math -ffp-contract=off -fvisibility=hidden",
+  "precision": "float32"
+}

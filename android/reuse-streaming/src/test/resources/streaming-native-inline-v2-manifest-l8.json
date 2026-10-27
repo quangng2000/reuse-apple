@@ -1,0 +1,491 @@
+{
+  "schemaVersion": 1,
+  "modelId": "nvidia/realtime-reuse-streaming-fp32",
+  "layers": 8,
+  "lookahead": 0,
+  "precision": "float32",
+  "sampleRate": 16000,
+  "fftSize": 640,
+  "hopSize": 320,
+  "frameSamples": 640,
+  "frequencyBins": 321,
+  "modelFile": "reuse-streaming-l8-native-inline-v2.onnx",
+  "modelSha256": "55d910c30cd7144187e5f358dca6700ae6e7e1051eb8f7758d454f68e9144c11",
+  "modelBytes": 11584702,
+  "checkpointSha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "checkpointBytes": 54055764,
+  "sourceRepository": "nvidia/Real-time_RE-USE",
+  "sourceRevision": "4c0c186272ca853cd18d832fc5c28777b62f32d1",
+  "sourceParameterCount": 13475815,
+  "activeParameterCount": 2866115,
+  "license": "NSCLv1",
+  "researchOnly": true,
+  "onnxOpset": 17,
+  "onnxRuntimeVersion": "1.23.2",
+  "inputNames": [
+    "magnitude",
+    "phase",
+    "cache_dense_encoder_dense_conv_1_1_0",
+    "cache_dense_encoder_dense_block_dense_block_0_1",
+    "cache_dense_encoder_dense_block_dense_block_1_1",
+    "cache_dense_encoder_dense_block_dense_block_2_1",
+    "cache_dense_encoder_dense_block_dense_block_3_1",
+    "cache_TSMamba_0_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_1_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_2_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_3_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_4_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_5_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_6_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+    "cache_TSMamba_7_time_mamba_forward_blocks_conv1d",
+    "cache_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+    "cache_mask_decoder_list_7_dense_block_dense_block_0_1",
+    "cache_mask_decoder_list_7_dense_block_dense_block_1_1",
+    "cache_mask_decoder_list_7_dense_block_dense_block_2_1",
+    "cache_mask_decoder_list_7_dense_block_dense_block_3_1",
+    "cache_mask_decoder_list_7_up_conv2_0_conv",
+    "cache_phase_decoder_list_7_dense_block_dense_block_0_1",
+    "cache_phase_decoder_list_7_dense_block_dense_block_1_1",
+    "cache_phase_decoder_list_7_dense_block_dense_block_2_1",
+    "cache_phase_decoder_list_7_dense_block_dense_block_3_1",
+    "cache_phase_decoder_list_7_up_conv2_0_conv"
+  ],
+  "outputNames": [
+    "enhanced_magnitude",
+    "enhanced_phase",
+    "next_dense_encoder_dense_conv_1_1_0",
+    "next_dense_encoder_dense_block_dense_block_0_1",
+    "next_dense_encoder_dense_block_dense_block_1_1",
+    "next_dense_encoder_dense_block_dense_block_2_1",
+    "next_dense_encoder_dense_block_dense_block_3_1",
+    "next_TSMamba_0_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_1_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_2_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_3_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_4_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_5_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_6_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+    "next_TSMamba_7_time_mamba_forward_blocks_conv1d",
+    "next_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+    "next_mask_decoder_list_7_dense_block_dense_block_0_1",
+    "next_mask_decoder_list_7_dense_block_dense_block_1_1",
+    "next_mask_decoder_list_7_dense_block_dense_block_2_1",
+    "next_mask_decoder_list_7_dense_block_dense_block_3_1",
+    "next_mask_decoder_list_7_up_conv2_0_conv",
+    "next_phase_decoder_list_7_dense_block_dense_block_0_1",
+    "next_phase_decoder_list_7_dense_block_dense_block_1_1",
+    "next_phase_decoder_list_7_dense_block_dense_block_2_1",
+    "next_phase_decoder_list_7_dense_block_dense_block_3_1",
+    "next_phase_decoder_list_7_up_conv2_0_conv"
+  ],
+  "states": [
+    {
+      "key": "dense_encoder.dense_conv_1_1.0",
+      "inputName": "cache_dense_encoder_dense_conv_1_1_0",
+      "outputName": "next_dense_encoder_dense_conv_1_1_0",
+      "shape": [
+        1,
+        2,
+        2,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.0.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_0_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_0_1",
+      "shape": [
+        1,
+        64,
+        2,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.1.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_1_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_1_1",
+      "shape": [
+        1,
+        128,
+        4,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.2.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_2_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_2_1",
+      "shape": [
+        1,
+        192,
+        8,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "dense_encoder.dense_block.dense_block.3.1",
+      "inputName": "cache_dense_encoder_dense_block_dense_block_3_1",
+      "outputName": "next_dense_encoder_dense_block_dense_block_3_1",
+      "shape": [
+        1,
+        256,
+        16,
+        323
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.0.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_0_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_0_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.0.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_0_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.1.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_1_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_1_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.1.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_1_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.2.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_2_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_2_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.2.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_2_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.3.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_3_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_3_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.3.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_3_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.4.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_4_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_4_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.4.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_4_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.5.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_5_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_5_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.5.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_5_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.6.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_6_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_6_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.6.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_6_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.7.time_mamba.forward_blocks.conv1d",
+      "inputName": "cache_TSMamba_7_time_mamba_forward_blocks_conv1d",
+      "outputName": "next_TSMamba_7_time_mamba_forward_blocks_conv1d",
+      "shape": [
+        161,
+        256,
+        3
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "TSMamba.7.time_mamba.forward_blocks.ssm_state",
+      "inputName": "cache_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+      "outputName": "next_TSMamba_7_time_mamba_forward_blocks_ssm_state",
+      "shape": [
+        161,
+        256,
+        16
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.0.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_0_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_0_1",
+      "shape": [
+        1,
+        64,
+        2,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.1.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_1_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_1_1",
+      "shape": [
+        1,
+        128,
+        4,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.2.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_2_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_2_1",
+      "shape": [
+        1,
+        192,
+        8,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.dense_block.dense_block.3.1",
+      "inputName": "cache_mask_decoder_list_7_dense_block_dense_block_3_1",
+      "outputName": "next_mask_decoder_list_7_dense_block_dense_block_3_1",
+      "shape": [
+        1,
+        256,
+        16,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "mask_decoder_list.7.up_conv2.0.conv",
+      "inputName": "cache_mask_decoder_list_7_up_conv2_0_conv",
+      "outputName": "next_mask_decoder_list_7_up_conv2_0_conv",
+      "shape": [
+        1,
+        64,
+        2,
+        322
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.0.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_0_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_0_1",
+      "shape": [
+        1,
+        64,
+        2,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.1.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_1_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_1_1",
+      "shape": [
+        1,
+        128,
+        4,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.2.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_2_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_2_1",
+      "shape": [
+        1,
+        192,
+        8,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.dense_block.dense_block.3.1",
+      "inputName": "cache_phase_decoder_list_7_dense_block_dense_block_3_1",
+      "outputName": "next_phase_decoder_list_7_dense_block_dense_block_3_1",
+      "shape": [
+        1,
+        256,
+        16,
+        161
+      ],
+      "dtype": "float32"
+    },
+    {
+      "key": "phase_decoder_list.7.up_conv2.0.conv",
+      "inputName": "cache_phase_decoder_list_7_up_conv2_0_conv",
+      "outputName": "next_phase_decoder_list_7_up_conv2_0_conv",
+      "shape": [
+        1,
+        64,
+        2,
+        322
+      ],
+      "dtype": "float32"
+    }
+  ],
+  "stateBytes": 41575984,
+  "frequencyScanCount": 16,
+  "selectedWeightBytesUnchanged": true,
+  "executionVariant": "native-inline-frequency-temporal-v2",
+  "baselineModelSha256": "18db8d32b638702909de484d2a9cffc97ed09e6454c4caed3f0008fb0aab53e8",
+  "nativeFrequencyBaselineModelSha256": "6b6cbd4117146f3137c1a0db71ecf04c23b8ba97bab7d973ece71c8739aa7756",
+  "customOpDomain": "ai.reuse.streaming",
+  "customOpName": "FrequencyScanV2",
+  "customTemporalOpName": "TemporalStepV2",
+  "kernelAbi": 2,
+  "nativeFrequencyScanCount": 16,
+  "standardFrequencyScanCount": 0,
+  "nativeTemporalStepCount": 8,
+  "standardTemporalStepCount": 0,
+  "preparedDecay": false,
+  "preparedGate": true,
+  "temporalPreparedDecay": false,
+  "temporalPreparedGate": true,
+  "recurrenceReduction": "serial16",
+  "temporalReduction": "serial16",
+  "nativeChannelParallel": true,
+  "nativeSources": {
+    "native_inline_v2.cpp": "77f816373c9d84a75d3f5de1379c1add7d6f88ed16dbe3a36c47cade3a91bc44",
+    "CMakeLists.txt": "04673a3e31d487a0a1d03298974695a3512b00628d2c200883a93f19d09962c8",
+    "build_inline_v2.py": "7f6b5a39666b96d7e5656bdd1069dff9a426afa25fca272956777289467e0bdd",
+    "transform_inline_v2.py": "9d00c182b50b6b143493eae3817d1826610cf9a335de213cd9c509a88b99709b",
+    "mlas_exp_neon.h": "e65204dc9f5a7748201c186cbb7ef713631d2c94c8facc866ef35b13993e3f24",
+    "mlas-provenance.json": "558d85391b7302a8bb4749c280eb2ab3a37a992b3a06a1fa7fd365d8269e0bc5",
+    "v1FrequencySource": "1708573ce611abc9da7ab8453fbd51c7635f61dd8f5db77ee14788002f6ac030",
+    "v1TransformSource": "c77c1560266f87b61ef8972c0231c52b789c4294c061959cbc15db38f5327be8",
+    "ortHeaderProvenance": "5abee8adc9f970885827b081f21d3091b4ed8bbb8112a523d80a8d0966119281"
+  },
+  "inlineExp": "ort-1.23.2-mlas-neon-fp32",
+  "nativeTargets": [
+    "arm64-v8a",
+    "host-arm64"
+  ],
+  "nativeTemporalBaselineModelSha256": "1fbd91be9c90568c58ab40e9ce70e07c54dafc599fffb694a84c1f4d3905b11d"
+}

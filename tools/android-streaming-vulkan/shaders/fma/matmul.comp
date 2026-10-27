@@ -1,0 +1,36 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#include "common.glsl"
+// Explicit FP32 FMA variant; no FP16 or implicit fast-math contraction.
+layout(local_size_x=16,local_size_y=8) in;
+shared float tileA[8][16];
+shared float tileB[16][16];
+void main() {
+    uint column=gl_WorkGroupID.x*16+gl_LocalInvocationID.x;
+    uint row=gl_WorkGroupID.y*8+gl_LocalInvocationID.y;
+    uint batch=gl_WorkGroupID.z;
+    uint m=pc.v[6],n=pc.v[7],k=pc.v[8];
+    uint aBase=pc.v[3]+batch*pc.v[10];
+    uint bBase=pc.v[4]+batch*pc.v[11];
+    precise float sum=0.0;
+    for(uint start=0;start<k;start+=16) {
+        uint aColumn=start+gl_LocalInvocationID.x;
+        uint ai=pc.v[12]==0?row*k+aColumn:aColumn*m+row;
+        tileA[gl_LocalInvocationID.y][gl_LocalInvocationID.x]=(row<m && aColumn<k)?arena.data[aBase+ai]:0.0;
+        for(uint section=0;section<2;++section) {
+            uint br=gl_LocalInvocationID.y+section*8;
+            uint bRow=start+br;
+            uint bi=pc.v[13]==0?bRow*n+column:column*k+bRow;
+            tileB[br][gl_LocalInvocationID.x]=(bRow<k && column<n)?arena.data[bBase+bi]:0.0;
+        }
+        barrier();
+        for(uint j=0;j<16 && start+j<k;++j) {
+            sum=fma(tileA[gl_LocalInvocationID.y][j],tileB[j][gl_LocalInvocationID.x],sum);
+        }
+        barrier();
+    }
+    if(row<m && column<n) {
+        uint index=(batch*m+row)*n+column;
+        arena.data[pc.v[1]+index]=matmulBias(sum,index,column);
+    }
+}

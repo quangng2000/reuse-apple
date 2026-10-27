@@ -13,7 +13,7 @@ The published Android SDK is available from Maven Central:
 ```kotlin
 // settings.gradle.kts repositories: google(); mavenCentral()
 // app/build.gradle.kts
-dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.2") }
+dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.3") }
 ```
 
 ONNX Runtime is resolved transitively. Provision the separately downloaded model
@@ -30,7 +30,7 @@ includeBuild("dependencies/reuse-audio/android") {
     }
 }
 // app/build.gradle.kts
-dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.2") }
+dependencies { implementation("io.github.quangng2000:reuse-audio-android:0.1.3") }
 ```
 
 This composite build works directly from source. Maven Central release preparation
@@ -38,10 +38,13 @@ and signing instructions are in [PUBLISHING.md](PUBLISHING.md). Root project:
 `ReuseAudioAndroid`; library project: `:reuse-audio`.
 
 The optional [`:reuse-streaming` module](reuse-streaming/README.md) is published
-separately as `io.github.quangng2000:reuse-streaming-android:0.1.2`. It provides
+separately as `io.github.quangng2000:reuse-streaming-android:0.1.3`. It provides
 stateful FP32 incremental inference with the distinct Real-time RE-USE model,
 not the offline 30-layer checkpoint. Its NSCLv1 license permits noncommercial
-research and education only. Neither artifact depends on the other.
+research and education only. Neither artifact depends on the other. Version
+0.1.3 includes the explicit Vulkan v2 factory; its audited model/shader bundle
+and pinned ARM64 GPU runtime remain separate from the Maven SDK. The ordinary
+streaming constructor continues to use CPU inference.
 
 ```kotlin
 import io.riftco.reuseaudio.*
@@ -92,7 +95,7 @@ REUSE_MODEL_MANIFEST="$PWD/../tools/model-export/generated/reuse-30-fp32.manifes
 
 For Android instrumentation, stage the same generated ONNX/manifest and `640-*.f32` oracle files in `reuse-audio/build/generated/parity-assets/` before running `:reuse-audio:connectedDebugAndroidTest`. The generated assets remain ignored. Instrumentation checks actual Android CPU/JNI inference, PCM restoration, native AAC decode/resampling, and cancellation. An emulator provides functional evidence; physical-device latency, thermals, and battery behavior require a real phone.
 
-The [0.1.2 release receipt](releases/0.1.2.json) records both public Maven artifacts, test scope, signatures, public hashes and the independent consumer build.
+The historical [0.1.2 release receipt](releases/0.1.2.json) records both public Maven artifacts, test scope, signatures, public hashes and the independent consumer build.
 
 `validation.json` describes the recorded validation build. Its artifact/source
 hashes and evidence paths retain their historical identity; current reproduction
