@@ -4,10 +4,18 @@ This experimental backend executes the complete fixed eight-layer streaming
 model in FP32 Vulkan compute shaders. ONNX Runtime is used only by the offline
 converter and test oracle. It is not invoked by the native GPU runtime.
 
-**Latest physical comparison:** the previous v2 bundle averaged **17.69 ms** and
-the v3 candidate **18.55 ms** in the same short phone test. Prefer v2 for now;
-v3 was 4.87% slower. Both had p95 below 20 ms, but neither kept every hop below
-20 ms. See the v3 comparison below for the protocol, quality checks and limits.
+**Current selection: v2 only.** `ExperimentalVulkanStreaming.create()` uses the
+measured tiled v2 kernels. `createTiled()` is a compatibility alias for the same
+path. The SDK accepts only the v2 bundle manifest SHA-256
+`951adf47ebece2c27a5af4df22b91c30c8a442b8caa04bb01db102ceb0ac733a`;
+the original v1 baseline and v3 candidate are rejected. The ordinary CPU
+constructor and Apple APIs are unchanged.
+
+**Historical physical comparison:** v2 averaged **17.69 ms** and v3 **18.55 ms**
+in the same short Galaxy S25 Ultra test; v3 was 4.87% slower. Both had p95 below
+20 ms, but each had 4/320 calls above 20 ms. Selecting v2 does not establish a
+new benchmark result or a sustained real-time guarantee. The archived v3
+comparison below records the protocol, quality checks and limits.
 
 **Earlier v2 physical-phone result (October 26, 2026):** the optimized 530-dispatch
 backend passed on a Galaxy S25 Ultra running Android 15 with an Adreno 830 GPU.
@@ -85,7 +93,7 @@ The final comparison measured both variants with profiling disabled. It tests
 the combined flattening and normalization changes, not their individual phone
 speed contributions.
 
-## V3 physical comparison and implementation
+## Archived v3 physical comparison and implementation
 
 The v3 candidate at `generated/candidate-v3` passed its physical Galaxy S25
 Ultra / Adreno 830 test on October 26, 2026. One foreground process compared
@@ -99,8 +107,9 @@ public streaming calls per bundle:
   **4 of 320** hops exceeded 20 ms.
 
 V3 was **4.87% slower** on mean latency, despite reducing dispatch count.
-**Prefer the previous v2 bundle for now.** The v3 cache fusion and specialized
-convolution remain experimental opt-ins. Both bundles met the under-20-ms
+**The current SDK selects v2 and rejects v3.** The v3 cache fusion and
+specialized convolution remain archived code-generation experiments, not SDK
+backend options. Both bundles met the under-20-ms
 mean and p95 target in this short test; neither met a strict every-hop deadline.
 These synchronous public-call timings include DSP, GPU completion and output
 readback, but exclude audio-device and network latency. They do not establish
@@ -131,7 +140,7 @@ v2 profile or phone ablation separating cache fusion from K72 convolution.
 The larger K72 shared-memory allocation could affect occupancy, but that cause
 was not measured. No further physical ablation was run within the testing cap.
 
-The opt-in `--fuse-concat-cache` conversion replaces each of 41 two-piece
+The archived `--fuse-concat-cache` conversion replaces each of 41 two-piece
 concatenations with a single exact-copy dispatch. For 23 of those operations,
 the same loaded value also writes the retained cache suffix, eliminating the
 following cache-copy dispatch. The original state input and its paired
@@ -180,36 +189,35 @@ measured v2 package, and their validation history intact.
 ## Status and Android integration
 
 These experimental sources and benchmark tools are available in this repository.
-They are not included in the published Android `0.1.2` artifacts; this source
-update does not create a Maven release. The v1, v2 and v3 physical experiments
+The published Android `0.1.2` artifacts predate the Vulkan API. Android `0.1.3`
+provides the v2-only Kotlin API; the model bundle and pinned native library remain
+separate artifacts. The v1, v2 and v3 physical experiments
 above are complete. The latest
 short test measured mean and p95 below 20 ms for both v2 and v3, with deadline
 outliers in both. V2 is the preferred experimental GPU bundle on this evidence;
 the CPU default remains unchanged.
 
-The inference factories are `ExperimentalVulkanStreaming.create` and
-`ExperimentalVulkanStreaming.createTiled`. Both use the same eight-layer FP32
-weights and the exact plan from the supplied pinned bundle: 530 operations for
-the measured v2 package or 466 for the v3 candidate. The experimental SDK pins
-distinguish the candidate, measured v2 package and immutable baseline for
-explicit comparisons. `createTiled` selects the separately validated tiled
-matrix and eligible dense-convolution pipelines. Which is faster depends
-on the phone's GPU and driver. Both factories preserve the existing
-`StreamingEnhancer` push/finish/reset API; Apple APIs and CPU factories are
-unchanged.
+The Vulkan factories accept the same single eight-layer FP32 v2 bundle: 530
+operations, 40 flattened matmuls, the measured `adreno64` FP32 shaders and
+31 recurrent states. `create()` selects the tiled matrix and eligible
+convolution pipelines by default; `createTiled()` is an equivalent compatibility
+alias. There is no public unprofiled direct-kernel selection. Older bundle
+manifests are rejected before loading. The separately pinned current native
+library is unchanged by this selection update. Both factory names preserve the
+existing `StreamingEnhancer` push/finish/reset API.
 
 ```kotlin
 import io.riftco.reusestreaming.ExperimentalVulkanStreaming
 import io.riftco.reusestreaming.StreamingEnhancerConfiguration
 import java.io.File
 
-// Extract the exact packaged model bundle into application-owned storage first.
-val bundle = File(context.filesDir, "reuse-vulkan").absoluteFile
+// Extract the exact audited v2 bundle into application-owned storage first.
+val bundle = File(context.filesDir, "reuse-vulkan-v2").absoluteFile
 val library = File(context.applicationInfo.nativeLibraryDir,
     "libreuse_streaming_vulkan.so").absoluteFile
 val configuration = StreamingEnhancerConfiguration(layers = 8, intraOpThreads = 1)
 
-ExperimentalVulkanStreaming.createTiled(bundle, library, configuration).use { enhancer ->
+ExperimentalVulkanStreaming.create(bundle, library, configuration).use { enhancer ->
     enhancer.warmUp()
     val output = enhancer.push(mono16kFloatSamples)
     val tail = enhancer.finish()
@@ -218,8 +226,8 @@ ExperimentalVulkanStreaming.createTiled(bundle, library, configuration).use { en
 }
 ```
 
-Use `create` in the same call site to compare the direct kernels. CPU thread
-count does not control Vulkan workgroups. The factory verifies the exact
+`createTiled` is an alias, not a different backend. CPU thread count does not
+control Vulkan workgroups. The factory verifies the exact
 manifest, all model/shader hashes and the native-library hash before loading.
 `manifest.json`, `plan.bin`, `weights.bin` and the pinned `shaders/*.spv` files
 must remain together. Package the ARM64 `.so` as an extracted JNI library and
@@ -241,7 +249,7 @@ Vulkan 1.1 hardware GPU. The device must support compute-stage subgroup basic,
 shuffle and relative-shuffle operations, with subgroup width at least 16 and
 divisible by 16. It also needs 128-byte push constants, workgroups of at least
 256 invocations, and storage-buffer capacity for the checked model arena
-(104,001,280 bytes for v2; 104,000,512 bytes for v3). The engine checks actual limits before
+(104,001,280 bytes for the accepted v2 bundle). The engine checks actual limits before
 execution and rejects unsupported devices. CPU/software Vulkan devices are
 rejected by Android JNI. The development CLI's explicit `--allow-software`
 option is not a phone-performance mode.
@@ -269,133 +277,77 @@ differences from the CPU reference. Cross-backend bitwise identity is not
 claimed. Reset/replay within the same backend is tested bitwise, while waveform
 and state agreement use the recorded numerical and speech-quality gates.
 
-## Reproduce the optimized 530-operation FP32 package
+## Use the audited v2 artifacts
 
-Run from the repository root using the pinned development Python environment
-with NumPy, ONNX, ONNX Runtime 1.23.2 and PyTorch. The converter requires the
-already exported, SHA-pinned eight-layer source at
-`tools/android-streaming-native/v2/softplus/generated/reuse-streaming-l8-native-stable-v2.onnx`;
-it refuses an arbitrary replacement graph. Preserve the existing generated
-model and parity fixtures when reproducing this experiment.
-
-The build also needs shaderc (`glslc`), SPIR-V Tools (`spirv-val` and
-`spirv-dis`), Android NDK **27.2.12479018**, CMake 3.22 or newer, and JDK 21.
-Host GPU validation on macOS uses the Vulkan loader and MoltenVK. The native
-build script records exact toolchain flags, source hashes, exported JNI symbols,
-shared-library dependencies and artifact hashes in
-`generated/native-build-receipt.json`.
-
-Use a separate reproduction directory so the reviewed frozen package is not
-replaced during development:
+Use the original audited `generated/candidate-v2` bundle, or an unchanged copy
+of it, together with the currently pinned native library. Generated bundles and
+native binaries are local research artifacts and are not included in the AAR or
+this repository. The factory does not download them. Verify the
+manifest before staging it into application-owned storage:
 
 ```sh
-python tools/android-streaming-vulkan/export_plan.py \
-  --layout-fusion --flatten-matmul-batches \
-  --output tools/android-streaming-vulkan/generated/reproduction
-python tools/android-streaming-vulkan/test_export_plan.py
-python tools/android-streaming-vulkan/reference_plan.py \
-  --plan tools/android-streaming-vulkan/generated/reproduction --frames 8
-python tools/android-streaming-vulkan/build_shaders.py --math-variant fma \
-  --gpu-variant adreno64 \
-  --output tools/android-streaming-vulkan/generated/reproduction/shaders
-python tools/android-streaming-vulkan/build_native.py
-
-tools/android-streaming-vulkan/generated/build-host/reuse-vulkan-cli validate-plan \
-  tools/android-streaming-vulkan/generated/reproduction/plan.bin
-python tools/android-streaming-vulkan/test_gpu_kernels.py \
-  --shaders tools/android-streaming-vulkan/generated/reproduction/shaders \
-  --tiled-conv --tiled-matmul
-python tools/android-streaming-vulkan/validate_gpu.py \
-  --directory tools/android-streaming-vulkan/generated/reproduction \
-  --shaders tools/android-streaming-vulkan/generated/reproduction/shaders \
-  --output tools/android-streaming-vulkan/generated/reproduction/direct-validation
-python tools/android-streaming-vulkan/validate_gpu.py \
-  --directory tools/android-streaming-vulkan/generated/reproduction \
-  --shaders tools/android-streaming-vulkan/generated/reproduction/shaders \
-  --output tools/android-streaming-vulkan/generated/reproduction/tiled-validation \
-  --tiled-conv --tiled-matmul
+python3 - /absolute/path/to/candidate-v2/manifest.json <<'PYVERIFY'
+import hashlib
+import pathlib
+import sys
+expected = "951adf47ebece2c27a5af4df22b91c30c8a442b8caa04bb01db102ceb0ac733a"
+assert hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest() == expected
+PYVERIFY
 ```
 
-If the host Vulkan loader does not discover MoltenVK automatically, set
-`VK_ICD_FILENAMES` to the installed `MoltenVK_icd.json` before running GPU tests.
-For the Homebrew installation used here, that file is
-`/opt/homebrew/opt/molten-vk/etc/vulkan/icd.d/MoltenVK_icd.json`.
+The manifest binds the original source graph, plan, weights, shaders and export
+receipts. `manifest.json`, `plan.bin`, `weights.bin` and all listed shader files
+must remain byte-identical. Recompiling an equivalent graph or regenerating a
+receipt does not automatically reproduce this manifest identity. Do not change
+SDK pins to admit a different bundle merely because it has eight layers or
+passes a single numerical test.
 
-After these graph/kernel checks, package the exact selected artifacts and update
-the experimental SDK pins for the subsequent SDK tests. This command only
-assembles local benchmark assets; it does not publish a release:
+To stage the existing audited package for a local benchmark build, supply its
+unchanged export/shader receipts and the exact current native libraries:
 
 ```sh
 python tools/android-streaming-vulkan/package_bundle.py \
-  --generated tools/android-streaming-vulkan/generated/reproduction \
-  --host-library tools/android-streaming-vulkan/generated/build-host/libreuse_streaming_vulkan.dylib \
-  --android-library tools/android-streaming-vulkan/generated/build-arm64-v8a/libreuse_streaming_vulkan.so \
-  --update-sdk-pins
+  --generated /absolute/path/to/candidate-v2 \
+  --host-library /absolute/path/to/current-pinned/libreuse_streaming_vulkan.dylib \
+  --android-library /absolute/path/to/current-pinned/libreuse_streaming_vulkan.so
 ```
 
-The package contains the 530-operation layout-fused graph with 40 flattened
-matmuls and the explicit-FMA `adreno64` shaders. To reproduce the historical
-baseline instead, omit `--flatten-matmul-batches` and use
-`--gpu-variant baseline`; write it into a different directory. Do not overwrite
-`generated/final` or `generated/candidate-v2`. Packaging verifies source
-identities, unchanged selected weight bytes, all shader hashes and FP32-only
-SPIR-V audits. Keep `export.json`,
-`shader-receipt.json`, `native-build-receipt.json` and `package-receipt.json`
-alongside the validation results. Updating pins alone does not validate output.
+Active staging and `--update-sdk-pins` admit only that measured v2 manifest and
+the existing validated native-library hashes. The optional pin-update flag
+does not admit a newly generated or historical alternative. Packaging stages
+local files only; it does not download a bundle, run a paid test or publish a
+release.
 
-## Reproduce the v3 466-operation candidate
+The converter and native CLI remain available for development: the v2 graph
+uses `export_plan.py --layout-fusion --flatten-matmul-batches`, and its shaders
+use `build_shaders.py --math-variant fma --gpu-variant adreno64`. Development
+outputs are not automatically admitted by the SDK. NumPy, ONNX, ONNX Runtime
+1.23.2, PyTorch, shaderc/SPIR-V Tools, NDK 27.2.12479018 and CMake 3.22 or newer
+are the recorded toolchain. Host Vulkan checks on macOS additionally need the
+Vulkan loader and MoltenVK. The generator still requires the pinned source at
+`tools/android-streaming-native/v2/softplus/generated/reuse-streaming-l8-native-stable-v2.onnx`.
+Keep generated outputs in a separate ignored directory and preserve the audited
+v2 artifacts.
 
-Use the same pinned source, environment and toolchain described above. The
-following flags select the cache/layout fusion and the separate K72 convolution
-pipeline. Use a new output directory; never overwrite `generated/final`,
-`generated/candidate-v2` or the reviewed `generated/candidate-v3` artifacts.
+## Archived generation and comparison experiments
 
-```sh
-python tools/android-streaming-vulkan/export_plan.py \
-  --layout-fusion --flatten-matmul-batches \
-  --fuse-concat-cache --specialize-conv3x3 \
-  --output tools/android-streaming-vulkan/generated/reproduction-v3
-python tools/android-streaming-vulkan/test_export_plan.py
-python tools/android-streaming-vulkan/reference_plan.py \
-  --plan tools/android-streaming-vulkan/generated/reproduction-v3 --frames 8
-python tools/android-streaming-vulkan/build_shaders.py \
-  --math-variant fma --gpu-variant adreno64-conv72-separated \
-  --output tools/android-streaming-vulkan/generated/reproduction-v3/shaders
-python tools/android-streaming-vulkan/build_native.py \
-  --output tools/android-streaming-vulkan/generated/reproduction-v3
+The original v1 and v3 generators, shader variants, validators and numerical
+results are retained for research history. Their presence does not make those
+bundles acceptable to the current SDK. In particular, `--fuse-concat-cache` and
+`--specialize-conv3x3` produce the archived v3 candidate, which the SDK rejects.
+`package_bundle.py --package-only` can write a development manifest and receipt
+without staging Android assets or modifying SDK pins. It cannot be combined
+with `--update-sdk-pins`, and does not make that bundle admissible at runtime.
 
-tools/android-streaming-vulkan/generated/reproduction-v3/build-host/reuse-vulkan-cli validate-plan \
-  tools/android-streaming-vulkan/generated/reproduction-v3/plan.bin
-python tools/android-streaming-vulkan/test_gpu_kernels.py \
-  --cli tools/android-streaming-vulkan/generated/reproduction-v3/build-host/reuse-vulkan-cli \
-  --shaders tools/android-streaming-vulkan/generated/reproduction-v3/shaders \
-  --output tools/android-streaming-vulkan/generated/reproduction-v3/kernel-tests \
-  --tiled-conv --tiled-matmul --expect-dense-conv-pipeline
-python tools/android-streaming-vulkan/validate_gpu.py \
-  --directory tools/android-streaming-vulkan/generated/reproduction-v3 \
-  --cli tools/android-streaming-vulkan/generated/reproduction-v3/build-host/reuse-vulkan-cli \
-  --shaders tools/android-streaming-vulkan/generated/reproduction-v3/shaders \
-  --output tools/android-streaming-vulkan/generated/reproduction-v3/tiled-validation \
-  --tiled-conv --tiled-matmul
-```
-
-The separate-pipeline shader variant requires `--math-variant fma`. Its
-`conv_tiled.spv` is the original FMA fallback; only marked descriptors select
-`conv_3x3_tiled.spv`. Packaging checks the dedicated shader hash as part of the
-bundle rather than admitting arbitrary additional shaders by file presence.
-After graph/kernel validation, prepare local SDK assets with:
-
-```sh
-python tools/android-streaming-vulkan/package_bundle.py \
-  --generated tools/android-streaming-vulkan/generated/reproduction-v3 \
-  --host-library tools/android-streaming-vulkan/generated/reproduction-v3/build-host/libreuse_streaming_vulkan.dylib \
-  --android-library tools/android-streaming-vulkan/generated/reproduction-v3/build-arm64-v8a/libreuse_streaming_vulkan.so \
-  --update-sdk-pins
-```
-
-Then run the public SDK tests below using the `reproduction-v3` bundle and its
-host library. Packaging and local parity checks do not publish a release,
-submit a Firebase matrix, or establish physical-phone performance.
+To reproduce the historical direct/tiled, v1/v2 or v2/v3 comparisons, use a
+separate checkout of [commit ad4ceda](https://github.com/quangng2000/reuse-audio/tree/ad4ceda)
+with its matching SDK, exact frozen bundles, native library and fixtures. That
+commit's version of this README records the original generation and comparison
+commands. The old instrumentation source is also retained under
+`android/benchmarks/streaming/archive/vulkan/`, outside active instrumentation
+source sets. Do not copy it into the current benchmark to bypass v2-only
+admission. The recorded result JSONs remain historical evidence; this selection
+change does not rerun or reinterpret their timings.
 
 ## SDK tests and physical benchmark
 
@@ -404,13 +356,13 @@ the published FP32 CPU graph. Supply absolute paths to the local fixtures; the
 GPU tests intentionally skip when these explicit opt-in variables are absent:
 
 ```sh
-export REUSE_VULKAN_DIRECTORY="$PWD/tools/android-streaming-vulkan/generated/reproduction"
-export REUSE_VULKAN_LIBRARY="$PWD/tools/android-streaming-vulkan/generated/build-host/libreuse_streaming_vulkan.dylib"
+export REUSE_VULKAN_DIRECTORY="/absolute/path/to/candidate-v2"
+export REUSE_VULKAN_LIBRARY="/absolute/path/to/current-pinned/libreuse_streaming_vulkan.dylib"
 export REUSE_STREAMING_MODEL_FILE="$PWD/tools/streaming-export/generated/models/reuse-streaming-l8-fp32.onnx"
 export REUSE_STREAMING_MODEL_MANIFEST="$PWD/android/reuse-streaming/model/manifests/reuse-streaming-l8-fp32.manifest.json"
 export REUSE_STREAMING_PARITY_DIR="$PWD/tools/streaming-export/generated/parity/l8"
 export REUSE_VULKAN_QUALITY_INPUT="$PWD/Validation/AndroidStreamingOptimization-0.1.2/quality/noisy-speech.f32"
-export REUSE_VULKAN_QUALITY_OUTPUT="$PWD/tools/android-streaming-vulkan/generated/reproduction/quality"
+export REUSE_VULKAN_QUALITY_OUTPUT="$PWD/tools/android-streaming-vulkan/generated/v2-validation/quality"
 
 ./android/gradlew -p android :reuse-streaming:testDebugUnitTest \
   --tests io.riftco.reusestreaming.VulkanStreamingIntegrationTest
@@ -418,39 +370,33 @@ export REUSE_VULKAN_QUALITY_OUTPUT="$PWD/tools/android-streaming-vulkan/generate
 
 Verify the XML reports show execution with **zero skipped tests**. The suite
 covers seven waveform lengths, chunk boundaries, EOF tails, all carried states,
-reset/replay, cancellation, direct/tiled parity and the four-second synthetic
+reset/replay, cancellation, factory-alias parity and the four-second synthetic
 speech diagnostic. The diagnostic is a numerical/audio-quality regression gate,
 not a broad perceptual-quality study. The native CLI additionally supports
 `--transaction-test` to check discarded GPU frames, rejected nonfinite input,
 exactly-once commit and state-bank rollback.
 
-The original benchmark instrumentation is
-`android/benchmarks/streaming/app/src/vulkanAndroidTest/.../VulkanBenchmarkTest.kt`,
-with historical artifact validation in `verify_phone_result.py`.
-`VulkanOptimizedBenchmarkTest.kt` compares four ordered cases on one phone:
-CPU before, frozen tiled GPU, optimized tiled GPU, CPU after. It records raw
-synchronous public-push timings, exact workload and bundle identities, actual
-Vulkan GPU/driver/pipeline information, output lengths and quality waveforms.
-Its quality reference is the SHA-pinned published CPU output from the prior
-physical run using identical input, rather than a newly generated CPU waveform.
-`verify_optimized_result.py` independently validates both bundles, disabled
-profiling, 300 physical timed hops, the raw statistics, golden CPU identity and
-waveform quality. The verifier's negative tests use marked temporary structural
-fixtures; those fixtures are rejected as production benchmark evidence.
+Historical instrumentation lives in
+`android/benchmarks/streaming/archive/vulkan/` and is excluded from active test
+source sets. `VulkanBenchmarkTest.kt` recorded direct/tiled v1 measurements;
+`VulkanOptimizedBenchmarkTest.kt` recorded CPU/v1/v2/CPU comparisons;
+`VulkanFinalBudgetBenchmarkTest.kt` recorded v2/v3 ABBA comparisons. Reproduce
+those protocols with commit `ad4ceda`, not with the v2-only current SDK.
 
-`VulkanFinalBudgetBenchmarkTest.kt` records the newer v2/v3 ABBA comparison:
-two 160-hop cases per bundle, 16 warmup hops per case, with profiling disabled
-during latency measurements. `verify_final_budget_result.py` independently
-checks artifact identities, all raw timings, pooled statistics and exported
-quality waveforms. Its optional four-hop v3 profile is recorded separately and
-verifies profiled/unprofiled output equality; it is not a paired kernel ablation.
+Their independent validators (`verify_phone_result.py`,
+`verify_optimized_result.py` and `verify_final_budget_result.py`) remain useful
+for checking archived result identities, raw timings and quality waveforms.
+Marked structural fixtures in verifier tests are not physical benchmark
+evidence. No new physical run was performed for the v2-only selection change.
 
 For diagnosis, `ExperimentalVulkanStreaming.createProfiled(bundle, library,
 configuration, tiled = true)` enables per-dispatch timestamps. Read
 `enhancer.backendProfileJson` after a push for the last submitted frame;
 `backendDiagnosticsJson` reports `perDispatchProfiling`. The development CLI
-also accepts `--profile`. `VulkanProfileTest.kt` captures a short baseline
-profile and verifies its output against the unprofiled backend. Timestamp
+also accepts `--profile`. The active `VulkanProfileTest.kt` is a v2-only
+diagnostic and checks profiled output against the unprofiled backend. It is not
+one of the archived multi-bundle comparison tests. Current profiling accepts
+only the v2 bundle; use `tiled = true` to diagnose the selected tiled path. Timestamp
 queries perturb scheduling, and per-dispatch intervals differ from full public
 push latency. Never mix profiled and unprofiled cases when claiming a speedup,
 or treat a negative measured profiling overhead in a short sequential capture

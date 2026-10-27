@@ -1,17 +1,51 @@
 # Android streaming benchmark
 
 By default this standalone release app consumes the published
-`io.github.quangng2000:reuse-streaming-android:0.1.2` artifact. It measures FP32
+`io.github.quangng2000:reuse-streaming-android:0.1.3` artifact. It measures FP32
 CPU streaming with pinned research models and synthetic input. Explicit local
 build flags also allow testing the direct-buffer optimization and opt-in native
 frequency kernel. The native variant preserves all weights, layers and states
 but has small FP32 rounding differences; it is not bitwise identical to the
 published graph.
 
-This is an emulator experiment. Its timings depend on the host CPU, hypervisor,
-guest configuration and concurrent host load. They do not establish Android
+The original emulator experiment below depends on the host CPU, hypervisor,
+guest configuration and concurrent host load. Its timings do not establish Android
 phone performance, sustained thermal behavior, battery cost or full call latency.
 [Android recommends physical devices for representative benchmarks](https://developer.android.com/topic/performance/benchmarking/benchmarking-in-ci).
+
+## Current Vulkan selection and archived comparisons
+
+The local Vulkan SDK now accepts **only the audited v2 bundle**, with manifest
+SHA-256 `951adf47ebece2c27a5af4df22b91c30c8a442b8caa04bb01db102ceb0ac733a`.
+`ExperimentalVulkanStreaming.create()` selects its measured tiled kernels;
+`createTiled()` is an alias. v1 and v3 manifests are rejected. This does not
+change the historical 0.1.2 CPU measurements. New benchmark builds report the
+0.1.3 coordinate; the ordinary constructor still uses CPU inference.
+
+The last same-phone ABBA comparison measured **17.69 ms mean for v2** and
+**18.55 ms for v3**: v3 was 4.87% slower. Both pooled p95 values were 19.59 ms,
+but each backend had 4/320 calls above 20 ms. These are historical short-run
+Galaxy S25 Ultra results, not new measurements or sustained real-time claims.
+See [the public v3 comparison](results/firebase-vulkan-v3-galaxy-s25-ultra-2026-10-26.json)
+and [the Vulkan guide](../../../tools/android-streaming-vulkan/README.md).
+
+The old direct/tiled and multi-bundle Kotlin instrumentation is retained under
+[`archive/vulkan/`](archive/vulkan/) and excluded from the active instrumentation
+source sets. The result JSONs and historical verification tools remain available. The active
+`VulkanProfileTest.kt` is a v2-only diagnostic; its instrumented timings are not
+normal latency measurements. To
+reproduce those older comparisons, use a separate checkout of
+[commit ad4ceda](https://github.com/quangng2000/reuse-audio/tree/ad4ceda) with its
+matching SDK, exact bundles and fixtures. The current v2-only SDK intentionally
+cannot execute the old v1/v3 cases. Do not re-enable archived cases in the
+active benchmark or relax artifact admission for a historical comparison.
+
+For future Vulkan integrations use `create()` with the audited v2 bundle.
+`createProfiled(..., tiled = true)` is available for diagnostic timestamps only;
+exclude profiled calls from normal latency comparisons. No additional physical
+test was performed for this selection update; a package release does not create
+new performance evidence. Generated
+model bundles, native binaries and personal recordings remain outside Git.
 
 ## Recorded emulator result
 
@@ -55,7 +89,7 @@ adb -s emulator-5554 wait-for-device
 # Wait until: adb -s emulator-5554 shell getprop sys.boot_completed -> 1
 adb -s emulator-5554 install -r android/benchmarks/streaming/app/build/outputs/apk/release/app-release.apk
 python3 android/benchmarks/streaming/tools/run_benchmark.py --frames 300 \
-  --output Validation/AndroidEmulatorStreaming-0.1.2/sweep-300
+  --output Validation/AndroidEmulatorStreaming-0.1.3/sweep-300
 ```
 
 Use the SDK's absolute `emulator`/`adb` paths or add their directories to PATH.
@@ -72,7 +106,7 @@ For a longer selected configuration:
 ```sh
 python3 android/benchmarks/streaming/tools/run_benchmark.py \
   --layers 8 --threads 4 --frames 1000 \
-  --output Validation/AndroidEmulatorStreaming-0.1.2/eight-four-threads-1000
+  --output Validation/AndroidEmulatorStreaming-0.1.3/eight-four-threads-1000
 ```
 
 The command requires the named emulator, captures a unique run ID and validates

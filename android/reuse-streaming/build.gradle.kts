@@ -5,7 +5,7 @@ import org.gradle.api.publish.maven.MavenPublication
 plugins { id("com.android.library"); kotlin("android"); id("maven-publish") }
 
 group = "io.github.quangng2000"
-version = "0.1.2"
+version = "0.1.3"
 
 android {
     namespace = "io.riftco.reusestreaming"

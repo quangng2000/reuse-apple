@@ -1,0 +1,84 @@
+{
+  "baselineModelSha256": "18db8d32b638702909de484d2a9cffc97ed09e6454c4caed3f0008fb0aab53e8",
+  "checkpointSha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "executionBackend": "native-vulkan-fp32",
+  "exportReceiptSha256": "a455f54c824221b1e6d99d302858b2c5238a1101a81fab43519af7632e54e503",
+  "fftSize": 640,
+  "files": {
+    "plan.bin": {
+      "bytes": 70892,
+      "sha256": "6ee8bc2661102774b0fd90509b4548d55bbc860b4bf8c62e70f83d69528802e7"
+    },
+    "shaders/binary.spv": {
+      "bytes": 4480,
+      "sha256": "9c5a14fff7a315165f9ac0defb07996237b1f650fe47646987abe218f93590bf"
+    },
+    "shaders/conv.spv": {
+      "bytes": 11256,
+      "sha256": "877880abeff359c553dae84687a27c8ac56a08aec0c8fa3c5be277b968c47451"
+    },
+    "shaders/conv_tiled.spv": {
+      "bytes": 12488,
+      "sha256": "a4025de0ea9baa6c2f94e09e7a7235d0a6edea42ead1af4ab8dcb2f096d5dce5"
+    },
+    "shaders/finite_check.spv": {
+      "bytes": 1692,
+      "sha256": "3b0aace5a408357098f0455d63fc46984156cfc8c57787cfb2e1f6cfa0681a68"
+    },
+    "shaders/frequency.spv": {
+      "bytes": 7700,
+      "sha256": "a98fc522f264f6a79df6a7e1d2594e635db14ed3556c56b82c990cd25926bbb2"
+    },
+    "shaders/gather.spv": {
+      "bytes": 2648,
+      "sha256": "918089378d9c2e21e4307dd3eeb1dfbb95f6e219b26dad3b1f39a93bc863cf5a"
+    },
+    "shaders/layernorm.spv": {
+      "bytes": 7608,
+      "sha256": "ce42b2c79dff519bc6d76ec4982437d4f865812bb531227f6c0a3c68e085e333"
+    },
+    "shaders/matmul.spv": {
+      "bytes": 10656,
+      "sha256": "1bc500d13a535ebbcc2f937cc2033eb0230978487696babb3187038c18422951"
+    },
+    "shaders/matmul_tiled.spv": {
+      "bytes": 15304,
+      "sha256": "22af71717f0b6a4d3601f4658c93a1abde9c6f9fd0f057a0efd386fbc865b820"
+    },
+    "shaders/pad.spv": {
+      "bytes": 3180,
+      "sha256": "e360b850d273c7d5e17cac06e498cb99902aa3f28f21e67992ea679c1ace09a4"
+    },
+    "shaders/scatter.spv": {
+      "bytes": 2648,
+      "sha256": "d6652fa21c35c94ac760fbceaa02beda2973874df18184429e42eb7736339b0c"
+    },
+    "shaders/temporal.spv": {
+      "bytes": 7056,
+      "sha256": "2673830520dbafb58642e3f8063eb82785f9d62d0625188c30df8e948e0731ff"
+    },
+    "shaders/unary.spv": {
+      "bytes": 6260,
+      "sha256": "b7bd0638112449c8a83095c483097d8b95a33f4ee159942349286498e79f1d47"
+    },
+    "shaders/where.spv": {
+      "bytes": 3392,
+      "sha256": "f07c894283e151bb090207928741d141ab5f0fba2cd43454dc896dc39d1e41f9"
+    },
+    "weights.bin": {
+      "bytes": 104001280,
+      "sha256": "aabfcd6872419a8a529127a0ea180d422bed7343efe6228c9ba80f796f21e600"
+    }
+  },
+  "hopSize": 320,
+  "layers": 8,
+  "license": "NSCLv1",
+  "precision": "float32",
+  "researchOnly": true,
+  "sampleRate": 16000,
+  "schemaVersion": 1,
+  "selectedWeightBytesUnchanged": true,
+  "shaderReceiptSha256": "cf1a89d15cc9719b5d8d6b3ebece69541786ed3c96d1c7a383e92f80841bb7ff",
+  "sourceModelSha256": "db29c725c70608920e600787fcda625e98429cfbae2c2d09f1dc73726825319a",
+  "stateCount": 31
+}

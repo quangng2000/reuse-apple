@@ -17,7 +17,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "0.1.2-benchmark"
+        versionName = "0.1.3-benchmark"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "STREAMING_SDK_SOURCE", "\"$streamingSource\"")
         buildConfigField("String", "STREAMING_VARIANT", "\"$streamingVariant\"")
@@ -58,7 +58,7 @@ android {
 }
 
 dependencies {
-    implementation("io.github.quangng2000:reuse-streaming-android:0.1.2")
+    implementation("io.github.quangng2000:reuse-streaming-android:0.1.3")
     androidTestImplementation("androidx.test:runner:1.7.0")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("com.microsoft.onnxruntime:onnxruntime-android:1.23.2")

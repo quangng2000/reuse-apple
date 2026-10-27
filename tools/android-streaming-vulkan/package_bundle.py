@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package a fixed, hash-checked FP32 Vulkan experiment; this does not certify numerical quality."""
+"""Package FP32 Vulkan artifacts; only the measured v2 package may be activated."""
 import argparse
 import hashlib
 import json
@@ -14,17 +14,44 @@ REPO = ROOT.parents[1]
 BASELINE = '18db8d32b638702909de484d2a9cffc97ed09e6454c4caed3f0008fb0aab53e8'
 SOURCE = 'db29c725c70608920e600787fcda625e98429cfbae2c2d09f1dc73726825319a'
 CHECKPOINT = '6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade'
+SUPPORTED_MANIFEST = '951adf47ebece2c27a5af4df22b91c30c8a442b8caa04bb01db102ceb0ac733a'
+SUPPORTED_ANDROID_LIBRARY = '507377ed71ff24cebcf1176995d91ee6ffc9b4d358e6cd6252b601c5baf2fcf5'
+SUPPORTED_HOST_LIBRARY = 'cd03dd83c31a41474d42da76e018e3c0c6271d93b3fb2866d50d45b96e15c75d'
 
 def digest(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 def pin(p): return {'bytes': p.stat().st_size, 'sha256': digest(p)}
 
-def main():
+def require_supported_package(receipt):
+    """Never turn packaging or a pin-update flag into approval of new artifacts."""
+    expected = {
+        'bundleManifest': SUPPORTED_MANIFEST,
+        'androidLibrary': SUPPORTED_ANDROID_LIBRARY,
+        'hostLibrary': SUPPORTED_HOST_LIBRARY,
+    }
+    for name, expected_hash in expected.items():
+        if receipt.get(name, {}).get('sha256') != expected_hash:
+            raise ValueError(
+                f'{name} is not the measured v2 artifact; active staging and SDK pin '
+                'updates are refused. Use --package-only for an isolated research package.'
+            )
+
+
+def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--generated', type=Path, default=ROOT/'generated')
     p.add_argument('--host-library', type=Path, required=True)
     p.add_argument('--android-library', type=Path, required=True)
     p.add_argument('--update-sdk-pins', action='store_true')
-    a = p.parse_args()
+    p.add_argument('--package-only', action='store_true',
+                   help='Write local manifest/receipt only; do not stage assets or update SDK pins.')
+    a = p.parse_args(argv)
+    if a.package_only and a.update_sdk_pins:
+        p.error('--package-only cannot be combined with --update-sdk-pins')
+    # Research metadata must not overwrite an already staged active manifest.
+    benchmark_build = REPO/'android/benchmarks/streaming/app/build'
+    for name in ['benchmark-vulkan-assets', 'benchmark-vulkan-libs']:
+        if a.generated.resolve().is_relative_to((benchmark_build/name).resolve()):
+            p.error('--generated must be outside active benchmark asset/library directories')
     export = json.loads((a.generated/'export.json').read_text())
     assert export['layers'] == 8 and export['stateCount'] == 31 and export['precision'] == 'float32'
     assert export['checkpointSha256'] == CHECKPOINT and export['baselineModelSha256'] == BASELINE
@@ -84,6 +111,11 @@ def main():
     receipt = {'bundleManifest': pin(a.generated/'manifest.json'),
                'hostLibrary': pin(a.host_library), 'androidLibrary': pin(a.android_library)}
     (a.generated/'package-receipt.json').write_text(json.dumps(receipt, indent=2)+'\n')
+    if a.package_only:
+        print(json.dumps(receipt, indent=2))
+        return
+    # Check all three independently before touching either the SDK or active assets.
+    require_supported_package(receipt)
     if a.update_sdk_pins:
         sdk = REPO/'android/reuse-streaming/src/main/kotlin/io/riftco/reusestreaming/ExperimentalVulkanStreaming.kt'
         text = sdk.read_text()
@@ -93,12 +125,12 @@ def main():
             text, count = re.subn(r'(internal const val '+key+r' = ")[^"]+("\n)', lambda m: m[1]+value+m[2], text)
             assert count == 1
         sdk.write_text(text)
-    assets = REPO/'android/benchmarks/streaming/app/build/benchmark-vulkan-assets/vulkan'
+    assets = benchmark_build/'benchmark-vulkan-assets/vulkan'
     assets.mkdir(parents=True, exist_ok=True)
     for name in ['manifest.json']+list(files):
         dest = assets/name; dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(a.generated/name, dest)
-    libs = REPO/'android/benchmarks/streaming/app/build/benchmark-vulkan-libs/arm64-v8a'
+    libs = benchmark_build/'benchmark-vulkan-libs/arm64-v8a'
     libs.mkdir(parents=True, exist_ok=True)
     shutil.copy2(a.android_library, libs/a.android_library.name)
     # Pin the exact same three-tone/noise sequence used in the earlier physical CPU benchmark.

@@ -4,7 +4,7 @@ package io.riftco.reusestreaming
 import java.io.File
 
 /** Fixed eight-layer network on Vulkan; STFT/framing/overlap-add remain the shared FP32 path. */
-internal class VulkanStreamingProcessor(directory: File, tiledDenseKernels: Boolean = false, profiled: Boolean = false) : StreamingSpectralProcessor {
+internal class VulkanStreamingProcessor(directory: File, tiledDenseKernels: Boolean = true, profiled: Boolean = false) : StreamingSpectralProcessor {
     private var handle = if (profiled) NativeVulkanEngine.createProfiled(File(directory, "plan.bin").absolutePath,
         File(directory, "weights.bin").absolutePath, File(directory, "shaders").absolutePath,
         tiledDenseKernels, tiledDenseKernels) else NativeVulkanEngine.createTuned(File(directory, "plan.bin").absolutePath,

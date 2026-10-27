@@ -218,12 +218,43 @@ jobs:
           critical = {'actualStatefulOnnxMatchesIndependentSpectralCarryAndReset',
                       'actualModelWaveformParityChunkIndependenceAndReset',
                       'actualOrtCancellationTerminatesAndResetRestoresIndependentOutput'}
+          # These suites require separately built, eight-layer experimental artifacts.
+          # Exclude only their exact classes; keep all other tests automatically discovered.
+          separate_artifact_suites = (
+              'ExperimentalNativeStreamingIntegrationTest',
+              'ExperimentalNativeStreamingV2IntegrationTest',
+              'ExperimentalNativeStreamingInlineV2IntegrationTest',
+              'ExperimentalNativeStreamingStableV2IntegrationTest',
+              'VulkanStreamingIntegrationTest',
+          )
+          init_script = Path(os.environ['RUNNER_TEMP']) / 'reuse-streaming-release-tests.init.gradle'
+          init_script.write_text(
+              'gradle.beforeProject { project ->\n'
+              '  project.tasks.withType(org.gradle.api.tasks.testing.Test).configureEach { task ->\n'
+              "    if (task.path == ':reuse-streaming:testReleaseUnitTest') {\n"
+              + ''.join(f"      task.filter.excludeTestsMatching('io.riftco.reusestreaming.{name}')\n"
+                        for name in separate_artifact_suites)
+              + '    }\n  }\n}\n')
+          critical_depth4 = {
+              'PinnedStreamingIntegrationTest': {
+                  'pinnedSpectraAndEveryCommittedStateMatchTheCopyingReferenceBitForBit',
+                  'fullWaveformAndArbitraryChunkReplayAreBitIdenticalToTheCopyingReference',
+                  'pinnedOutputResultDoesNotOwnBuffersAndReuseKeepsTensorIdentity',
+                  'aPrecancelledHopNeverChangesCommittedState',
+              },
+              'VulkanBundleSelectionTest': {
+                  'authenticV1BundleIsRejectedByEveryFactoryBeforeLoadingNativeCode',
+                  'authenticV3BundleIsRejectedByEveryFactoryBeforeLoadingNativeCode',
+                  'modifiedV2ManifestIsRejectedByEveryFactory',
+              },
+          }
           for depth in (4, 3, 5, 6, 7, 8, 9, 10, 11, 12):
               env = dict(os.environ,
                          REUSE_STREAMING_MODEL_FILE=str(assets / 'models' / f'reuse-streaming-l{depth}-fp32.onnx'),
                          REUSE_STREAMING_MODEL_MANIFEST=str(assets / 'models' / f'reuse-streaming-l{depth}-fp32.manifest.json'),
                          REUSE_STREAMING_PARITY_DIR=str(assets / 'parity' / f'l{depth}'))
               command = ['./gradlew', '--no-daemon', '--console=plain', '--max-workers=2', '--rerun-tasks',
+                         '--init-script', str(init_script),
                          ':reuse-streaming:testReleaseUnitTest']
               if depth != 4:
                   command += ['--tests', 'io.riftco.reusestreaming.StreamingModelIntegrationTest']
@@ -232,8 +263,14 @@ jobs:
               cases = [case for report in reports.glob('TEST-*.xml') for case in ET.parse(report).getroot().iter('testcase')]
               names = {case.attrib.get('name') for case in cases
                        if case.attrib.get('classname') == 'io.riftco.reusestreaming.StreamingModelIntegrationTest'}
-              if len(cases) < (21 if depth == 4 else 3) or not critical <= names:
+              if len(cases) < (53 if depth == 4 else 3) or not critical <= names:
                   raise SystemExit(f'Missing required streaming inference tests for depth {depth}')
+              if depth == 4:
+                  for suite, required in critical_depth4.items():
+                      actual = {case.attrib.get('name') for case in cases
+                                if case.attrib.get('classname') == f'io.riftco.reusestreaming.{suite}'}
+                      if not required <= actual:
+                          raise SystemExit(f'Missing required streaming release tests: {suite}')
               if any(case.find(kind) is not None for case in cases for kind in ('skipped', 'failure', 'error')):
                   raise SystemExit(f'Streaming depth {depth} must pass without skips')
               shutil.copytree(reports, Path('build/release-test-evidence') / f'streaming-l{depth}')

@@ -95,7 +95,7 @@ class NativeComparisonBenchmarkTest {
             receipt.put("result", JSONObject().put("file", saved.absolutePath).put("bytes", bytes.size).put("sha256", sha256(bytes)))
             check(result.getBoolean("success") && result.getString("status") == "complete") { "Comparison app reported failure." }
             check(result.getInt("schemaVersion") == 1 && result.getString("variant") == "native-v2-comparison")
-            check(result.getString("sdkCoordinate") == "io.github.quangng2000:reuse-streaming-android:0.1.2" &&
+            check(result.getString("sdkCoordinate") == "io.github.quangng2000:reuse-streaming-android:0.1.3" &&
                 result.getString("sdkSource") == "local" && result.getString("precision") == "FP32" &&
                 result.getString("executionProvider") == "CPUExecutionProvider" && result.getString("onnxRuntimeVersion") == "1.23.2")
             check(result.getInt("sampleRate") == 16000 && result.getInt("hopSamples") == 320 && result.getInt("windowSamples") == 640)

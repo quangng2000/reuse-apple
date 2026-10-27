@@ -87,7 +87,7 @@ class MainActivity : Activity() {
         val cases = JSONArray()
         val result = JSONObject().put("schemaVersion", 1).put("runId", runId)
             .put("success", false).put("status", "running").put("cases", cases)
-            .put("sdkCoordinate", "io.github.quangng2000:reuse-streaming-android:0.1.2")
+            .put("sdkCoordinate", "io.github.quangng2000:reuse-streaming-android:0.1.3")
             .put("sdkSource", BuildConfig.STREAMING_SDK_SOURCE).put("variant", BuildConfig.STREAMING_VARIANT)
             .put("nativeFrequencyScan", BuildConfig.NATIVE_FREQUENCY_SCAN)
             .put("precision", "FP32").put("executionProvider", "CPUExecutionProvider")

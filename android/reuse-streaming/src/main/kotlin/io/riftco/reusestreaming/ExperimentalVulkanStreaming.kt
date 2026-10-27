@@ -9,32 +9,30 @@ import java.security.MessageDigest
  * Explicit experimental eight-layer FP32 Vulkan network, with the shared streaming DSP and framing.
  * The model and recurrent caches stay on the GPU. No ONNX Runtime inference or CPU model fallback
  * is used. The same weights are used; GPU FP32 rounding can differ from the CPU reference.
+ * Only the measured v2 bundle is supported; v1 and v3 experiments are rejected.
  * Supply only the pinned application-bundled artifacts. No download occurs here.
  * This separate streaming model remains licensed for noncommercial research under NSCLv1.
  */
 object ExperimentalVulkanStreaming {
     // Exact reproducible artifact identities; quality results are recorded separately in validation receipts.
-    internal const val BUNDLE_MANIFEST_SHA256 = "744eb7fbf38da57ea04f37ce7de821037c28bc8a759820eb3098d2803a8c0d0d"
-    internal const val V2_BUNDLE_MANIFEST_SHA256 = "951adf47ebece2c27a5af4df22b91c30c8a442b8caa04bb01db102ceb0ac733a"
-    // Retain the measured original bundle for explicit comparisons with the optimized layout.
-    internal const val BASELINE_BUNDLE_MANIFEST_SHA256 = "a2626151ecc5d1f1a5021e6a12d5bb0d691b03f70e5c3fe5a21c9c33f3a1a360"
+    internal const val BUNDLE_MANIFEST_SHA256 = "951adf47ebece2c27a5af4df22b91c30c8a442b8caa04bb01db102ceb0ac733a"
     internal const val ANDROID_LIBRARY_SHA256 = "507377ed71ff24cebcf1176995d91ee6ffc9b4d358e6cd6252b601c5baf2fcf5"
     internal const val HOST_LIBRARY_SHA256 = "cd03dd83c31a41474d42da76e018e3c0c6271d93b3fb2866d50d45b96e15c75d"
     private val loadLock = Any()
     private var loadedLibrary: String? = null
 
-    /** intraOpThreads belongs to the CPU backend and has no effect on Vulkan dispatch. */
+    /** Uses the measured tiled v2 kernels. intraOpThreads has no effect on Vulkan dispatch. */
     @JvmStatic
     fun create(bundleDirectory: File, libraryFile: File,
                configuration: StreamingEnhancerConfiguration = StreamingEnhancerConfiguration(8, 1)): StreamingEnhancer {
-        return open(bundleDirectory, libraryFile, configuration, false)
+        return open(bundleDirectory, libraryFile, configuration, true)
     }
 
-    /** Uses the separately validated tiled dense kernels; performance depends on the phone GPU. */
+    /** Compatibility alias for [create]; both select the same tiled v2 kernels. */
     @JvmStatic
     fun createTiled(bundleDirectory: File, libraryFile: File,
                     configuration: StreamingEnhancerConfiguration = StreamingEnhancerConfiguration(8, 1)): StreamingEnhancer {
-        return open(bundleDirectory, libraryFile, configuration, true)
+        return create(bundleDirectory, libraryFile, configuration)
     }
 
     /** Timestamp-instrumented diagnostics only; scheduling overhead makes these timings unsuitable for normal latency claims. */
@@ -66,8 +64,8 @@ object ExperimentalVulkanStreaming {
         val root = directory.canonicalFile
         val receipt = File(root, "manifest.json")
         require(receipt.isFile && receipt.length() in 1..262_144L &&
-            sha256(receipt) in setOf(BUNDLE_MANIFEST_SHA256, BASELINE_BUNDLE_MANIFEST_SHA256, V2_BUNDLE_MANIFEST_SHA256)) {
-            "Untrusted Vulkan bundle manifest."
+            sha256(receipt) == BUNDLE_MANIFEST_SHA256) {
+            "Only the validated v2 Vulkan bundle is supported."
         }
         val manifest = JSONObject(receipt.readText(Charsets.UTF_8))
         require(manifest.getInt("schemaVersion") == 1 && manifest.getString("executionBackend") == "native-vulkan-fp32" &&

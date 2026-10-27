@@ -25,6 +25,14 @@ class VulkanStreamingIntegrationTest {
     private fun options() = StreamingEnhancerConfiguration(8, 4)
     private fun gpu(f: Fixture) = ExperimentalVulkanStreaming.create(f.directory, f.library, options())
     private fun gpuTiled(f: Fixture) = ExperimentalVulkanStreaming.createTiled(f.directory, f.library, options())
+    private fun assertTiledV2(enhancer: StreamingEnhancer) {
+        val info = JSONObject(requireNotNull(enhancer.backendDiagnosticsJson))
+        assertEquals(530, info.getInt("operations"))
+        assertEquals(31, info.getInt("stateCount"))
+        assertEquals("float32", info.getString("precision"))
+        assertTrue(info.getBoolean("tiledMatmulPipeline"))
+        assertTrue(info.getBoolean("tiledConvolutionPipeline"))
+    }
     private fun floats(path: File): FloatArray {
         val raw = path.readBytes(); require(raw.size % 4 == 0)
         val buffer = ByteBuffer.wrap(raw).order(ByteOrder.LITTLE_ENDIAN).asFloatBuffer()
@@ -48,6 +56,7 @@ class VulkanStreamingIntegrationTest {
     @Test fun publishedWaveformsPartialChunksAndResetMatchAcrossSevenLengths() {
         val f = fixture()
         StreamingEnhancer(f.model, f.manifest, options()).use { cpu -> gpu(f).use { vk ->
+            assertTiledV2(vk)
             val receipt = JSONObject(File(f.parity, "parity.json").readText())
             val cases = receipt.getJSONArray("fixtures")
             assertEquals(7, cases.length())
@@ -140,13 +149,14 @@ class VulkanStreamingIntegrationTest {
         } finally { temp.deleteRecursively() }
     }
 
-    @Test fun tiledKernelsMatchDirectWithExactResetAndChunkReplay() {
+    @Test fun defaultFactoryMatchesTiledAliasWithExactResetAndChunkReplay() {
         val f = fixture()
-        gpu(f).use { direct -> gpuTiled(f).use { tiled ->
+        gpu(f).use { default -> gpuTiled(f).use { tiled ->
+            assertTiledV2(default); assertTiledV2(tiled)
             val input = floats(File(f.parity, "16000-input.f32"))
-            val reference = direct.push(input) + direct.finish()
+            val reference = default.push(input) + default.finish()
             val actual = tiled.push(input) + tiled.finish()
-            compare(reference, actual)
+            bits(reference, actual)
             tiled.reset(); val replay = ArrayList<Float>(); var offset = 0
             while (offset < input.size) {
                 val end = minOf(offset + 317, input.size)

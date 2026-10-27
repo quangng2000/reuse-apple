@@ -11,7 +11,7 @@ dependencyResolutionManagement {
 rootProject.name = "ReuseStreamingEmulatorBenchmark"
 include(":app")
 
-// Explicit development-only substitution; the default remains published0.1.2.
+// Explicit development-only substitution; the default remains published 0.1.3.
 if (providers.gradleProperty("streamingSdkSource").orNull == "local") {
     includeBuild("../..") {
         dependencySubstitution {
