@@ -56,6 +56,16 @@ It requires `optimized: true`; other depths reject this option. The default
 processing and compilation at eight layers. See the
 [specialized kernel guide](metal-optimization/README.md) for benchmark scope.
 
+## Optional realtime scheduling helper
+
+Apple hosts with a live render clock can opt into
+[`RealtimeStreamingEnhancer`](realtime-streaming.md) to bound pending input,
+retain source/generation tags, and discard expired results around inference.
+The ordinary `StreamingEnhancer.push`, `finish`, and `reset` behavior above is
+unchanged. The helper runs on a serial worker and does not belong in an audio
+callback. It does not increase model throughput or choose a different depth.
+Android's separate streaming API is unchanged.
+
 ## Examples
 
 The [Mac tool](../apple/Examples/StreamingCLI) reads a recording and feeds it to the
@@ -75,8 +85,10 @@ Add `--baseline` to disable the optimizations for a same-model waveform comparis
 Use the same input/checkpoint, without gain matching or time alignment, when
 checking numerical preservation. See each example's help for available flags.
 
-The library supplies enhancement only. Microphone routing, sample-rate conversion,
-echo cancellation, buffering, playback, codec and network integration belong to
-the host app. The measured phone prototype received microphone callbacks up to
-104 ms long despite requesting 20 ms, so processing time alone is not total call
-latency. See [measured results](streaming-validation.md).
+The incremental API supplies enhancement; the optional Apple helper adds bounded
+worker-side scheduling. Microphone routing, sample-rate conversion, echo
+cancellation, callback ingress/output buffering, the actual render clock, playback,
+codec and network integration still belong to the host app. The measured phone
+prototype received microphone callbacks up to 104 ms long despite requesting
+20 ms, so processing time alone is not total call latency. See
+[measured results](streaming-validation.md).
