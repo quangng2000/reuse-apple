@@ -1,0 +1,16 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#include "common.glsl"
+// Shape-specialized FP32 FMA dense3x3, with unchanged generic fallback.
+layout(local_size_x=16,local_size_y=8) in;
+#define DENSE_K 36
+shared float weights[16][DENSE_K];
+shared float samples[DENSE_K][32];
+#include "conv-v3/fallback.glsl"
+#include "conv-v3/dense3x3.glsl"
+void main() {
+    bool specialized=pc.v[8]==1 && pc.v[14]==3 && pc.v[15]==3 &&
+        pc.v[16]==1 && pc.v[17]==1 && pc.v[18]==0 && pc.v[19]==1 &&
+        pc.v[21]==1 && pc.v[12]==1+2*pc.v[20] && pc.v[9]==pc.v[13];
+    if(specialized)dense3x3();else fallbackConv();
+}

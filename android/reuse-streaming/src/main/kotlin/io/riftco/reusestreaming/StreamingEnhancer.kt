@@ -18,6 +18,10 @@ class StreamingEnhancer internal constructor(
         this(OnnxStreamingProcessor(modelFile, manifest, configuration), configuration)
 
     val layers: Int get() = configuration.layers
+    /** Optional execution details for explicit experimental backends; no audio or model data. */
+    val backendDiagnosticsJson: String? @Synchronized get() { checkOpen(); return processor.diagnosticsJson }
+    /** Last timestamp-instrumented GPU frame, only for an explicitly profiled experimental backend. */
+    val backendProfileJson: String? @Synchronized get() { checkOpen(); return processor.profileJson }
     private var session = StreamingSession()
     private var transform = StreamingTransform()
     private var closed = false
@@ -83,6 +87,8 @@ class StreamingEnhancer internal constructor(
 }
 
 internal interface StreamingSpectralProcessor : Closeable {
+    val diagnosticsJson: String? get() = null
+    val profileJson: String? get() = null
     fun process(input: StreamingSpectrum, cancellation: StreamingCancellationToken): StreamingSpectrum
     fun reset()
 }

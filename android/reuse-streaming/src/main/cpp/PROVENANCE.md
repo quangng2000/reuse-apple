@@ -12,6 +12,13 @@ The only source change replaces both JNI function symbol prefixes
 FFT math, scaling, validation and precision flags are unchanged.
 The separate library target is `reusestreaming_dsp`.
 
+`streaming_buffers.cpp` is an original MIT transport helper in that same native
+library. It validates the exponent bits of direct FP32 state buffers and zeroes
+owned mutable storage on reset. It performs no floating-point arithmetic and
+does not alter the copied FFT implementation, transforms or neural graph.
+The state transport uses disjoint persistent input/output banks rather than
+copying every cache through Java arrays on each hop.
+
 The coefficient file `PeriodicHann640.kt` is the exact offline coefficient array,
 with only its Kotlin package renamed. The window is periodic Hann, not sqrt-Hann.
 

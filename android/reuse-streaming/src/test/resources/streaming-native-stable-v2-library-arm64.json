@@ -1,0 +1,32 @@
+{
+  "kernelAbi": 2,
+  "domain": "ai.reuse.streaming",
+  "op": "FrequencyScanV2",
+  "temporalOp": "TemporalStepV2",
+  "softplusOp": "StableSoftplusV2",
+  "ortVersion": "1.23.2",
+  "abi": "arm64-v8a",
+  "file": "libreuse_streaming_stable_v2.so",
+  "bytes": 1290416,
+  "sha256": "0ef1e0447d0dc64bff5ae588e64cb2c4f3072bd0a6f54cd5c05cb089cb540c0d",
+  "sourceSha256": "db9ebe9af659752543e25f88be6bd95b51cead20dc2355f6dfe0a21f476912af",
+  "sources": {
+    "native_stable_v2.cpp": "db9ebe9af659752543e25f88be6bd95b51cead20dc2355f6dfe0a21f476912af",
+    "CMakeLists.txt": "66b274dd635bc066f1e9fac2452ae6410cbdb2d6ff85ab366776b44fad84ef3b",
+    "build_stable_v2.py": "6cb0d5bb48d1a614f000046d5905e48af092e704eee03895e36a7d86d75fc9fc",
+    "transform_stable_v2.py": "651847acaecc4734dbd3957724b053a12b1fe3866756a1ec2f2b0a0de61cc18a",
+    "stable_softplus.cpp": "92ce909655ddd2eeaaedd90b1b01018dfc834263dd4d2e45aefacb018d612a16",
+    "vendor/eigen/provenance.json": "b782cf82a4b903ad4ade8a8f65e29e2153689b941383c2bb123581740855998b",
+    "inlineMlasHeader": "e65204dc9f5a7748201c186cbb7ef713631d2c94c8facc866ef35b13993e3f24",
+    "inlineMlasProvenance": "558d85391b7302a8bb4749c280eb2ab3a37a992b3a06a1fa7fd365d8269e0bc5",
+    "v1FrequencySource": "1708573ce611abc9da7ab8453fbd51c7635f61dd8f5db77ee14788002f6ac030",
+    "v1TransformSource": "c77c1560266f87b61ef8972c0231c52b789c4294c061959cbc15db38f5327be8",
+    "ortHeaderProvenance": "5abee8adc9f970885827b081f21d3091b4ed8bbb8112a523d80a8d0966119281"
+  },
+  "verifiedExportedSymbols": [
+    "RegisterCustomOps",
+    "ReuseStreamingKernelAbiVersion"
+  ],
+  "compilerFlags": "-O3 -fno-fast-math -ffp-contract=off -fvisibility=hidden",
+  "precision": "float32"
+}

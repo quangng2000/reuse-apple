@@ -1,0 +1,35 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#include "common.glsl"
+layout(local_size_x=64) in;
+void main() {
+    uint lane=gl_GlobalInvocationID.x,channel=lane/16,component=lane%16;
+    if(channel>=pc.v[13])return;
+    uint channels=pc.v[13],bins=pc.v[12];
+    precise float state=arena.data[pc.v[3]+channel*16+component];
+    float coefficient=arena.data[pc.v[9]+channel*16+component];
+    for(uint bin=0;bin<bins;++bin) {
+        uint index=bin*channels+channel;
+        float dt=arena.data[pc.v[5]+index],u=arena.data[pc.v[4]+index];
+        precise float exponent=dt*coefficient;
+        precise float decay=reuseExp(exponent);
+        precise float updateFirst=dt*arena.data[pc.v[6]+bin*16+component];
+        precise float update=updateFirst*u;
+        precise float previous=decay*state;
+        state=previous+update;
+        precise float value=state*arena.data[pc.v[7]+bin*16+component];
+        for(uint offset=8;offset>0;offset>>=1) {
+            float other=subgroupShuffleDown(value,offset);
+            if(component<offset)value=value+other;
+        }
+        if(component==0) {
+            precise float skip=arena.data[pc.v[10]+channel]*u;
+            precise float combined=value+skip;
+            arena.data[pc.v[1]+index]=combined*arena.data[pc.v[8]+index];
+        }
+    }
+    if(pc.v[11]!=0xffffffffu)arena.data[pc.v[11]+channel*16+component]=state;
+}

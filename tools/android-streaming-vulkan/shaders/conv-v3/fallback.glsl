@@ -1,0 +1,46 @@
+// Existing FP32 FMA tiled convolution fallback. Uses shared tiles declared by wrapper.
+void fallbackConv() {
+    uint x=gl_LocalInvocationID.x,y=gl_LocalInvocationID.y;
+    uint spatialBase=gl_WorkGroupID.x*32,channelBase=gl_WorkGroupID.y*16;
+    uint batch=gl_WorkGroupID.z;
+    uint cout=pc.v[7],spatial=pc.v[8]*pc.v[9],cin=pc.v[11];
+    uint hin=pc.v[12],win=pc.v[13],kh=pc.v[14],kw=pc.v[15];
+    uint fullK=cin*kh*kw;
+    precise float c00=0.0,c01=0.0,c10=0.0,c11=0.0;
+    for(uint start=0;start<fullK;start+=16) {
+        for(uint rowPart=0;rowPart<2;++rowPart) {
+            uint oc=channelBase+y+rowPart*8;
+            uint ki=start+x;
+            weights[y+rowPart*8][x]=(oc<cout && ki<fullK)?arena.data[pc.v[4]+oc*fullK+ki]:0.0;
+        }
+        for(uint rowPart=0;rowPart<2;++rowPart)for(uint colPart=0;colPart<2;++colPart) {
+            uint kLocal=y+rowPart*8,ki=start+kLocal;
+            uint s=spatialBase+x+colPart*16;
+            uint kx=ki%kw,ky=(ki/kw)%kh,ic=ki/(kw*kh);
+            uint ox=s%pc.v[9],oy=s/pc.v[9];
+            int iy=int(oy*pc.v[16]+ky*pc.v[20])-int(pc.v[18]);
+            int ix=int(ox*pc.v[17]+kx*pc.v[21])-int(pc.v[19]);
+            bool valid=ki<fullK && s<spatial && iy>=0 && ix>=0 && iy<int(hin) && ix<int(win);
+            uint index=((batch*cin+ic)*hin+uint(max(iy,0)))*win+uint(max(ix,0));
+            samples[kLocal][x+colPart*16]=valid?arena.data[pc.v[3]+index]:0.0;
+        }
+        barrier();
+        for(uint j=0;j<16 && start+j<fullK;++j) {
+            c00=fma(weights[y][j],samples[j][x],c00);
+            c01=fma(weights[y][j],samples[j][x+16],c01);
+            c10=fma(weights[y+8][j],samples[j][x],c10);
+            c11=fma(weights[y+8][j],samples[j][x+16],c11);
+        }
+        barrier();
+    }
+    uint oc0=channelBase+y,oc1=oc0+8,s0=spatialBase+x,s1=s0+16;
+    if(pc.v[23]!=0) {
+        float bias0=oc0<cout?arena.data[pc.v[5]+oc0]:0.0;
+        float bias1=oc1<cout?arena.data[pc.v[5]+oc1]:0.0;
+        c00=c00+bias0;c01=c01+bias0;c10=c10+bias1;c11=c11+bias1;
+    }
+    if(oc0<cout && s0<spatial)arena.data[pc.v[1]+(batch*cout+oc0)*spatial+s0]=c00;
+    if(oc0<cout && s1<spatial)arena.data[pc.v[1]+(batch*cout+oc0)*spatial+s1]=c01;
+    if(oc1<cout && s0<spatial)arena.data[pc.v[1]+(batch*cout+oc1)*spatial+s0]=c10;
+    if(oc1<cout && s1<spatial)arena.data[pc.v[1]+(batch*cout+oc1)*spatial+s1]=c11;
+}

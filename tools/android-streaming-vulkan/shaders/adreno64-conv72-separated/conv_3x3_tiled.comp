@@ -1,0 +1,13 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#include "common.glsl"
+// Dedicated shape-admitted FP32 dense3x3 pipeline. Generic tiled convolution
+// retains its separate 3 KiB shared-memory pipeline and original shader.
+layout(local_size_x=16,local_size_y=8) in;
+#define DENSE_K 72
+shared float weights[16][DENSE_K];
+shared float samples[DENSE_K][32];
+#include "conv-v3/dense3x3.glsl"
+void main() {
+    dense3x3();
+}

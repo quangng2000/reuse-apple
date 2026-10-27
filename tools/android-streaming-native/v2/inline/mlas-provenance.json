@@ -1,0 +1,19 @@
+{
+  "version": "1.23.2",
+  "license": "MIT",
+  "algorithm": "MlasComputeExpVector plus NEON wrappers and constants",
+  "upstreamSources": [
+    {
+      "file": "compute.cpp",
+      "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/v1.23.2/onnxruntime/core/mlas/lib/compute.cpp",
+      "sha256": "6a7ff3c9ddc3c46f79dfaf8d1be461e7dcb8c0461a9238497777a25de72c7cba",
+      "bytes": 32320
+    },
+    {
+      "file": "mlasi.h",
+      "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/v1.23.2/onnxruntime/core/mlas/lib/mlasi.h",
+      "sha256": "930dc00adacdaa3045f026d503eaadcf2db7c666edd78d1897807e454951f99f",
+      "bytes": 81798
+    }
+  ]
+}

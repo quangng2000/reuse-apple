@@ -3,26 +3,39 @@ package io.riftco.reusestreaming
 
 import ai.onnxruntime.*
 import java.io.File
-import java.nio.FloatBuffer
 import java.util.concurrent.CancellationException
 
-/** One ONNX hop with explicit persistent FP32 convolution and recurrent caches. */
+/** One unchanged ONNX hop with persistent, disjoint direct FP32 state input/output banks. */
 internal class OnnxStreamingProcessor(modelFile: File, private val manifest: StreamingModelManifest,
-                                     options: StreamingEnhancerConfiguration) : StreamingSpectralProcessor {
+                                     options: StreamingEnhancerConfiguration,
+                                     customOpLibrary: File? = null,
+                                     customVariant: NativeStreamingVariant = NativeStreamingVariant.FREQUENCY_V1) : StreamingSpectralProcessor {
     private val environment = OrtEnvironment.getEnvironment()
     private val session: OrtSession
-    private var state = emptyList<FloatArray>()
+    private var customSessionOptions: OrtSession.SessionOptions? = null
+    private var buffers: PinnedStreamingBuffers? = null
+    private var runOptions: OrtSession.RunOptions? = null
     private val spectralShape = longArrayOf(1, 321, 1)
+    private val requestedOutputs = emptySet<String>()
+    private var closed = false
 
     init {
         require(options.layers == manifest.layers) { "The streaming model was exported for a different exit layer." }
         manifest.verify(modelFile)
-        session = OrtSession.SessionOptions().use { config ->
+        fun createSession(config: OrtSession.SessionOptions): OrtSession {
             config.setIntraOpNumThreads(options.intraOpThreads)
             config.setInterOpNumThreads(1)
             config.setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
             // CPU is the sole registered provider. No FP16, quantization or NNAPI fallback.
-            environment.createSession(modelFile.absolutePath, config)
+            customOpLibrary?.let { config.registerCustomOpLibrary(it.absolutePath) }
+            return environment.createSession(modelFile.absolutePath, config)
+        }
+        session = if (customOpLibrary == null) OrtSession.SessionOptions().use { createSession(it) } else {
+            // ORT Java unloads registered libraries when SessionOptions closes. Keep the custom
+            // options alive until after the session and every callback have been destroyed.
+            val config = OrtSession.SessionOptions()
+            try { createSession(config).also { customSessionOptions = config } }
+            catch (failure: Throwable) { config.close(); throw failure }
         }
         try {
             val expectedInputs = setOf("magnitude", "phase") + manifest.states.map { it.inputName }
@@ -39,52 +52,78 @@ internal class OnnxStreamingProcessor(modelFile: File, private val manifest: Str
                 metadata["source_revision"] == StreamingModelManifest.SOURCE_REVISION &&
                 metadata["precision"] == "float32" && metadata["layers"] == manifest.layers.toString() &&
                 metadata["lookahead"] == "0" && metadata["license"] == "NSCLv1") { "Invalid streaming graph identity." }
-            state = manifest.states.map { FloatArray(it.elements) }
-        } catch (error: Throwable) { session.close(); throw error }
+            if (customOpLibrary != null) require(customVariant.metadata.all { (key, value) -> metadata[key] == value }) {
+                "Invalid experimental streaming graph identity."
+            }
+            buffers = PinnedStreamingBuffers(environment, manifest)
+            runOptions = OrtSession.RunOptions()
+        } catch (failure: Throwable) {
+            buffers?.close()
+            buffers = null
+            runOptions?.close()
+            runOptions = null
+            try { session.close() } finally {
+                val config = customSessionOptions
+                customSessionOptions = null
+                config?.close()
+            }
+            throw failure
+        }
     }
 
     override fun process(input: StreamingSpectrum, cancellation: StreamingCancellationToken): StreamingSpectrum {
+        check(!closed) { "Streaming processor is closed." }
         cancellation.throwIfCancelled()
-        val tensors = LinkedHashMap<String, OnnxTensor>()
+        val storage = checkNotNull(buffers)
+        val run = checkNotNull(runOptions)
+        run.setTerminate(false)
+        storage.writeSpectrum(input)
+        cancellation.bind { try { run.setTerminate(true) } catch (_: OrtException) { /* already terminated */ } }
         try {
-            tensors["magnitude"] = OnnxTensor.createTensor(environment, FloatBuffer.wrap(input.magnitude), spectralShape)
-            tensors["phase"] = OnnxTensor.createTensor(environment, FloatBuffer.wrap(input.phase), spectralShape)
-            for ((i, spec) in manifest.states.withIndex())
-                tensors[spec.inputName] = OnnxTensor.createTensor(environment, FloatBuffer.wrap(state[i]), spec.shape.toLongArray())
-            OrtSession.RunOptions().use { run ->
-                cancellation.bind { try { run.setTerminate(true) } catch (_: OrtException) { /* already terminated */ } }
-                try {
-                    session.run(tensors, run).use { result ->
-                        cancellation.throwIfCancelled()
-                        fun read(name: String, shape: LongArray, count: Int): FloatArray {
-                            val tensor = result.get(name).orElseThrow { IllegalArgumentException("Missing streaming output.") } as? OnnxTensor
-                                ?: error("Expected streaming tensor output.")
-                            validate(tensor.info, shape)
-                            val buffer = tensor.floatBuffer ?: error("Missing streaming FP32 buffer.")
-                            require(buffer.remaining() == count) { "Unexpected streaming output count." }
-                            return FloatArray(count).also {
-                                buffer.get(it)
-                                require(it.all(Float::isFinite)) { "Nonfinite streaming model output." }
-                            }
-                        }
-                        val output = StreamingSpectrum(read("enhanced_magnitude", spectralShape, 321),
-                            read("enhanced_phase", spectralShape, 321))
-                        val next = manifest.states.map { read(it.outputName, it.shape.toLongArray(), it.elements) }
-                        cancellation.throwIfCancelled()
-                        state = next
-                        return output
-                    }
-                } catch (error: OrtException) {
-                    if (cancellation.isCancelled || Thread.currentThread().isInterrupted)
-                        throw CancellationException("Streaming enhancement cancelled; reset before continuing.")
-                    throw IllegalStateException("Stateful CPU streaming inference failed.", error)
-                } finally { cancellation.unbind() }
+            cancellation.throwIfCancelled()
+            // Every output is supplied by the caller. Result does not own or close these tensors.
+            session.run(storage.inputs, requestedOutputs, storage.outputs, run).use { result ->
+                check(result.size() == storage.outputs.size) { "Unexpected streaming output count." }
+                cancellation.throwIfCancelled()
+                require(storage.nextIsFinite()) { "Nonfinite streaming model output." }
+                val output = storage.copySpectrum()
+                cancellation.throwIfCancelled()
+                storage.commitNext()
+                return output
             }
-        } finally { tensors.values.forEach { it.close() } }
+        } catch (failure: OrtException) {
+            if (cancellation.isCancelled || Thread.currentThread().isInterrupted)
+                throw CancellationException("Streaming enhancement cancelled; reset before continuing.")
+            throw IllegalStateException("Stateful CPU streaming inference failed.", failure)
+        } finally { cancellation.unbind() }
     }
 
-    override fun reset() { state.forEach { it.fill(0f) } }
-    override fun close() { session.close(); state = emptyList() }
+    override fun reset() {
+        check(!closed) { "Streaming processor is closed." }
+        checkNotNull(runOptions).setTerminate(false)
+        checkNotNull(buffers).reset()
+    }
+
+    /** Expensive state copies are validation diagnostics, never part of normal processing. */
+    internal fun copyStateForValidation(): List<FloatArray> = checkNotNull(buffers).copyCommittedStateForValidation()
+
+    override fun close() {
+        if (!closed) {
+            closed = true
+            try { session.close() } finally {
+                val config = customSessionOptions
+                customSessionOptions = null
+                try { config?.close() } finally {
+                    try { runOptions?.close() } finally {
+                        runOptions = null
+                        val storage = buffers
+                        buffers = null
+                        storage?.close()
+                    }
+                }
+            }
+        }
+    }
 
     private fun validate(info: ValueInfo, expectedShape: LongArray) {
         val tensor = info as? TensorInfo ?: error("Expected FP32 streaming tensor.")

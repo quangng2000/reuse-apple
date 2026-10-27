@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22.1)
 project(reusestreaming_dsp LANGUAGES CXX)
 
-add_library(reusestreaming_dsp SHARED reuse_audio_dsp.cpp)
+add_library(reusestreaming_dsp SHARED reuse_audio_dsp.cpp streaming_buffers.cpp)
 target_compile_features(reusestreaming_dsp PRIVATE cxx_std_17)
 target_compile_definitions(reusestreaming_dsp PRIVATE POCKETFFT_NO_MULTITHREADING=1)
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")

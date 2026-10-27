@@ -1,0 +1,24 @@
+{
+  "kernelAbi": 1,
+  "domain": "ai.reuse.streaming",
+  "op": "FrequencyScanV1",
+  "ortVersion": "1.23.2",
+  "abi": "arm64-v8a",
+  "file": "libreuse_streaming_scan.so",
+  "bytes": 1114624,
+  "sha256": "d37c8919108be9ccc95d5297e88b31744736db6d60508372a77f4323fed38437",
+  "sourceSha256": "1708573ce611abc9da7ab8453fbd51c7635f61dd8f5db77ee14788002f6ac030",
+  "sources": {
+    "frequency_scan.cpp": "1708573ce611abc9da7ab8453fbd51c7635f61dd8f5db77ee14788002f6ac030",
+    "CMakeLists.txt": "33a3297b60213bd183a6d0b0392086e445e4e7da6bcd6ba5956ef2457c2640eb",
+    "build_native.py": "0e07ce68c7b6a487e173942bb38d0b5932bd7e86ababd25187833db62b557945",
+    "transform.py": "c77c1560266f87b61ef8972c0231c52b789c4294c061959cbc15db38f5327be8",
+    "vendor/onnxruntime-1.23.2/provenance.json": "5abee8adc9f970885827b081f21d3091b4ed8bbb8112a523d80a8d0966119281"
+  },
+  "verifiedExportedSymbols": [
+    "RegisterCustomOps",
+    "ReuseStreamingKernelAbiVersion"
+  ],
+  "compilerFlags": "-O3 -fno-fast-math -ffp-contract=off -fvisibility=hidden",
+  "precision": "float32"
+}

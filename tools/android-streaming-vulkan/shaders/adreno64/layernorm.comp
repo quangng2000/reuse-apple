@@ -1,0 +1,75 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#include "common.glsl"
+// The pinned model normalizes exactly 64 channels. On an Adreno wave64 a
+// complete normalization row fits one subgroup: retain the same binary-tree
+// addition order while eliminating idle lanes and workgroup barriers.
+layout(local_size_x=64) in;
+// The native runtime specializes this from the queried device property.
+// A fixed constant also lets the driver remove the unused fallback branch.
+layout(constant_id=0) const uint hardwareSubgroupSize=32;
+shared float sums[64];
+shared float sharedMean;
+shared float sharedInverseStd;
+uint valueIndex(uint row,uint column) {
+    return pc.v[11]==0 ? row*pc.v[7]+column
+        : (row/pc.v[12]*pc.v[7]+column)*pc.v[12]+row%pc.v[12];
+}
+float sum64(float value) {
+    precise float result=value;
+    for(uint stride=32;stride>0;stride>>=1) {
+        float other=subgroupShuffleDown(result,stride);
+        if(gl_LocalInvocationID.x<stride)result=result+other;
+    }
+    return subgroupShuffle(result,0);
+}
+void main() {
+    uint lane=gl_LocalInvocationID.x,row=gl_WorkGroupID.x,width=pc.v[7];
+    precise float meanValue;
+    precise float inverseStd;
+    if(width==64 && hardwareSubgroupSize==64) {
+        float x=arena.data[pc.v[3]+valueIndex(row,lane)];
+        meanValue=sum64(x)/64.0;
+        precise float difference=x-meanValue;
+        precise float square=difference*difference;
+        inverseStd=1.0/sqrt(sum64(square)/64.0+uintBitsToFloat(pc.v[8]));
+    } else {
+        // Portable fallback for host validation (Apple/MoltenVK subgroup32)
+        // and any admitted GPU with another supported subgroup size.
+        precise float sum=0.0;
+        for(uint col=lane;col<width;col+=64)sum=sum+arena.data[pc.v[3]+valueIndex(row,col)];
+        sums[lane]=sum;barrier();
+        for(uint stride=32;stride>0;stride>>=1) {
+            if(lane<stride)sums[lane]=sums[lane]+sums[lane+stride];
+            barrier();
+        }
+        if(lane==0)sharedMean=sums[0]/float(width);
+        barrier();
+        meanValue=sharedMean;
+        precise float variance=0.0;
+        for(uint col=lane;col<width;col+=64) {
+            precise float difference=arena.data[pc.v[3]+valueIndex(row,col)]-meanValue;
+            precise float square=difference*difference;
+            variance=variance+square;
+        }
+        sums[lane]=variance;barrier();
+        for(uint stride=32;stride>0;stride>>=1) {
+            if(lane<stride)sums[lane]=sums[lane]+sums[lane+stride];
+            barrier();
+        }
+        if(lane==0)sharedInverseStd=1.0/sqrt(sums[0]/float(width)+uintBitsToFloat(pc.v[8]));
+        barrier();
+        inverseStd=sharedInverseStd;
+    }
+    for(uint col=lane;col<width;col+=64) {
+        uint index=valueIndex(row,col);
+        precise float y=(arena.data[pc.v[3]+index]-meanValue)*inverseStd;
+        if(pc.v[9]!=0)y=y*arena.data[pc.v[4]+col];
+        if(pc.v[10]!=0)y=y+arena.data[pc.v[5]+col];
+        if(pc.v[13]!=0 && y<0.0)y=y*arena.data[pc.v[14]+(pc.v[15]==1?0:col)];
+        arena.data[pc.v[1]+index]=y;
+    }
+}

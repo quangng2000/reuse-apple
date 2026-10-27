@@ -92,7 +92,11 @@ publishing.repositories.maven { name = "CentralStaging"; url = uri(layout.buildD
 tasks.withType<Test>().configureEach {
     dependsOn(buildHostDsp)
     systemProperty("java.library.path", hostDspDirectory.get().asFile.absolutePath)
-    listOf("REUSE_STREAMING_MODEL_FILE", "REUSE_STREAMING_MODEL_MANIFEST", "REUSE_STREAMING_PARITY_DIR").forEach { name ->
+    listOf("REUSE_STREAMING_MODEL_FILE", "REUSE_STREAMING_MODEL_MANIFEST", "REUSE_STREAMING_PARITY_DIR",
+        "REUSE_NATIVE_STREAMING_DIRECTORY", "REUSE_NATIVE_STREAMING_V2_DIRECTORY",
+        "REUSE_NATIVE_STREAMING_INLINE_V2_DIRECTORY", "REUSE_NATIVE_STREAMING_STABLE_V2_DIRECTORY",
+        "REUSE_VULKAN_DIRECTORY", "REUSE_VULKAN_LIBRARY", "REUSE_VULKAN_QUALITY_INPUT",
+        "REUSE_VULKAN_QUALITY_OUTPUT").forEach { name ->
         System.getenv(name)?.let { systemProperty(name, it) }
     }
 }

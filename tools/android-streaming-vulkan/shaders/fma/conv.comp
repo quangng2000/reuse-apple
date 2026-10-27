@@ -1,0 +1,47 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#include "common.glsl"
+// Explicit FP32 FMA variant; no FP16 or implicit fast-math contraction.
+layout(local_size_x=128) in;
+void main() {
+    uint i=gl_GlobalInvocationID.x;
+    if(i>=pc.v[2])return;
+    uint cout=pc.v[7],hout=pc.v[8],wout=pc.v[9];
+    uint cin=pc.v[11],hin=pc.v[12],win=pc.v[13];
+    uint kh=pc.v[14],kw=pc.v[15],groups=pc.v[22];
+    uint ox=i%wout,oy=(i/wout)%hout,oc=(i/(wout*hout))%cout,batch=i/(wout*hout*cout);
+    if(pc.v[25]!=0) {
+        oc=i%cout;ox=(i/cout)%wout;oy=(i/(cout*wout))%hout;
+    }
+    uint inputsPerGroup=cin/groups,outputsPerGroup=cout/groups;
+    uint inputChannelStart=(oc/outputsPerGroup)*inputsPerGroup;
+    precise float sum=0.0;
+    for(uint ci=0;ci<inputsPerGroup;++ci) {
+        uint ic=inputChannelStart+ci;
+        for(uint ky=0;ky<kh;++ky)for(uint kx=0;kx<kw;++kx) {
+            int iy,ix;
+            uint weightIndex;
+            if(pc.v[24]==0) {
+                iy=int(oy*pc.v[16]+ky*pc.v[20])-int(pc.v[18]);
+                ix=int(ox*pc.v[17]+kx*pc.v[21])-int(pc.v[19]);
+                weightIndex=((oc*inputsPerGroup+ci)*kh+ky)*kw+kx;
+            } else {
+                int numeratorY=int(oy+pc.v[18])-int(ky*pc.v[20]);
+                int numeratorX=int(ox+pc.v[19])-int(kx*pc.v[21]);
+                if(numeratorY%int(pc.v[16])!=0 || numeratorX%int(pc.v[17])!=0)continue;
+                iy=numeratorY/int(pc.v[16]);ix=numeratorX/int(pc.v[17]);
+                weightIndex=((ic*outputsPerGroup+(oc%outputsPerGroup))*kh+ky)*kw+kx;
+            }
+            if(iy<0 || ix<0 || iy>=int(hin) || ix>=int(win))continue;
+            uint inputIndex=((batch*cin+ic)*hin+uint(iy))*win+uint(ix);
+            if(pc.v[25]!=0)inputIndex=((batch*hin+uint(iy))*win+uint(ix))*cin+ic;
+            sum=fma(arena.data[pc.v[3]+inputIndex],arena.data[pc.v[4]+weightIndex],sum);
+        }
+    }
+    if(pc.v[23]!=0)sum=sum+arena.data[pc.v[5]+oc];
+    if(pc.v[26]!=0) {
+        precise float sigmoid=1.0/(1.0+reuseExp(-sum));
+        sum=sum*sigmoid;
+    }
+    arena.data[pc.v[1]+i]=sum;
+}

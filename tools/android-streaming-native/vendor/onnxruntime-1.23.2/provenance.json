@@ -1,0 +1,32 @@
+{
+  "coordinate": "com.microsoft.onnxruntime:onnxruntime-android:1.23.2",
+  "source": "https://repo.maven.apache.org/maven2/com/microsoft/onnxruntime/onnxruntime-android/1.23.2/onnxruntime-android-1.23.2.aar",
+  "license": "MIT",
+  "headers": [
+    {
+      "file": "onnxruntime_c_api.h",
+      "bytes": 332350,
+      "sha256": "71125e66180a991d65c9bdbad4aa20daaa1f7a48c7a5c0fa5f18f250ac839a02"
+    },
+    {
+      "file": "onnxruntime_cxx_api.h",
+      "bytes": 144113,
+      "sha256": "08ae3698d11d90590a0a777ad97e58172b8735fcbe27edcc8a7b94aa018e5de9"
+    },
+    {
+      "file": "onnxruntime_cxx_inline.h",
+      "bytes": 130952,
+      "sha256": "226f883503ade7299f9474018a070dc94091c1541bcc6d419599eea0c2ee578e"
+    },
+    {
+      "file": "onnxruntime_float16.h",
+      "bytes": 17860,
+      "sha256": "6c4db3d1954b266c4febe413351af86cac922e3448538e7e452e51d646e56a4a"
+    },
+    {
+      "file": "onnxruntime_ep_c_api.h",
+      "bytes": 45129,
+      "sha256": "b92778f50c36ecdf53d0344e0129a78b306afed653f81bba8a9597e3e6e9546f"
+    }
+  ]
+}

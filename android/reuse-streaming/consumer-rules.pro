@@ -1,1 +1,3 @@
 -keep class io.riftco.reusestreaming.StreamingFourier640 { *; }
+-keep class io.riftco.reusestreaming.NativeStreamingBuffers { *; }
+-keep class io.riftco.reusestreaming.NativeVulkanEngine { *; }

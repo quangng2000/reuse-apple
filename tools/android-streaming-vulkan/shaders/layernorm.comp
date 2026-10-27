@@ -1,0 +1,44 @@
+#version 450
+#extension GL_GOOGLE_include_directive : require
+#include "common.glsl"
+layout(local_size_x=256) in;
+shared float sums[256];
+shared float meanValue;
+shared float inverseStd;
+uint valueIndex(uint row,uint column) {
+    return pc.v[11]==0 ? row*pc.v[7]+column
+        : (row/pc.v[12]*pc.v[7]+column)*pc.v[12]+row%pc.v[12];
+}
+void main() {
+    uint lane=gl_LocalInvocationID.x,row=gl_WorkGroupID.x,width=pc.v[7];
+    precise float sum=0.0;
+    for(uint col=lane;col<width;col+=256)sum=sum+arena.data[pc.v[3]+valueIndex(row,col)];
+    sums[lane]=sum;barrier();
+    for(uint stride=128;stride>0;stride>>=1) {
+        if(lane<stride)sums[lane]=sums[lane]+sums[lane+stride];
+        barrier();
+    }
+    if(lane==0)meanValue=sums[0]/float(width);
+    barrier();
+    precise float variance=0.0;
+    for(uint col=lane;col<width;col+=256) {
+        precise float diff=arena.data[pc.v[3]+valueIndex(row,col)]-meanValue;
+        precise float square=diff*diff;
+        variance=variance+square;
+    }
+    sums[lane]=variance;barrier();
+    for(uint stride=128;stride>0;stride>>=1) {
+        if(lane<stride)sums[lane]=sums[lane]+sums[lane+stride];
+        barrier();
+    }
+    if(lane==0)inverseStd=1.0/sqrt(sums[0]/float(width)+uintBitsToFloat(pc.v[8]));
+    barrier();
+    for(uint col=lane;col<width;col+=256) {
+        uint index=valueIndex(row,col);
+        precise float y=(arena.data[pc.v[3]+index]-meanValue)*inverseStd;
+        if(pc.v[9]!=0)y=y*arena.data[pc.v[4]+col];
+        if(pc.v[10]!=0)y=y+arena.data[pc.v[5]+col];
+        if(pc.v[13]!=0 && y<0.0)y=y*arena.data[pc.v[14]+(pc.v[15]==1?0:col)];
+        arena.data[pc.v[1]+index]=y;
+    }
+}
