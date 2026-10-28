@@ -79,7 +79,9 @@ Specialized FP32 Metal kernels reduced matched short-test processing on an
 paired STOI changed by less than 4e-9 on the diagnostic recording.
 
 These are measurements of the research prototype. The public package exposes
-the kernels as an opt-in path for eight and twelve layers:
+the kernels as an opt-in path for every exit from 3 through 12 layers. All exits
+have passed checkpoint-backed macOS GPU correctness tests; the phone timings
+above apply only to the measured eight- and twelve-layer configurations:
 
 ```swift
 let enhancer = try StreamingEnhancer(
