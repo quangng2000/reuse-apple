@@ -5,14 +5,14 @@
 public enum StreamingOptimization: String, Sendable {
     /// Preserves the existing kernels and automatic eight-layer configuration.
     case standard
-    /// Opt-in FP32 kernels for optimized eight- and twelve-layer streams.
+    /// Opt-in FP32 kernels for optimized streams at every exit from three through twelve layers.
     /// Changes reduction order, so output can differ by floating-point rounding.
     /// Requires Apple silicon with 32-lane SIMD groups; timing depends on device.
     case specializedMetal = "specialized_metal"
 
     func validate(layers: Int, optimized: Bool, lookahead: Int = 0) throws {
         guard self == .specializedMetal else { return }
-        guard optimized, [8, 12].contains(layers), lookahead == 0 else {
+        guard optimized, (3...12).contains(layers), lookahead == 0 else {
             throw StreamingError.invalidOptimization
         }
     }

@@ -4,7 +4,7 @@ import Foundation
 
 extension StreamingEnhancer {
     /// Loads the pinned checkpoint. The standard configuration preserves existing
-    /// defaults; specialized Metal is opt-in for optimized eight/twelve-layer streams.
+    /// defaults; specialized Metal is opt-in for optimized streams at every exit 3–12.
     /// Calls such as `StreamingEnhancer(modelURL: url, layers: 8,
     /// optimization: .specializedMetal)` retain FP32 and zero lookahead.
     public convenience init(modelURL: URL, layers: Int = 4, optimized: Bool = true,

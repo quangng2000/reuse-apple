@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "scope": "Specialized Metal exits 3\u201312, short synthetic macOS GPU correctness validation only; no iPhone timing or speech-quality claim.",
+  "recorded_at": "2026-10-28",
+  "mlx_swift": "0.29.1",
+  "configuration": "Release",
+  "destination": "platform=macOS,arch=arm64",
+  "result": "TEST SUCCEEDED",
+  "command_exit": 0,
+  "tests": 26,
+  "failures": 0,
+  "skips": 0,
+  "checkpoint_sha256": "6eac4e8cc721f99a22cde7eac3c9f8e2826ced5dc8a4234fd1977de1ec0d3ade",
+  "streaming_source_fingerprint": {
+    "algorithm": "SHA256 of sorted newline-terminated repository-relative path + space + SHA256(file) records for apple/Sources/ReuseStreaming/**/*.swift",
+    "sha256": "19eb4b1c5736344b0d13c59ab1595a49f36af8f739383ea32098c5b213213cd6"
+  },
+  "exits": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "per_exit_checks": [
+    "Frozen optimized-reference spectrum/audio parity and every convolution/recurrent state tensor: four frames, including silence, replayed twice across reset.",
+    "Public warmup, 1643-sample input,197-sample push chunks versus frozen320-sample chunks, finish count,640-sample candidate reset replay, whole-input frozen reset replay."
+  ],
+  "numeric_tolerance": "relative RMS <1e-4 OR max absolute error <1e-5; candidate and reference reset replay additionally require identical float bits.",
+  "selected_test_classes": [
+    "StreamingMetalConfigurationTests",
+    "StreamingMetalModelTests",
+    "StreamingMetalEnhancerTests",
+    "MambaParallelTemporalTests",
+    "MambaPreparedFrequencyTests",
+    "StreamingNormalizationFusionTests",
+    "StreamingFrameEvaluationTests"
+  ],
+  "command": "REUSE_STREAMING_CHECKPOINT=/path/to/verified/realtime-reuse.safetensors TEST_RUNNER_REUSE_STREAMING_CHECKPOINT=/path/to/verified/realtime-reuse.safetensors xcodebuild test -scheme ReuseApple-Package -configuration Release -destination \"platform=macOS,arch=arm64\" -derivedDataPath BuildPackage -clonedSourcePackagesDirPath SourcePackages -resultBundlePath /tmp/reuse-library-all-exits.xcresult ENABLE_TESTABILITY=YES CODE_SIGNING_ALLOWED=NO -only-testing:ReuseStreamingTests/StreamingMetalConfigurationTests -only-testing:ReuseStreamingTests/StreamingMetalModelTests -only-testing:ReuseStreamingTests/StreamingMetalEnhancerTests -only-testing:ReuseStreamingTests/MambaParallelTemporalTests -only-testing:ReuseStreamingTests/MambaPreparedFrequencyTests -only-testing:ReuseStreamingTests/StreamingNormalizationFusionTests -only-testing:ReuseStreamingTests/StreamingFrameEvaluationTests",
+  "log_sha256": "06526d9d0396a99e12b2ae5c40d1ffd569fba2f798166431312ae024d978ff38",
+  "negative_control": {
+    "scope": "Copied-source configuration acceptance regression; no production mutation or GPU replay.",
+    "current_guard_exit": 0,
+    "restored_eight_twelve_guard_exit": 1,
+    "restored_guard_failure": "invalidOptimization at an additional supported exit"
+  }
+}

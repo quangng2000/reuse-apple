@@ -1,7 +1,7 @@
 # Specialized streaming Metal kernels
 
-The package offers an explicit FP32 execution option for eight- and twelve-layer
-Real-time RE-USE. It preserves the weights, all selected layers, recurrent states,
+The package offers an explicit FP32 execution option for every Real-time RE-USE
+exit from 3 through 12 layers. It preserves the weights, all selected layers, recurrent states,
 16 kHz framing and zero lookahead. The existing standard path remains the default.
 
 ```swift
@@ -9,7 +9,7 @@ import ReuseStreaming
 
 let enhancer = try StreamingEnhancer(
     modelURL: checkpointURL,
-    layers: 12, // 8 is also supported
+    layers: 6, // every exit from 3 through 12 is supported
     optimization: .specializedMetal)
 try enhancer.warmUp()
 let available = try enhancer.push(mono16kSamples)
@@ -17,7 +17,7 @@ let tail = try enhancer.finish()
 ```
 
 Use one serial background worker. Do not run inference in an audio callback.
-The option requires optimized execution, eight or twelve layers and the tested
+The option requires optimized execution, an exit from 3 through 12 layers and the tested
 Apple SIMD32 GPU path. It changes reduction order, so numerical tolerance rather
 than bit identity is the appropriate baseline comparison.
 
@@ -36,7 +36,7 @@ The optional precomputed-decay experiment and command-buffer scheduling changes
 were not selected. No quantization, layer pruning, frame skipping or training is
 part of this implementation.
 
-## Measurements and scope
+## Historical measurements and scope
 
 The [technical notes](technical-notes.md) describe historical **research iPhone
 build** measurements. They are not new phone benchmarks of this extracted package.
@@ -55,9 +55,24 @@ the equations, profiling, ablations, latency distributions and validation limits
 sanitized results and source hashes. Private source records are not distributed;
 hashes provide identity, not full independent reproducibility.
 
-## Package validation
+## All-exit correctness validation
 
-The extracted package passed **37 macOS Release tests**, including checkpoint-backed
+The specialized kernels operate on each layer's fixed channel/state geometry;
+selected depth controls the model loop and matching exit decoder. The opt-in path
+uses FP32 and zero lookahead at every supported exit. macOS checkpoint-backed
+tests cover every exit 3–12 against the frozen optimized reference: spectrum,
+audio, every convolution/recurrent state tensor, reset replay, public warmup,
+arbitrary chunking and exact sample counts after finish. Numerical tolerance is
+relative RMS error below 1e-4 or maximum absolute error below 1e-5; candidate reset
+replay additionally requires identical float bits. These are short synthetic
+correctness checks, not speech-quality or throughput benchmarks. The macOS Release
+gate passed 26 tests with no failures or skips; see the
+[all-exit validation record](all-exits-validation.json) for the command and scope. The historical
+8/12 measurements above do not establish performance at other exits or devices.
+
+## Historical package validation
+
+The original eight-/twelve-layer extracted package passed **37 macOS Release tests**, including checkpoint-backed
 GPU, recurrent-state, reset and chunked-stream checks at both depths. Three optional
 timing benchmarks were skipped; no correctness tests failed. The unsigned generic
 iOS Release build also passed. See [package validation](package-validation.json)
